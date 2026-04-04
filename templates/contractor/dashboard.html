@@ -1,0 +1,80 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container py-4">
+    <div class="row mb-4">
+        <div class="col">
+            <h2 class="fw-bold">Contractor Management Hub</h2>
+            <p class="text-muted">Welcome back! Here is your workforce overview.</p>
+        </div>
+    </div>
+
+    <div class="row g-4 mb-5 text-center">
+        <div class="col-md-3">
+            <div class="card border-0 shadow-sm h-100 py-3 bg-light hover-shadow">
+                <div class="card-body">
+                    <h1 class="display-6">📋</h1>
+                    <h5 class="fw-bold">Attendance</h5>
+                    <a href="/contractor/attendance" class="btn btn-sm btn-primary stretched-link">Mark Today</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+    <div class="card border-0 shadow-sm h-100 py-3 bg-light hover-shadow">
+        <div class="card-body">
+            <h1 class="display-6">👥</h1>
+            <h5 class="fw-bold">Manage Workers</h5>
+            <p class="small text-muted">View profiles, verify Aadhar, and check payments.</p>
+            <a href="{{ url_for('manage_workers') }}" class="btn btn-sm btn-primary stretched-link">Open Registry</a>
+        </div>
+    </div>
+</div>
+        <div class="col-md-3">
+            <div class="card border-0 shadow-sm h-100 py-3 bg-light">
+                <div class="card-body text-muted">
+                    <h1 class="display-6">💰</h1>
+                    <h5 class="fw-bold">Payment</h5>
+                    <span class="badge bg-secondary">Coming Soon</span>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card border-0 shadow-sm h-100 py-3 bg-light">
+                <div class="card-body">
+                    <h1 class="display-6">📈</h1>
+                    <h5 class="fw-bold">Analytics</h5>
+                    <a href="#analytics-section" class="btn btn-sm btn-primary stretched-link">View Stats</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="analytics-section" class="row mb-5">
+        <div class="col-md-8 mx-auto">
+            <div class="card shadow-sm border-0">
+                <div class="card-header bg-white fw-bold">Weekly Attendance Trend</div>
+                <div class="card-body">
+                    <canvas id="attendanceChart"></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+    const ctx = document.getElementById('attendanceChart').getContext('2d');
+    new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'],
+            datasets: [{
+                label: 'Workers Present',
+                data: [12, 19, 15, 17, 14, 10], // We will pull this from SQL later
+                backgroundColor: 'rgba(54, 162, 235, 0.7)',
+                borderRadius: 5
+            }]
+        }
+    });
+</script>
+{% endblock %}

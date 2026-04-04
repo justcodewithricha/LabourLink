@@ -1,0 +1,4 @@
+/* Specific styling for your attendance table */
+.card { border-radius: 15px; overflow: hidden; }
+.table th { border-top: none; }
+.btn-group { width: 100%; } /* Makes the Present/Absent buttons fit well */

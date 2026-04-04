@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="row justify-content-center py-5">
+    <div class="col-md-4">
+        <div class="card shadow border-0 p-4">
+            <h2 class="text-center fw-bold mb-4">Login</h2>
+            <form method="POST">
+                <div class="mb-3">
+                    <label class="form-label">Username</label>
+                    <input type="text" name="username" class="form-control" required>
+                </div>
+                <div class="mb-4">
+                    <label class="form-label">Password</label>
+                    <input type="password" name="password" class="form-control" required>
+                </div>
+                <button type="submit" class="btn btn-primary w-100">Login to LabourLink</button>
+            </form>
+            <p class="text-center mt-3">New here? <a href="/">Pick a role to Sign Up</a></p>
+        </div>
+    </div>
+</div>
+{% endblock %}

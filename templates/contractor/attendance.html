@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+
+{% block head %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/contractor.css') }}">
+{% endblock %}
+
+{% block content %}
+<div class="card shadow">
+    <div class="card-header bg-primary text-white">
+        <h3 class="mb-0">Daily Attendance - {{ date }}</h3>
+    </div>
+    <div class="card-body">
+        <form method="POST">
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                        <th>Worker Name</th>
+                        <th>Role</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for worker in workers %}
+                    <tr>
+                        <td>{{ worker.name }}</td>
+                        <td><span class="badge bg-secondary">{{ worker.role }}</span></td>
+                        <td>
+                            <div class="btn-group" role="group">
+                                <input type="radio" class="btn-check" name="status_{{ worker.id }}" id="present_{{ worker.id }}" value="Present" checked>
+                                <label class="btn btn-outline-success" for="present_{{ worker.id }}">Present</label>
+
+                                <input type="radio" class="btn-check" name="status_{{ worker.id }}" id="absent_{{ worker.id }}" value="Absent">
+                                <label class="btn btn-outline-danger" for="absent_{{ worker.id }}">Absent</label>
+                            </div>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            <button type="submit" class="btn btn-primary w-100 mt-3">Save Attendance</button>
+        </form>
+    </div>
+</div>
+{% endblock %}

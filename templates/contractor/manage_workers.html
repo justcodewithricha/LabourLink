@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="container py-4">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2 class="fw-bold">Workforce Registry</h2>
+        <a href="/contractor/register-worker" class="btn btn-success">+ Add New Worker</a>
+    </div>
+
+    <div class="row">
+        {% for worker in workers %}
+        <div class="col-md-4 mb-3">
+            <div class="card shadow-sm border-0">
+                <div class="card-body">
+                    <h5 class="fw-bold mb-1">{{ worker.name }}</h5>
+                    <p class="text-muted small mb-3">{{ worker.role }}</p>
+                    <a href="{{ url_for('worker_profile', worker_id=worker.id) }}" class="btn btn-outline-primary btn-sm w-100">View Detailed Profile</a>
+                </div>
+            </div>
+        </div>
+        {% else %}
+        <p class="text-center mt-5">No workers found. Start by adding one!</p>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

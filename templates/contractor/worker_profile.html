@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="container py-4">
+    <div class="card shadow-sm border-0 mb-4 overflow-hidden">
+        <div class="card-header bg-primary text-white py-3">
+            <h5 class="mb-0">Identity Verification</h5>
+        </div>
+        <div class="card-body p-4">
+            <div class="row align-items-center">
+                <div class="col-md-2 text-center">
+                    <div class="bg-light rounded-circle p-4 d-inline-block">👤</div>
+                </div>
+                <div class="col-md-10">
+                    <h3 class="fw-bold">{{ worker.name }}</h3>
+                    <p class="mb-1 text-muted"><strong>Designation:</strong> {{ worker.role }}</p>
+                    <p class="mb-0 text-success">
+                        <span class="badge bg-success-subtle text-success border border-success">
+                            Verified Aadhar: XXXX-XXXX-{{ worker.aadhar_no[-4:] if worker.aadhar_no else '0000' }}
+                        </span>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row g-4">
+        <div class="col-md-6">
+            <div class="card shadow-sm border-0 h-100">
+                <div class="card-header bg-white fw-bold">💰 Payment History & Options</div>
+                <div class="card-body">
+                    <ul class="list-group list-group-flush mb-3">
+                        <li class="list-group-item d-flex justify-content-between">Last Paid: <span>₹4,500</span></li>
+                        <li class="list-group-item d-flex justify-content-between text-danger">Pending: <span>₹1,200</span></li>
+                    </ul>
+                    <button class="btn btn-outline-primary w-100 mb-2">Generate Pay Slip</button>
+                    <button class="btn btn-primary w-100">Release Payment (UPI/Cash)</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-6">
+            <div class="card shadow-sm border-0 h-100">
+                <div class="card-header bg-white fw-bold">📩 Communication & Updates</div>
+                <div class="card-body">
+                    <label class="form-label">Send SMS Update to {{ worker.name }}</label>
+                    <textarea class="form-control mb-3" rows="3" placeholder="Shift timing change, payment processed, etc."></textarea>
+                    <button class="btn btn-dark w-100">Send Text Message</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
