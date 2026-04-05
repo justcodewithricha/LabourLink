@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+{% block role_badge %}Builder{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+            <div class="card border-0 shadow-sm p-4">
+                <div class="card-body">
+                    <h2 class="fw-bold mb-4 text-center">Post a New Job</h2>
+                    <p class="text-muted text-center mb-4">List your site requirements here. Contractors nationwide will be able to see this post and message you if interested.</p>
+                    
+                    <form method="POST" action="{{ url_for('builder_post_job') }}">
+                        <div class="mb-3">
+                            <label for="title" class="form-label fw-bold">Job Title</label>
+                            <input type="text" class="form-control" id="title" name="title" placeholder="e.g., Bricklaying for 10-story Residential Building" required>
+                        </div>
+                        
+                        <div class="mb-4">
+                            <label for="description" class="form-label fw-bold">Detailed Requirements</label>
+                            <textarea class="form-control" id="description" name="description" rows="5" placeholder="Specify location, duration, number of workers required, specific skills, and budget if applicable..."></textarea>
+                        </div>
+                        
+                        <div class="d-grid gap-2">
+                            <button type="submit" class="btn btn-primary btn-lg">Publish Job</button>
+                            <a href="{{ url_for('builder_dashboard') }}" class="btn btn-outline-secondary">Cancel</a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

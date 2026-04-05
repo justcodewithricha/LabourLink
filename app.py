@@ -2,36 +2,17 @@ from flask import Flask, render_template, request, redirect, url_for
 from flask_sqlalchemy import SQLAlchemy
 from datetime import datetime
 from flask import session, flash
+
+from models import db, User, Worker, Attendance, Project
+
 app = Flask(__name__)
 
 # --- DATABASE CONFIGURATION ---
 # Replace 'admin123' with the simple password you set in pgAdmin/DBeaver
-app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://postgres:148263@127.0.0.1:5432/labourlink'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://postgres:301365@127.0.0.1:5432/labourlink'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
-db = SQLAlchemy(app)
-
-# --- DATABASE MODELS ---
-class User(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    username = db.Column(db.String(80), unique=True, nullable=False)
-    role = db.Column(db.String(20), nullable=False) # 'builder' or 'contractor'
-
-class Worker(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(100), nullable=False)
-    role = db.Column(db.String(50)) 
-    aadhar_no = db.Column(db.String(12), unique=True, nullable=False) # Store all 12
-    city = db.Column(db.String(50)) # Location
-    phone = db.Column(db.String(15))
-    gender = db.Column(db.String(10))
-    contractor_id = db.Column(db.Integer, db.ForeignKey('user.id'))
-
-class Attendance(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    worker_id = db.Column(db.Integer, db.ForeignKey('worker.id'))
-    date = db.Column(db.Date, default=datetime.utcnow)
-    status = db.Column(db.String(10)) # 'Present' or 'Absent'
+db.init_app(app)
 
 # Create tables automatically
 with app.app_context():
@@ -47,9 +28,34 @@ app.secret_key = 'super_secret_key_for_labourlink'
 def index():
     return render_template('home.html')
 
-@app.route('/builder/enroll')
-def builder_enroll():
-    return "<h1>Builder Registration Page</h1><p>Working on this soon!</p>"
+@app.route('/builder/dashboard')
+def builder_dashboard():
+    # Fetch projects for the builder (simulated or real if logic exists)
+    # Right now, fetch all projects to display
+    projects = Project.query.all()
+    return render_template('builder/dashboard.html', projects=projects)
+
+@app.route('/builder/jobs/new', methods=['GET', 'POST'])
+def builder_post_job():
+    if request.method == 'POST':
+        # Logic to save the job as a new project
+        title = request.form.get('title')
+        description = request.form.get('description')
+        if title:
+            new_project = Project(
+                builder_id=session.get('user_id'), # Assuming session stores user_id
+                title=title,
+                description=description,
+                status='Open'
+            )
+            db.session.add(new_project)
+            db.session.commit()
+            return redirect(url_for('builder_dashboard'))
+    return render_template('builder/post_job.html')
+
+@app.route('/builder/chat')
+def builder_chat():
+    return render_template('builder/chat.html')
 
 
 
@@ -150,7 +156,7 @@ def login():
             if user.role == 'contractor':
                 return redirect(url_for('contractor_dashboard'))
             else:
-                return "Builder Dashboard coming soon!"
+                return redirect(url_for('builder_dashboard'))
         
         return "Invalid Username. <a href='/login'>Try again</a>"
     

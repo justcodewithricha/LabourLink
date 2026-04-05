@@ -1,0 +1,90 @@
+{% extends "base.html" %}
+{% block role_badge %}Builder{% endblock %}
+
+{% block content %}
+<div class="container py-4">
+    <div class="row mb-4">
+        <div class="col">
+            <h2 class="fw-bold">Builder Operations Hub</h2>
+            <p class="text-muted">Welcome back! Manage your project sites and post new opportunities.</p>
+        </div>
+    </div>
+
+    <!-- Quick Actions -->
+    <div class="row g-4 mb-5 text-center">
+        <div class="col-md-4">
+            <div class="card border-0 shadow-sm h-100 py-3 bg-light hover-shadow">
+                <div class="card-body">
+                    <h1 class="display-6">➕</h1>
+                    <h5 class="fw-bold">Post New Job</h5>
+                    <p class="small text-muted">Broadcast requirements to contractors nationwide.</p>
+                    <a href="{{ url_for('builder_post_job') }}" class="btn btn-sm btn-primary stretched-link">Create Posting</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card border-0 shadow-sm h-100 py-3 bg-light hover-shadow">
+                <div class="card-body">
+                    <h1 class="display-6">💬</h1>
+                    <h5 class="fw-bold">Messages</h5>
+                    <p class="small text-muted">Chat directly with contractors regarding your jobs.</p>
+                    <a href="{{ url_for('builder_chat') }}" class="btn btn-sm btn-primary stretched-link">Open Inbox</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card border-0 shadow-sm h-100 py-3 bg-light">
+                <div class="card-body text-muted">
+                    <h1 class="display-6">📊</h1>
+                    <h5 class="fw-bold">Reporting</h5>
+                    <span class="badge bg-secondary">Coming Soon</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Current Projects Section -->
+    <div class="row mb-4">
+        <div class="col">
+            <h4 class="fw-bold border-bottom pb-2">Active Projects</h4>
+        </div>
+    </div>
+
+    <div class="row g-4">
+        {% if projects %}
+            {% for project in projects %}
+            <div class="col-md-6 col-lg-4">
+                <div class="card shadow-sm border-0 h-100">
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between mb-2">
+                            <span class="badge {% if project.status == 'Open' %}bg-success{% elif project.status == 'In Progress' %}bg-warning text-dark{% else %}bg-secondary{% endif %}">{{ project.status }}</span>
+                            <small class="text-muted">ID: #{{ project.id }}</small>
+                        </div>
+                        <h5 class="card-title fw-bold">{{ project.title }}</h5>
+                        <p class="card-text text-muted small text-truncate" style="max-height: 40px;">
+                            {{ project.description }}
+                        </p>
+                        
+                        <div class="mt-4">
+                            <div class="d-flex justify-content-between mb-1">
+                                <small>Project Progress</small>
+                                <small>{{ project.progress }}%</small>
+                            </div>
+                            <div class="progress" style="height: 8px;">
+                                <div class="progress-bar {% if project.progress == 100 %}bg-success{% endif %}" role="progressbar" style="width: {{ project.progress }}%;" aria-valuenow="{{ project.progress }}" aria-valuemin="0" aria-valuemax="100"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        {% else %}
+            <div class="col-12 text-center py-5 bg-light rounded text-muted">
+                <h1 class="display-6">🏗️</h1>
+                <h5>No projects active right now</h5>
+                <p>Click "Post New Job" to list your site requirements.</p>
+            </div>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}
