@@ -6,7 +6,7 @@ app = Flask(__name__)
 
 # --- DATABASE CONFIGURATION ---
 # Replace 'admin123' with the simple password you set in pgAdmin/DBeaver
-app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://postgres:new123@127.0.0.1:5432/labourlink'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://postgres:148263@127.0.0.1:5432/labourlink'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 db = SQLAlchemy(app)

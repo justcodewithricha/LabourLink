@@ -1,75 +1,105 @@
 {% extends "base.html" %}
 
 {% block content %}
-<div class="container text-center py-5">
-    <div class="mb-5 animate__animated animate__fadeInDown">
-        <h1 class="display-4 fw-bold text-dark">Welcome to <span class="text-primary">LabourLink</span></h1>
-        <p class="lead text-muted">Bridging the gap between vision and execution in construction.</p>
+<div class="container text-center py-5 animate__animated animate__fadeIn">
+    <div class="mb-5">
+        <h1 class="display-4 fw-bold">Welcome to <span class="labour-link-highlight">LabourLink</span></h1>
+        <p class="lead text-muted mx-auto" style="max-width: 600px;">
+            Bridging the gap between vision and execution in construction with data-driven management.
+        </p>
     </div>
 
     <div class="row g-4 justify-content-center">
+        
         <div class="col-md-5">
-            <div class="card h-100 shadow-sm border-0 p-4 role-card">
+            <div class="labour-card builder-card h-100 shadow-sm border-0 p-4">
                 <div class="card-body d-flex flex-column">
-                    <div class="mb-3">
+                    <div class="mb-3 tech-icon-wrapper">
                         <span style="font-size: 3.5rem;">🏢</span>
                     </div>
-                    <h3 class="card-title fw-bold">I am a Builder</h3>
-                    <p class="card-text text-muted flex-grow-1">Post your projects, find reliable contractors, and manage your site requirements digitally.</p>
+                    <h3 class="fw-bold mb-3">I am a Builder</h3>
+                    <p class="text-muted flex-grow-1">Post your projects, find reliable contractors, and manage your site requirements digitally.</p>
                     
-                    <a href="{{ url_for('signup', role='builder') }}" class="btn btn-outline-primary btn-lg w-100 mt-4">Enroll as Builder</a>
+                    <a href="{{ url_for('signup', role='builder') }}" class="btn-enroll btn-builder mt-4">
+                        Enroll as Builder
+                    </a>
                 </div>
             </div>
         </div>
 
         <div class="col-md-5">
-            <div class="card h-100 shadow-sm border-0 p-4 role-card highlight-card">
+            <div class="labour-card contractor-card h-100 shadow-sm border-0 p-4">
                 <div class="card-body d-flex flex-column">
-                    <div class="mb-3">
+                    <div class="mb-3 tech-icon-wrapper">
                         <span style="font-size: 3.5rem;">👷‍♂️</span>
                     </div>
-                    <h3 class="card-title fw-bold text-white">I am a Contractor</h3>
-                    <p class="text-white-50 flex-grow-1">Manage your workforce, track daily attendance, and connect with builders for new opportunities.</p>
+                    <h3 class="fw-bold mb-3">I am a Contractor</h3>
+                    <p class="text-muted flex-grow-1">Manage your workforce, track daily attendance, and connect with builders for new opportunities.</p>
                     
-                    <a href="{{ url_for('signup', role='contractor') }}" class="btn btn-light btn-lg w-100 mt-4 shadow-sm fw-bold text-primary">Enroll as Contractor</a>
+                    <a href="{{ url_for('signup', role='contractor') }}" class="btn-enroll btn-contractor mt-4">
+                        Enroll as Contractor
+                    </a>
                 </div>
             </div>
         </div>
     </div>
 
-    <div class="mt-5 pt-3">
-        <p class="text-muted">Already have an account? 
-            <a href="{{ url_for('login') }}" class="text-primary fw-bold text-decoration-none">Login here</a>
+    <div class="mt-5 pt-4">
+        <p class="text-muted">Already part of the network? 
+            <a href="{{ url_for('login') }}" class="login-link">Login here</a>
         </p>
     </div>
 </div>
 
 <style>
-    /* Fancy Hover Effects */
-    .role-card {
-        transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
-        border-radius: 20px;
-        overflow: hidden;
-    }
+    /* --- Technical Styling for home.html --- */
     
-    .role-card:hover {
-        transform: translateY(-12px);
-        box-shadow: 0 1.5rem 4rem rgba(0,0,0,0.1) !important;
+    .labour-link-highlight {
+        color: var(--deep-teal);
+        font-weight: 800;
     }
 
-    /* Special Styling for Contractor Side */
-    .highlight-card {
-        background: linear-gradient(135deg, #0d6efd 0%, #0a58ca 100%);
+    .tech-icon-wrapper {
+        transition: transform 0.3s ease;
     }
 
-    /* Animation classes if you want to add them later */
-    .animate__fadeInDown {
-        animation: fadeInDown 0.8s ease-out;
+    .labour-card:hover .tech-icon-wrapper {
+        transform: scale(1.1);
     }
 
-    @keyframes fadeInDown {
-        from { opacity: 0; transform: translateY(-20px); }
-        to { opacity: 1; transform: translateY(0); }
+    /* Professional Hover for the whole card */
+    .labour-card {
+        transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+        border-radius: 4px !important; /* Sharper edges = more technical */
+    }
+
+    .labour-card:hover {
+        transform: translateY(-8px);
+        box-shadow: 0 12px 30px rgba(29, 77, 79, 0.1) !important;
+    }
+
+    /* Custom Login Link Styling */
+    .login-link {
+        color: var(--olive-green);
+        font-weight: 700;
+        text-decoration: none;
+        border-bottom: 2px solid transparent;
+        transition: all 0.3s ease;
+    }
+
+    .login-link:hover {
+        color: var(--deep-teal);
+        border-bottom: 2px solid var(--deep-teal);
+    }
+
+    /* Animation */
+    .animate__fadeIn {
+        animation: fadeIn 1s ease-in;
+    }
+
+    @keyframes fadeIn {
+        from { opacity: 0; }
+        to { opacity: 1; }
     }
 </style>
 {% endblock %}
