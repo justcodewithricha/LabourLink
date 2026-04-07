@@ -9,7 +9,7 @@ app = Flask(__name__)
 
 # --- DATABASE CONFIGURATION ---
 # Replace 'admin123' with the simple password you set in pgAdmin/DBeaver
-app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://postgres:301365@127.0.0.1:5432/labourlink'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://postgres:new123@127.0.0.1:5432/labourlink'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 db.init_app(app)
@@ -145,24 +145,34 @@ def worker_profile(worker_id):
     worker = Worker.query.get_or_404(worker_id)
     return render_template('contractor/worker_profile.html', worker=worker)
 
-@app.route('/login', methods=['GET', 'POST'])
+@app.route('/auth/login', methods=['GET', 'POST'])
 def login():
     if request.method == 'POST':
-        username = request.form.get('username')
-        user = User.query.filter_by(username=username).first()
-        
-        if user:
-            print(f"DEBUG: User {username} logged in as {user.role}")
+        login_id = request.form.get('login_id')
+        password = request.form.get('password')
+
+        # Find the user by their ID
+        user = User.query.filter_by(login_id=login_id).first()
+
+        # CRITICAL: Check BOTH the user existence AND the password
+        if user and user.password == password:
+            session['user_id'] = user.id
+            session['role'] = user.role
+            
+            # Direct them to the correct dashboard
             if user.role == 'contractor':
                 return redirect(url_for('contractor_dashboard'))
-            else:
-                return redirect(url_for('builder_dashboard'))
+            return redirect(url_for('builder_dashboard'))
         
-        return "Invalid Username. <a href='/login'>Try again</a>"
+        else:
+            # If the password is wrong or ID doesn't exist
+            flash("ACCESS_DENIED: Invalid Credentials.")
+            return redirect(url_for('login'))
+
+ 
     
     
     
-    # If it's a GET request, we MUST show the login page
     return render_template('auth/login.html')
 
 
