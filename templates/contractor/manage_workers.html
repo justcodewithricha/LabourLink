@@ -1,10 +1,17 @@
 {% extends "base.html" %}
 {% block content %}
 <div class="container py-4">
-    <div class="d-flex justify-content-between align-items-center mb-4">
-        <h2 class="fw-bold">Workforce Registry</h2>
-        <a href="/contractor/register-worker" class="btn btn-success">+ Add New Worker</a>
+    <div class="d-flex justify-content-between align-items-center mb-2">
+        <div>
+            <h2 class="fw-bold">{{ client.name }} — Workforce Registry</h2>
+            <p class="text-muted mb-0">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align: text-bottom;"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
+                {{ client.location if client.location else 'Location not set' }}
+            </p>
+        </div>
+        <a href="/contractor/register-worker" class="btn-enroll btn-contractor" style="width: auto; padding: 10px 24px;">+ Add New Worker</a>
     </div>
+    <hr class="mb-4" style="border-color: var(--border-muted);">
 
     <div class="row">
         {% for worker in workers %}
@@ -18,8 +25,19 @@
             </div>
         </div>
         {% else %}
-        <p class="text-center mt-5">No workers found. Start by adding one!</p>
+        <div class="col-12 text-center py-5" style="background: rgba(255,255,255,0.5); border: 2px dashed var(--border-muted); border-radius: 8px;">
+            <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="text-muted mb-3"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><line x1="20" y1="8" x2="20" y2="14"></line><line x1="23" y1="11" x2="17" y2="11"></line></svg>
+            <h4 class="fw-bold mt-2">No workers assigned to this site yet</h4>
+            <p class="text-muted">Register a new worker and assign them to this client site.</p>
+        </div>
         {% endfor %}
+    </div>
+
+    <div class="mt-4">
+        <a href="{{ url_for('manage_clients') }}" class="text-muted" style="text-decoration: none; font-size: 0.9rem;">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align: text-bottom;"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
+            Back to All Client Sites
+        </a>
     </div>
 </div>
 {% endblock %}

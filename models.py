@@ -8,6 +8,14 @@ class User(db.Model):
     username = db.Column(db.String(80), unique=True, nullable=False)
     role = db.Column(db.String(20), nullable=False) # 'builder' or 'contractor'
 
+class Client(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(100), nullable=False)
+    location = db.Column(db.String(200))
+    contractor_id = db.Column(db.Integer, db.ForeignKey('user.id'))
+    # Relationship: One Client can have many Workers
+    workers = db.relationship('Worker', backref='client_site', lazy=True)
+
 class Project(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     builder_id = db.Column(db.Integer, db.ForeignKey('user.id'))
@@ -20,10 +28,11 @@ class Worker(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(100), nullable=False)
     role = db.Column(db.String(50)) # e.g., Mason, Plumber
-    aadhar_no = db.Column(db.String(12), unique=True, nullable=False) # Store all 12
-    city = db.Column(db.String(50)) # Location
+    aadhar_no = db.Column(db.String(12), unique=True, nullable=False)
+    city = db.Column(db.String(50))
     phone = db.Column(db.String(15))
     gender = db.Column(db.String(10))
+    client_id = db.Column(db.Integer, db.ForeignKey('client.id'), nullable=True)
     contractor_id = db.Column(db.Integer, db.ForeignKey('user.id'))
 
 class Attendance(db.Model):
