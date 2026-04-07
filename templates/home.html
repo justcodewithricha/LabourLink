@@ -1,105 +1,56 @@
 {% extends "base.html" %}
 
 {% block content %}
-<div class="container text-center py-5 animate__animated animate__fadeIn">
-    <div class="mb-5">
-        <h1 class="display-4 fw-bold">Welcome to <span class="labour-link-highlight">LabourLink</span></h1>
-        <p class="lead text-muted mx-auto" style="max-width: 600px;">
-            Bridging the gap between vision and execution in construction with data-driven management.
+<div class="container py-5 d-flex flex-column justify-content-center align-items-center" style="min-height: 70vh;">
+    <div class="text-center animate__animated animate__fadeInUp">
+        <h1 class="display-3 fw-bold mb-4">
+            Build Better with <span class="text-accent">LabourLink</span>
+        </h1>
+        <p class="lead text-muted mb-5 mx-auto" style="max-width: 700px; font-size: 1.25rem;">
+            The modern platform to connect builders and contractors. Streamline your project management, workforce attendance, and communication all in one place.
         </p>
-    </div>
-
-    <div class="row g-4 justify-content-center">
         
-        <div class="col-md-5">
-            <div class="labour-card builder-card h-100 shadow-sm border-0 p-4">
-                <div class="card-body d-flex flex-column">
-                    <div class="mb-3 tech-icon-wrapper">
-                        <span style="font-size: 3.5rem;">🏢</span>
-                    </div>
-                    <h3 class="fw-bold mb-3">I am a Builder</h3>
-                    <p class="text-muted flex-grow-1">Post your projects, find reliable contractors, and manage your site requirements digitally.</p>
-                    
-                    <a href="{{ url_for('signup', role='builder') }}" class="btn-enroll btn-builder mt-4">
-                        Enroll as Builder
-                    </a>
-                </div>
-            </div>
+        <div class="d-flex gap-3 justify-content-center flex-wrap">
+            <a href="{{ url_for('signup_selection') }}" class="btn btn-primary btn-lg px-5 py-3 fw-bold shadow-sm" style="background-color: var(--coffee-tan); border-color: var(--coffee-tan);">
+                Get Started
+            </a>
+            <a href="{{ url_for('login') }}" class="btn btn-outline-dark btn-lg px-5 py-3 fw-bold shadow-sm">
+                Login
+            </a>
         </div>
-
-        <div class="col-md-5">
-            <div class="labour-card contractor-card h-100 shadow-sm border-0 p-4">
-                <div class="card-body d-flex flex-column">
-                    <div class="mb-3 tech-icon-wrapper">
-                        <span style="font-size: 3.5rem;">👷‍♂️</span>
-                    </div>
-                    <h3 class="fw-bold mb-3">I am a Contractor</h3>
-                    <p class="text-muted flex-grow-1">Manage your workforce, track daily attendance, and connect with builders for new opportunities.</p>
-                    
-                    <a href="{{ url_for('signup', role='contractor') }}" class="btn-enroll btn-contractor mt-4">
-                        Enroll as Contractor
-                    </a>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div class="mt-5 pt-4">
-        <p class="text-muted">Already part of the network? 
-            <a href="{{ url_for('login') }}" class="login-link">Login here</a>
-        </p>
     </div>
 </div>
 
 <style>
-    /* --- Technical Styling for home.html --- */
+    /* Specific styles for landing page */
+    .text-accent {
+        color: var(--coffee-tan);
+    }
     
-    .labour-link-highlight {
-        color: var(--deep-teal);
-        font-weight: 800;
+    .btn-primary:hover {
+        background-color: #9A684D !important;
+        border-color: #9A684D !important;
+        transform: translateY(-2px);
     }
-
-    .tech-icon-wrapper {
-        transition: transform 0.3s ease;
+    
+    .btn-outline-dark:hover {
+        background-color: var(--deep-charcoal);
+        color: var(--highlight-white);
+        transform: translateY(-2px);
     }
-
-    .labour-card:hover .tech-icon-wrapper {
-        transform: scale(1.1);
-    }
-
-    /* Professional Hover for the whole card */
-    .labour-card {
-        transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
-        border-radius: 4px !important; /* Sharper edges = more technical */
-    }
-
-    .labour-card:hover {
-        transform: translateY(-8px);
-        box-shadow: 0 12px 30px rgba(29, 77, 79, 0.1) !important;
-    }
-
-    /* Custom Login Link Styling */
-    .login-link {
-        color: var(--olive-green);
-        font-weight: 700;
-        text-decoration: none;
-        border-bottom: 2px solid transparent;
+    
+    .btn {
         transition: all 0.3s ease;
+        border-radius: 6px;
     }
-
-    .login-link:hover {
-        color: var(--deep-teal);
-        border-bottom: 2px solid var(--deep-teal);
+    
+    @keyframes fadeInUp {
+        from { opacity: 0; transform: translateY(20px); }
+        to { opacity: 1; transform: translateY(0); }
     }
-
-    /* Animation */
-    .animate__fadeIn {
-        animation: fadeIn 1s ease-in;
-    }
-
-    @keyframes fadeIn {
-        from { opacity: 0; }
-        to { opacity: 1; }
+    
+    .animate__fadeInUp {
+        animation: fadeInUp 0.8s ease-out;
     }
 </style>
 {% endblock %}

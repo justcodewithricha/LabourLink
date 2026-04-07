@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container py-5">
+    <div class="d-flex justify-content-between align-items-center mb-5">
+        <div>
+            <h1 class="fw-bold">Client Project Sites</h1>
+            <p class="text-muted">Manage workforce distribution across your active locations.</p>
+        </div>
+        <a href="{{ url_for('add_client') }}" class="btn-enroll btn-contractor" style="width: auto; padding: 12px 30px;">
+            + Add New Site
+        </a>
+    </div>
+
+    <div class="row g-4">
+        {% if clients %}
+        {% for client in clients %}
+        <div class="col-md-4">
+            <div class="card border-0 shadow-sm h-100" style="border-top: 5px solid var(--coffee-tan) !important;">
+                <div class="card-body d-flex flex-column p-4">
+                    <div class="mb-3">
+                        <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-primary"><rect x="2" y="7" width="20" height="14" rx="2" ry="2"></rect><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path></svg>
+                    </div>
+                    <h4 class="fw-bold mb-2">{{ client.name }}</h4>
+                    <p class="text-muted mb-3">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align: text-bottom;"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
+                        {{ client.location if client.location else 'Location not set' }}
+                    </p>
+
+                    <div class="role-badge mb-4 mt-auto">
+                        <strong>{{ client.workers|length }}</strong> Personnel On-Site
+                    </div>
+
+                    <a href="{{ url_for('manage_workers', client_id=client.id) }}" class="btn-enroll btn-contractor">
+                        View Worker Registry
+                    </a>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+        {% else %}
+        <div class="col-12 text-center py-5"
+            style="background: rgba(255,255,255,0.5); border: 2px dashed var(--border-muted); border-radius: 8px;">
+            <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="text-muted mb-3"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"></path></svg>
+            <h3 class="fw-bold mt-3">No active sites found</h3>
+            <p class="text-muted">You haven't added any client projects yet. Start by creating a new site registry.</p>
+            <a href="{{ url_for('add_client') }}" class="text-muted mt-3 d-inline-block" style="text-decoration: none; color: var(--coffee-tan) !important; font-weight: 600;">Click here to add your first site</a>
+        </div>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}
