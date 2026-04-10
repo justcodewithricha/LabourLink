@@ -13,21 +13,21 @@
     {% block head %}{% endblock %}
 </head>
 <body class="site-body">
-    <nav class="navbar navbar-expand-lg custom-navbar mb-4">
-    <div class="container d-flex justify-content-between align-items-center">
+    <nav class="navbar navbar-expand-lg custom-navbar">
+    <div class="container">
         
-        <a class="navbar-brand d-flex align-items-center" href="{{ url_for('index') }}">
-           <span class="nav-logo-text">Labour<span class="text-accent">Link</span></span>
+        <a class="navbar-brand" href="/">
+            <span class="nav-logo-text">LabourLink</span>
         </a>
-        
-        <div class="d-flex align-items-center">
-            {% if session.get('role') %}
-            <div class="role-badge me-3">
-                <small>Status:</small> <strong>{{ session.get('role').capitalize() }}</strong>
-            </div>
-            <a href="{{ url_for('logout') }}" class="btn-logout">Logout</a>
+
+        <div class="d-flex ms-auto">
+            {% if session.get('user_id') %}
+                <a href="{{ url_for('logout') }}" class="btn btn-logout">Logout</a>
+            {% else %}
+                <a href="{{ url_for('login') }}" class="btn btn-logout">Login</a>
             {% endif %}
         </div>
+
     </div>
 </nav>
 
