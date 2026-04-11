@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            
+            <div class="card shadow-sm border-0 mb-4" style="border-top: 5px solid var(--coffee-tan) !important;">
+                <div class="card-body p-4 d-flex align-items-center gap-4">
+                    <div class="shadow-sm" style="width: 80px; height: 80px; font-size: 2.5rem; background-color: var(--coffee-tan); color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold;">
+                        {{ user.username[0]|upper }}
+                    </div>
+                    <div>
+                        <h2 class="fw-bold mb-1" style="color: var(--deep-charcoal);">{{ user.username }}</h2>
+                        <span class="badge bg-dark text-uppercase px-3 py-2 mt-1" style="letter-spacing: 1px;">Registered {{ user.role|capitalize }}</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card shadow-sm border-0">
+                <div class="card-header bg-white fw-bold py-3" style="color: var(--deep-charcoal);">
+                    <h5 class="mb-0">My Registered Client Sites</h5>
+                </div>
+                <div class="card-body p-0">
+                    {% if clients %}
+                        <ul class="list-group list-group-flush">
+                        {% for client in clients %}
+                            <li class="list-group-item p-4 d-flex justify-content-between align-items-center transition-hover">
+                                <div>
+                                    <h5 class="fw-bold mb-1" style="color: var(--deep-charcoal);">{{ client.name }}</h5>
+                                    <p class="text-muted mb-0 small">
+                                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align: text-bottom;"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
+                                        {{ client.location if client.location else 'Location not specified' }}
+                                    </p>
+                                </div>
+                                <span class="badge bg-light text-dark border p-2">{{ client.workers|length }} Workers</span>
+                            </li>
+                        {% endfor %}
+                        </ul>
+                    {% else %}
+                        <div class="text-center p-5 text-muted">
+                            <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="mb-3 opacity-50"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"></path></svg>
+                            <p class="mb-0">You haven't registered any client sites yet.</p>
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,13 +1,13 @@
 from functools import wraps
 from flask import Flask, render_template, request, redirect, url_for, session, flash
 from flask_sqlalchemy import SQLAlchemy
-from datetime import datetime
 from models import db, User, Worker, Attendance, Project, Client
+from datetime import datetime, timedelta
 
 app = Flask(__name__)
 
 # --- DATABASE CONFIGURATION ---
-app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://postgres:148263@127.0.0.1:5432/labourlink'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://postgres:new123@127.0.0.1:5432/labourlink'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.secret_key = 'super_secret_key_for_labourlink' # Required for session memory
 
@@ -64,21 +64,25 @@ def signup(role):
 def login():
     if request.method == 'POST':
         username = request.form.get('username')
+        password = request.form.get('password')
+        
         user = User.query.filter_by(username=username).first()
         
-        if user:
-            session['user_id'] = user.id # STAMPING THE USER
+        if user and user.password == password: 
+            session['user_id'] = user.id 
+            session['username'] = user.username # <-- NEW: Save username for the avatar
             if user.role == 'contractor':
                 return redirect(url_for('contractor_dashboard'))
             else:
                 return redirect(url_for('builder_dashboard'))
         
-        flash("Invalid Username.")
+        flash("⚠️ Invalid Username or Password.") 
     return render_template('auth/login.html')
 
 @app.route('/logout')
 def logout():
-    session.pop('user_id', None) # ERASING THE STAMP
+    session.pop('user_id', None) 
+    session.pop('username', None) # <-- NEW: Clear the username on logout
     flash("You have been successfully logged out.")
     return redirect(url_for('login'))
 
@@ -86,7 +90,79 @@ def logout():
 @app.route('/contractor/dashboard')
 @login_required
 def contractor_dashboard():
-    return render_template('contractor/dashboard.html')
+    user_id = session.get('user_id')
+    
+    # 1. Get the last 7 days (including today)
+    today = datetime.utcnow().date()
+    dates = [today - timedelta(days=i) for i in range(6, -1, -1)]
+    
+    # Format labels for the chart (e.g., 'Mon', 'Tue')
+    labels = [d.strftime('%a') for d in dates] 
+    
+    # 2. Get all workers belonging to this contractor
+    workers = Worker.query.filter_by(contractor_id=user_id).all()
+    worker_ids = [w.id for w in workers]
+    
+    # 3. Count 'Present' attendance for each of those 7 days
+    attendance_counts = []
+    if worker_ids: # Only query if the contractor actually has workers
+        for d in dates:
+            count = Attendance.query.filter(
+                Attendance.worker_id.in_(worker_ids),
+                Attendance.date == d,
+                Attendance.status == 'Present'
+            ).count()
+            attendance_counts.append(count)
+    else:
+        attendance_counts = [0] * 7 # Fill with zeros if no workers
+
+    return render_template(
+        'contractor/dashboard.html', 
+        labels=labels, 
+        attendance_data=attendance_counts
+    )
+
+@app.route('/contractor/attendance', methods=['GET', 'POST'])
+@login_required
+def contractor_attendance():
+    user_id = session.get('user_id')
+    today_date = datetime.utcnow().date()
+    
+    # Fetch all workers registered under this contractor
+    workers = Worker.query.filter_by(contractor_id=user_id).all()
+    
+    if request.method == 'POST':
+        # Loop through every worker to get their radio button status from the form
+        for worker in workers:
+            status = request.form.get(f'status_{worker.id}')
+            
+            if status:
+                # Check if attendance is already marked for today to prevent duplicate rows
+                existing_record = Attendance.query.filter_by(
+                    worker_id=worker.id, 
+                    date=today_date
+                ).first()
+                
+                if existing_record:
+                    # Update existing record if they changed their mind
+                    existing_record.status = status
+                else:
+                    # Create a brand new attendance record
+                    new_attendance = Attendance(
+                        worker_id=worker.id,
+                        date=today_date,
+                        status=status
+                    )
+                    db.session.add(new_attendance)
+        
+        # Commit all the new attendance records to PostgreSQL at once
+        db.session.commit()
+        flash("✅ Daily attendance has been saved successfully!")
+        return redirect(url_for('contractor_dashboard'))
+
+    # If it's a GET request, just show the page with the current date formatted nicely
+    formatted_date = today_date.strftime("%B %d, %Y")
+    return render_template('contractor/attendance.html', workers=workers, date=formatted_date)
 
 @app.route('/contractor/manage-clients')
 @login_required
@@ -177,6 +253,19 @@ def register_worker():
             return redirect(url_for('register_worker'))
             
     return render_template('contractor/register.html', clients=clients)
+
+@app.route('/contractor/my-profile')
+@login_required
+def contractor_profile():
+    user_id = session.get('user_id')
+    
+    # 1. Fetch the logged-in user's details
+    user = User.query.get_or_404(user_id)
+    
+    # 2. Fetch all clients tied to this contractor
+    clients = Client.query.filter_by(contractor_id=user_id).all()
+    
+    return render_template('contractor/my_profile.html', user=user, clients=clients)
 
 @app.route('/contractor/worker/<int:worker_id>')
 @login_required

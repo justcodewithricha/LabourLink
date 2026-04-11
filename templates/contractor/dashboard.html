@@ -88,20 +88,34 @@
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script>
     const ctx = document.getElementById('attendanceChart').getContext('2d');
+    
+    // Safely inject the Python data directly into our JavaScript!
+    const chartLabels = {{ labels | tojson | safe }};
+    const chartData = {{ attendance_data | tojson | safe }};
+
     new Chart(ctx, {
         type: 'bar',
         data: {
-            labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'],
+            labels: chartLabels,
             datasets: [{
                 label: 'Workers Present',
-                data: [12, 19, 15, 17, 14, 10],
-                backgroundColor: 'rgba(13, 110, 253, 0.7)',
-                borderRadius: 5
+                data: chartData,
+                // Changed the color to match your LabourLink Coffee Tan theme!
+                backgroundColor: 'rgba(175, 125, 97, 0.8)', 
+                borderRadius: 4
             }]
         },
         options: {
             responsive: true,
-            maintainAspectRatio: true
+            maintainAspectRatio: true,
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    ticks: {
+                        stepSize: 1 // Forces the graph to use whole numbers (you can't have half a worker!)
+                    }
+                }
+            }
         }
     });
 </script>
