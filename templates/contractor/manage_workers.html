@@ -1,43 +1,52 @@
 {% extends "base.html" %}
-{% block content %}
-<div class="container py-4">
-    <div class="d-flex justify-content-between align-items-center mb-2">
-        <div>
-            <h2 class="fw-bold">{{ client.name }} — Workforce Registry</h2>
-            <p class="text-muted mb-0">
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align: text-bottom;"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
-                {{ client.location if client.location else 'Location not set' }}
-            </p>
-        </div>
-        <a href="/contractor/register-worker" class="btn-enroll btn-contractor" style="width: auto; padding: 10px 24px;">+ Add New Worker</a>
-    </div>
-    <hr class="mb-4" style="border-color: var(--border-muted);">
 
-    <div class="row">
-        {% for worker in workers %}
-        <div class="col-md-4 mb-3">
-            <div class="card shadow-sm border-0">
-                <div class="card-body">
-                    <h5 class="fw-bold mb-1">{{ worker.name }}</h5>
-                    <p class="text-muted small mb-3">{{ worker.role }}</p>
-                    <a href="{{ url_for('worker_profile', worker_id=worker.id) }}" class="btn btn-outline-primary btn-sm w-100">View Detailed Profile</a>
-                </div>
+{% block title %}{{ client.name }} — Workers — LabourLink{% endblock %}
+
+{% block content %}
+<!-- Back Link -->
+<a href="{{ url_for('manage_clients') }}" class="ll-back-link" style="margin-bottom: var(--space-md); display: inline-flex;">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
+    Back to All Client Sites
+</a>
+
+<!-- Page Header -->
+<div class="ll-page-header">
+    <div>
+        <h1 class="ll-page-header__title">{{ client.name }} — Workforce Registry</h1>
+        <p class="ll-page-header__subtitle" style="display: flex; align-items: center; gap: 0.3em;">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
+            {{ client.location if client.location else 'Location not set' }}
+        </p>
+    </div>
+    <a href="/contractor/register-worker" class="ll-btn ll-btn--primary">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+        Add New Worker
+    </a>
+</div>
+
+<div class="ll-grid ll-grid--3">
+    {% for worker in workers %}
+    <div class="ll-card" style="padding: var(--space-lg);">
+        <div style="display: flex; align-items: center; gap: var(--space-sm); margin-bottom: var(--space-md);">
+            <div class="ll-avatar ll-avatar--sm">{{ worker.name[0]|upper if worker.name else 'W' }}</div>
+            <div>
+                <h5 style="font-weight: 700; font-size: var(--text-lg); margin: 0;">{{ worker.name }}</h5>
+                <span class="ll-badge ll-badge--tan">{{ worker.role }}</span>
             </div>
         </div>
-        {% else %}
-        <div class="col-12 text-center py-5" style="background: rgba(255,255,255,0.5); border: 2px dashed var(--border-muted); border-radius: 8px;">
-            <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="text-muted mb-3"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><line x1="20" y1="8" x2="20" y2="14"></line><line x1="23" y1="11" x2="17" y2="11"></line></svg>
-            <h4 class="fw-bold mt-2">No workers assigned to this site yet</h4>
-            <p class="text-muted">Register a new worker and assign them to this client site.</p>
-        </div>
-        {% endfor %}
-    </div>
-
-    <div class="mt-4">
-        <a href="{{ url_for('manage_clients') }}" class="text-muted" style="text-decoration: none; font-size: 0.9rem;">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align: text-bottom;"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
-            Back to All Client Sites
+        <a href="{{ url_for('worker_profile', worker_id=worker.id) }}" class="ll-btn ll-btn--ghost ll-btn--full" style="margin-top: auto;">
+            View Profile
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
         </a>
     </div>
+    {% else %}
+    <div class="ll-empty" style="grid-column: 1 / -1;">
+        <div class="ll-empty__icon">
+            <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><line x1="20" y1="8" x2="20" y2="14"></line><line x1="23" y1="11" x2="17" y2="11"></line></svg>
+        </div>
+        <h3 class="ll-empty__title">No workers assigned to this site yet</h3>
+        <p class="ll-empty__body">Register a new worker and assign them to this client site.</p>
+    </div>
+    {% endfor %}
 </div>
 {% endblock %}

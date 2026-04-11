@@ -1,90 +1,117 @@
 {% extends "base.html" %}
-{% block role_badge %}Builder{% endblock %}
+
+{% block title %}Builder Dashboard — LabourLink{% endblock %}
 
 {% block content %}
-<div class="container py-4">
-    <div class="row mb-4">
-        <div class="col">
-            <h2 class="fw-bold">Builder Operations Hub</h2>
-            <p class="text-muted">Welcome back! Manage your project sites and post new opportunities.</p>
-        </div>
+<!-- Page Header -->
+<div class="ll-page-header">
+    <div>
+        <h1 class="ll-page-header__title">Builder Operations Hub</h1>
+        <p class="ll-page-header__subtitle">Welcome back! Manage your project sites and post new opportunities.</p>
     </div>
+</div>
 
-    <!-- Quick Actions -->
-    <div class="row g-4 mb-5 text-center">
-        <div class="col-md-4">
-            <div class="card border-0 shadow-sm h-100 py-3 bg-light hover-shadow">
-                <div class="card-body">
-                    <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-primary mb-3"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><line x1="12" y1="8" x2="12" y2="16"></line><line x1="8" y1="12" x2="16" y2="12"></line></svg>
-                    <h5 class="fw-bold">Post New Job</h5>
-                    <p class="small text-muted">Broadcast requirements to contractors nationwide.</p>
-                    <a href="{{ url_for('builder_post_job') }}" class="btn btn-sm btn-primary stretched-link">Create Posting</a>
-                </div>
-            </div>
+<!-- Quick Action Cards -->
+<div class="ll-grid ll-grid--3" style="margin-bottom: var(--space-xl);">
+    <!-- Post Job (Primary action - dark bg) -->
+    <a href="{{ url_for('builder_post_job') }}" class="ll-card"
+        style="text-decoration: none; color: inherit; padding: var(--space-lg); text-align: center; display: flex; flex-direction: column; align-items: center;">
+        <div class="ll-icon-wrap" style="margin-bottom: var(--space-md);">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round">
+                <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+                <line x1="12" y1="8" x2="12" y2="16"></line>
+                <line x1="8" y1="12" x2="16" y2="12"></line>
+            </svg>
         </div>
-        <div class="col-md-4">
-            <div class="card border-0 shadow-sm h-100 py-3 bg-light hover-shadow">
-                <div class="card-body">
-                    <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-primary mb-3"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>
-                    <h5 class="fw-bold">Messages</h5>
-                    <p class="small text-muted">Chat directly with contractors regarding your jobs.</p>
-                    <a href="{{ url_for('builder_chat') }}" class="btn btn-sm btn-primary stretched-link">Open Inbox</a>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-4">
-            <div class="card border-0 shadow-sm h-100 py-3 bg-light">
-                <div class="card-body text-muted">
-                    <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-secondary mb-3"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path><polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline><line x1="12" y1="22.08" x2="12" y2="12"></line></svg>
-                    <h5 class="fw-bold">Reporting</h5>
-                    <span class="badge bg-secondary">Coming Soon</span>
-                </div>
-            </div>
-        </div>
-    </div>
+        <h5 style="font-weight: 700; font-size: var(--text-base); margin-bottom: 0.25rem;">Post New Job</h5>
+        <p style="font-size: var(--text-sm); color: var(--text-secondary); margin-bottom: var(--space-md);">Broadcast
+            requirements to contractors nationwide.</p>
+        <span class="ll-btn ll-btn--primary ll-btn--sm" style="margin-top: auto;">Create Posting</span>
+    </a>
 
-    <!-- Current Projects Section -->
-    <div class="row mb-4">
-        <div class="col">
-            <h4 class="fw-bold border-bottom pb-2">Active Projects</h4>
+    <!-- Messages -->
+    <a href="{{ url_for('builder_chat') }}" class="ll-card"
+        style="text-decoration: none; color: inherit; padding: var(--space-lg); text-align: center; display: flex; flex-direction: column; align-items: center;">
+        <div class="ll-icon-wrap" style="margin-bottom: var(--space-md);">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round">
+                <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
+            </svg>
+        </div>
+        <h5 style="font-weight: 700; font-size: var(--text-base); margin-bottom: 0.25rem;">Messages</h5>
+        <p style="font-size: var(--text-sm); color: var(--text-secondary); margin-bottom: var(--space-md);">Chat
+            directly with contractors regarding your jobs.</p>
+        <span class="ll-btn ll-btn--dark ll-btn--sm" style="margin-top: auto;">Open Inbox</span>
+    </a>
+
+    <!-- Reporting (Coming Soon) -->
+    <div class="ll-card"
+        style="padding: var(--space-lg); text-align: center; display: flex; flex-direction: column; align-items: center; opacity: 0.6;">
+        <div class="ll-icon-wrap" style="margin-bottom: var(--space-md); background: rgba(28,25,25,0.06);">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round" style="color: var(--text-muted);">
+                <path
+                    d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z">
+                </path>
+                <polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline>
+                <line x1="12" y1="22.08" x2="12" y2="12"></line>
+            </svg>
+        </div>
+        <h5 style="font-weight: 700; font-size: var(--text-base); margin-bottom: 0.25rem;">Reporting</h5>
+        <p style="font-size: var(--text-sm); color: var(--text-muted); margin-bottom: var(--space-md);">Analytics &
+            insights.</p>
+        <span class="ll-badge ll-badge--muted" style="margin-top: auto;">Coming Soon</span>
+    </div>
+</div>
+
+<!-- Active Projects Section -->
+<h4 class="ll-section-header">Active Projects</h4>
+
+<div class="ll-grid ll-grid--3">
+    {% if projects %}
+    {% for project in projects %}
+    <div class="ll-card" style="padding: var(--space-lg);">
+        <div
+            style="display: flex; justify-content: space-between; align-items: center; margin-bottom: var(--space-sm);">
+            <span
+                class="ll-badge {% if project.status == 'Open' %}ll-badge--success{% elif project.status == 'In Progress' %}ll-badge--tan{% else %}ll-badge--muted{% endif %}">{{
+                project.status }}</span>
+            <small class="mono" style="color: var(--text-muted); font-size: var(--text-xs);">#{{ project.id }}</small>
+        </div>
+        <h5 style="font-weight: 700; font-size: var(--text-lg); margin-bottom: 0.4rem;">{{ project.title }}</h5>
+        <p
+            style="font-size: var(--text-sm); color: var(--text-secondary); margin-bottom: var(--space-md); display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;">
+            {{ project.description }}
+        </p>
+
+        <div style="margin-top: auto;">
+            <div style="display: flex; justify-content: space-between; margin-bottom: 0.3rem;">
+                <small
+                    style="color: var(--text-secondary); font-size: var(--text-xs); text-transform: uppercase; letter-spacing: 0.05em;">Progress</small>
+                <small class="mono" style="color: var(--text-primary); font-weight: 600;">{{ project.progress
+                    }}%</small>
+            </div>
+            <div class="ll-progress">
+                <div class="ll-progress__bar {% if project.progress == 100 %}ll-progress__bar--complete{% endif %}"
+                    style="width: {{ project.progress }}%;"></div>
+            </div>
         </div>
     </div>
-
-    <div class="row g-4">
-        {% if projects %}
-            {% for project in projects %}
-            <div class="col-md-6 col-lg-4">
-                <div class="card shadow-sm border-0 h-100">
-                    <div class="card-body">
-                        <div class="d-flex justify-content-between mb-2">
-                            <span class="badge {% if project.status == 'Open' %}bg-success{% elif project.status == 'In Progress' %}bg-warning text-dark{% else %}bg-secondary{% endif %}">{{ project.status }}</span>
-                            <small class="text-muted">ID: #{{ project.id }}</small>
-                        </div>
-                        <h5 class="card-title fw-bold">{{ project.title }}</h5>
-                        <p class="card-text text-muted small text-truncate" style="max-height: 40px;">
-                            {{ project.description }}
-                        </p>
-                        
-                        <div class="mt-4">
-                            <div class="d-flex justify-content-between mb-1">
-                                <small>Project Progress</small>
-                                <small>{{ project.progress }}%</small>
-                            </div>
-                            <div class="progress" style="height: 8px;">
-                                <div class="progress-bar {% if project.progress == 100 %}bg-success{% endif %}" role="progressbar" style="width: {{ project.progress }}%;" aria-valuenow="{{ project.progress }}" aria-valuemin="0" aria-valuemax="100"></div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            {% endfor %}
-        {% else %}
-            <div class="col-12 text-center py-5 bg-light rounded text-muted">
-                <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-muted mb-3"><polygon points="12 2 2 7 12 12 22 7 12 2"></polygon><polyline points="2 17 12 22 22 17"></polyline><polyline points="2 12 12 17 22 12"></polyline></svg>
-                <h5>No projects active right now</h5>
-                <p>Click "Post New Job" to list your site requirements.</p>
-            </div>
-        {% endif %}
+    {% endfor %}
+    {% else %}
+    <div class="ll-empty" style="grid-column: 1 / -1;">
+        <div class="ll-empty__icon">
+            <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"
+                stroke-linecap="round" stroke-linejoin="round">
+                <polygon points="12 2 2 7 12 12 22 7 12 2"></polygon>
+                <polyline points="2 17 12 22 22 17"></polyline>
+                <polyline points="2 12 12 17 22 12"></polyline>
+            </svg>
+        </div>
+        <h3 class="ll-empty__title">No projects active right now</h3>
+        <p class="ll-empty__body">Click "Post New Job" to list your site requirements.</p>
     </div>
+    {% endif %}
 </div>
 {% endblock %}

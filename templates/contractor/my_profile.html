@@ -1,52 +1,64 @@
 {% extends "base.html" %}
 
+{% block title %}My Profile — LabourLink{% endblock %}
+
 {% block content %}
-<div class="container py-5">
-    <div class="row justify-content-center">
-        <div class="col-md-8">
-            
-            <div class="card shadow-sm border-0 mb-4" style="border-top: 5px solid var(--coffee-tan) !important;">
-                <div class="card-body p-4 d-flex align-items-center gap-4">
-                    <div class="shadow-sm" style="width: 80px; height: 80px; font-size: 2.5rem; background-color: var(--coffee-tan); color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold;">
-                        {{ user.username[0]|upper }}
+<div style="max-width: 720px; margin: 0 auto;">
+    
+    <!-- Profile Banner Card -->
+    <div class="ll-card" style="border-top: 4px solid var(--coffee-tan); margin-bottom: var(--space-lg); overflow: hidden;">
+        <div style="padding: var(--space-xl); display: flex; align-items: center; gap: var(--space-lg); flex-wrap: wrap;">
+            <div class="ll-avatar ll-avatar--xl shadow-sm">
+                {{ user.username[0]|upper }}
+            </div>
+            <div style="flex: 1;">
+                <h2 style="font-size: var(--text-2xl); font-weight: 800; margin: 0 0 0.4rem;">{{ user.username }}</h2>
+                <span class="ll-badge ll-badge--dark" style="margin-bottom: var(--space-sm); display: inline-block;">Registered {{ user.role|capitalize }}</span>
+                <div style="display: flex; gap: var(--space-md); margin-top: var(--space-sm); flex-wrap: wrap;">
+                    <div class="ll-stat-pill">
+                        <span class="ll-stat-pill__value">{{ clients|length }}</span> Sites
                     </div>
-                    <div>
-                        <h2 class="fw-bold mb-1" style="color: var(--deep-charcoal);">{{ user.username }}</h2>
-                        <span class="badge bg-dark text-uppercase px-3 py-2 mt-1" style="letter-spacing: 1px;">Registered {{ user.role|capitalize }}</span>
+                    <div class="ll-stat-pill">
+                        {% set ns = namespace(total=0) %}{% for c in clients %}{% set ns.total = ns.total + c.workers|length %}{% endfor %}
+                        <span class="ll-stat-pill__value">{{ ns.total }}</span> Workers
                     </div>
                 </div>
             </div>
-
-            <div class="card shadow-sm border-0">
-                <div class="card-header bg-white fw-bold py-3" style="color: var(--deep-charcoal);">
-                    <h5 class="mb-0">My Registered Client Sites</h5>
-                </div>
-                <div class="card-body p-0">
-                    {% if clients %}
-                        <ul class="list-group list-group-flush">
-                        {% for client in clients %}
-                            <li class="list-group-item p-4 d-flex justify-content-between align-items-center transition-hover">
-                                <div>
-                                    <h5 class="fw-bold mb-1" style="color: var(--deep-charcoal);">{{ client.name }}</h5>
-                                    <p class="text-muted mb-0 small">
-                                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align: text-bottom;"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
-                                        {{ client.location if client.location else 'Location not specified' }}
-                                    </p>
-                                </div>
-                                <span class="badge bg-light text-dark border p-2">{{ client.workers|length }} Workers</span>
-                            </li>
-                        {% endfor %}
-                        </ul>
-                    {% else %}
-                        <div class="text-center p-5 text-muted">
-                            <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="mb-3 opacity-50"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"></path></svg>
-                            <p class="mb-0">You haven't registered any client sites yet.</p>
-                        </div>
-                    {% endif %}
-                </div>
-            </div>
-
         </div>
     </div>
+
+    <!-- Client Sites Section -->
+    <div class="ll-card" style="overflow: hidden;">
+        <div class="ll-card-header">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="7" width="20" height="14" rx="2" ry="2"></rect><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path></svg>
+            My Registered Client Sites
+        </div>
+        <div>
+            {% if clients %}
+                {% for client in clients %}
+                <div style="padding: var(--space-md) var(--space-lg); display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--border-light); transition: var(--transition-fast);">
+                    <div>
+                        <h5 style="font-weight: 700; margin: 0 0 0.2rem; color: var(--text-primary);">{{ client.name }}</h5>
+                        <p style="margin: 0; font-size: var(--text-sm); color: var(--text-secondary); display: flex; align-items: center; gap: 0.3em;">
+                            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
+                            {{ client.location if client.location else 'Location not specified' }}
+                        </p>
+                    </div>
+                    <span class="ll-badge ll-badge--tan" style="font-size: 0.7rem;">
+                        <span style="font-family: var(--font-mono); font-weight: 700;">{{ client.workers|length }}</span> Workers
+                    </span>
+                </div>
+                {% endfor %}
+            {% else %}
+                <div class="ll-empty" style="border: none; border-radius: 0;">
+                    <div class="ll-empty__icon">
+                        <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"></path></svg>
+                    </div>
+                    <p class="ll-empty__body">You haven't registered any client sites yet.</p>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+
 </div>
 {% endblock %}

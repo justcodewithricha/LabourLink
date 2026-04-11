@@ -1,147 +1,223 @@
-/* --- LabourLink Premium Technical Palette (Coffee Refinement) --- */
+/* ═══════════════════════════════════════════════════════════════
+   LabourLink — Professional Design System
+   Construction-Grade UI • Warm Industrial Palette
+   ═══════════════════════════════════════════════════════════════ */
+
+/* ── 1. DESIGN TOKENS ─────────────────────────────────────────── */
 :root {
+  /* ── Existing Palette (Preserved) ── */
   --bg-warm-beige: #F2EBE0;
   --deep-charcoal: #1C1919;
   --coffee-tan: #AF7D61;
   --highlight-white: #FFFFFF;
   --border-muted: #D1D1D1;
-  --card-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+
+  /* ── Extended Tokens ── */
+  --coffee-tan-light: #C99A7E;
+  --coffee-tan-dark:  #8D5E43;
+  --bg-card: #FFFFFF;
+  --bg-off-white: #FAF7F3;
+  --bg-sidebar: #1C1919;
+  --text-primary: #1C1919;
+  --text-secondary: #6B6560;
+  --text-muted: #9E9891;
+  --text-on-dark: #F2EBE0;
+  --border-strong: #AF7D61;
+  --border-light: #E8E0D5;
+  --shadow-card: 0 2px 8px rgba(28,25,25,0.07), 0 1px 2px rgba(28,25,25,0.04);
+  --shadow-hover: 0 8px 24px rgba(28,25,25,0.12), 0 2px 8px rgba(28,25,25,0.06);
+  --shadow-focus: 0 0 0 3px rgba(175,125,97,0.22);
+
+  /* ── Spacing Scale (fluid) ── */
+  --space-xs:  clamp(0.25rem, 0.5vw,  0.5rem);
+  --space-sm:  clamp(0.5rem,  1vw,    0.75rem);
+  --space-md:  clamp(0.75rem, 2vw,    1.25rem);
+  --space-lg:  clamp(1.25rem, 3vw,    2rem);
+  --space-xl:  clamp(2rem,    4vw,    3.5rem);
+  --space-2xl: clamp(3rem,    6vw,    5rem);
+
+  /* ── Typography Scale ── */
+  --font-primary: 'Inter', 'Segoe UI', system-ui, sans-serif;
+  --font-mono: 'JetBrains Mono', 'Roboto Mono', monospace;
+  --text-xs:   0.72rem;
+  --text-sm:   0.85rem;
+  --text-base: 1rem;
+  --text-lg:   1.125rem;
+  --text-xl:   1.375rem;
+  --text-2xl:  1.75rem;
+  --text-3xl:  2.25rem;
+  --text-hero: clamp(2.25rem, 5vw, 3.5rem);
+
+  /* ── Layout ── */
+  --radius-sm:  3px;
+  --radius-md:  6px;
+  --radius-lg:  10px;
+  --container-max: 1280px;
+  --navbar-h: 64px;
+
+  /* ── Transitions ── */
+  --transition-fast:   all 0.18s ease;
+  --transition-base:   all 0.28s ease;
+  --transition-spring: all 0.36s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+
+/* ── 2. BASE RESET ────────────────────────────────────────────── */
+*, *::before, *::after {
+  box-sizing: border-box;
 }
 
 body {
   background-color: var(--bg-warm-beige);
-  color: var(--deep-charcoal);
-  font-family: 'Roboto', 'Segoe UI', system-ui, sans-serif;
+  color: var(--text-primary);
+  font-family: var(--font-primary);
+  font-size: var(--text-base);
   margin: 0;
-  line-height: 1.6;
-  /* ADD THESE 3 LINES: */
+  line-height: 1.65;
   display: flex;
   flex-direction: column;
-  min-height: 100vh; /* Forces the body to be at least the full height of the screen */
+  min-height: 100vh;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
-/* --- Professional Navbar --- */
-/* --- Professional Navbar (The Black Background) --- */
+h1, h2, h3, h4 {
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  color: var(--text-primary);
+  line-height: 1.25;
+}
+
+a { color: var(--coffee-tan); }
+a:hover { color: var(--coffee-tan-dark); }
+
+/* Skip Nav — Accessibility */
+.skip-nav {
+  position: absolute;
+  top: -100%;
+  left: var(--space-md);
+  background: var(--deep-charcoal);
+  color: var(--text-on-dark);
+  padding: 0.6rem 1.2rem;
+  border-radius: var(--radius-sm);
+  z-index: 9999;
+  font-size: var(--text-sm);
+  font-weight: 600;
+  text-decoration: none;
+}
+.skip-nav:focus {
+  top: var(--space-sm);
+}
+
+
+/* ── 3. LAYOUT ────────────────────────────────────────────────── */
+.site-main {
+  flex: 1;
+  width: 100%;
+  padding: var(--space-lg) max(var(--space-md), env(safe-area-inset-right));
+  max-width: var(--container-max);
+  margin-inline: auto;
+  box-sizing: border-box;
+}
+
+
+/* ── 4. NAVBAR ────────────────────────────────────────────────── */
 .custom-navbar {
-  background-color: var(--deep-charcoal) !important; /* Forces the black background */
-  padding: 0.8rem 0;
-  border-bottom: 2px solid var(--coffee-tan); /* Nice coffee underline for the bar */
+  background-color: var(--deep-charcoal) !important;
+  padding: 0 0;
+  min-height: var(--navbar-h);
+  display: flex;
+  align-items: center;
+  border-bottom: none;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+  position: relative;
 }
 
-/* --- Navbar Logo Styling (The Coffee Text) --- */
-.nav-logo-text {
-  color: var(--coffee-tan) !important; /* Forces the coffee color on the text */
-  font-weight: 800;
-  font-size: 1.6rem;
-  letter-spacing: 1px;
-  transition: color 0.3s ease;
+/* Hazard stripe accent at bottom of navbar */
+.custom-navbar::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: repeating-linear-gradient(
+    90deg,
+    var(--coffee-tan) 0,
+    var(--coffee-tan) 12px,
+    transparent 12px,
+    transparent 18px
+  );
 }
 
-/* Subtle white glow when you hover over the logo */
-.navbar-brand:hover .nav-logo-text {
-  color: var(--highlight-white) !important;
-}
-
-.navbar-brand:hover .nav-logo-text {
-  color: var(--highlight-white) !important;
-}
-
-/* --- Dashboard Card Refinement --- */
-/* We are using Bootstrap's .card class, so we style it here */
-.card {
-  border-radius: 4px !important; /* Square technical look */
-  border: 1px solid var(--border-muted) !important;
-  background-color: var(--highlight-white) !important;
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-  position: relative; /* Required for stretched-link */
-}
-
-/* Updated Hover Effect for the 4-card layout */
-.hover-shadow:hover {
-  transform: translateY(-8px);
-  box-shadow: 0 15px 35px rgba(28, 25, 25, 0.1) !important;
-}
-
-/* Style for the SVG Icons we added */
-.card-body svg {
-  transition: transform 0.3s ease;
-}
-
-.card:hover svg {
-  transform: scale(1.1); /* Subtle pop on the icon */
-}
-
-/* --- Unified Action Buttons (Fixing the "Cut to Cut" feel) --- */
-.btn-enroll,
-.btn-builder,
-.btn-contractor,
-.btn-primary {
-  display: inline-flex;
+.nav-logo-box {
+  background-color: var(--bg-warm-beige); 
+  padding: 10px 24px; /* Increased width and padding for a bigger footprint */
+  border: 3px solid #3d2b1f; /* Thick, much darker brown border for high visibility */
+  border-radius: var(--radius-md);
+  display: flex;
   align-items: center;
   justify-content: center;
-  /* Giving the text generous breathing room on top/bottom and sides */
-  padding: 14px 32px !important; 
-  font-weight: 700 !important;
-  /* Forcing everything to uppercase so "Get Started" matches "Enroll" */
-  text-transform: uppercase !important; 
-  letter-spacing: 1.5px !important;
-  font-size: 0.85rem !important;
-  border-radius: 4px !important;
-  text-decoration: none !important;
-  transition: all 0.3s ease !important;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.25);
+  transition: var(--transition-base);
+  margin-top: -2px;
+}
+
+.nav-logo-img {
+  height: 54px; /* Significantly larger logo */
+  width: auto;
+  display: block;
+  transition: var(--transition-base);
+}
+
+.navbar-brand:hover .nav-logo-box {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(175, 125, 97, 0.4);
+  border-color: #271b14; /* Even darker on hover */
+}
+
+/* Nav login button */
+.btn-nav-login {
+  background-color: var(--coffee-tan);
+  color: var(--highlight-white);
+  font-weight: 600;
+  font-size: var(--text-sm);
+  border-radius: var(--radius-sm);
+  padding: 0.5rem 1.4rem;
+  text-decoration: none;
+  border: 2px solid var(--coffee-tan);
+  transition: var(--transition-base);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  min-height: 44px;
+  display: inline-flex;
+  align-items: center;
+}
+.btn-nav-login:hover {
+  background-color: var(--coffee-tan-dark);
+  border-color: var(--coffee-tan-dark);
+  color: var(--highlight-white);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(175,125,97,0.3);
+}
+
+/* Mobile toggler */
+.navbar-toggler {
   border: none;
-  text-align: center;
+  padding: 0.4rem;
+}
+.navbar-toggler:focus {
+  box-shadow: none;
+  outline: 2px solid var(--coffee-tan);
+  outline-offset: 2px;
+}
+.navbar-toggler-icon {
+  filter: invert(1);
 }
 
-/* Base Colors for Primary & Contractor actions (Coffee) */
-.btn-primary,
-.btn-contractor {
-  background-color: var(--coffee-tan) !important;
-  color: var(--highlight-white) !important;
-}
-
-/* Base Colors for Builder actions (Charcoal) */
-.btn-builder {
-  background-color: var(--deep-charcoal) !important;
-  color: var(--highlight-white) !important;
-}
-
-/* Dark Button (used for Manage Clients) */
-.btn-dark {
-  background-color: var(--deep-charcoal) !important;
-  border-color: var(--deep-charcoal) !important;
-  border-radius: 2px !important;
-}
-
-/* Snappy Hover Effects for all of them */
-.btn-primary:hover,
-.btn-contractor:hover {
-  background-color: var(--deep-charcoal) !important;
-  transform: translateY(-2px);
-  box-shadow: 0 8px 20px rgba(0,0,0,0.15) !important;
-}
-
-.btn-builder:hover {
-  background-color: var(--coffee-tan) !important;
-  transform: translateY(-2px);
-  box-shadow: 0 8px 20px rgba(0,0,0,0.15) !important;
-}
-
-/* --- Footer --- */
-.footer {
-  background-color: var(--deep-charcoal);
-  color: rgba(255, 255, 255, 0.7);
-  padding: 3rem 1rem;
-  text-align: center;
-  border-top: 5px solid var(--coffee-tan);
-  /* CHANGE margin-top TO THIS: */
-  margin-top: auto; /* This pushes the footer all the way to the bottom */
-}
-
-/* --- Profile Avatar Navbar Styling --- */
+/* Profile Avatar */
 .profile-avatar-btn::after {
-  display: none; /* Hides the default Bootstrap dropdown arrow for a cleaner look */
+  display: none;
 }
 
 .profile-avatar {
@@ -154,18 +230,1004 @@ body {
   align-items: center;
   justify-content: center;
   font-weight: 700;
-  font-size: 1.2rem;
-  transition: all 0.3s ease;
+  font-size: 1.1rem;
+  transition: var(--transition-base);
   border: 2px solid transparent;
 }
 
 .profile-avatar:hover {
   transform: scale(1.05);
-  background-color: var(--highlight-white);
-  color: var(--deep-charcoal);
-  border: 2px solid var(--deep-charcoal);
+  border-color: var(--coffee-tan-light);
+}
+
+/* Dropdown menu */
+.dropdown-menu {
+  border: none;
+  border-left: 3px solid var(--coffee-tan);
+  border-radius: var(--radius-md) !important;
+  box-shadow: var(--shadow-hover);
+  overflow: hidden;
+}
+
+.dropdown-item {
+  padding: 0.6rem 1.2rem;
+  font-size: var(--text-sm);
+  transition: var(--transition-fast);
 }
 
 .dropdown-item:hover {
   background-color: var(--bg-warm-beige);
+}
+
+.dropdown-header {
+  font-size: var(--text-xs);
+  letter-spacing: 0.08em;
+  color: var(--text-secondary);
+}
+
+
+/* ── 5. CARD SYSTEM ───────────────────────────────────────────── */
+.ll-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border-light);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-card);
+  transition: var(--transition-base);
+  animation: cardEntrance 0.4s ease-out both;
+}
+.ll-card:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-hover);
+  border-color: var(--border-strong);
+}
+
+.ll-card-header {
+  padding: var(--space-md) var(--space-lg);
+  border-bottom: 1px solid var(--border-light);
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  font-weight: 600;
+  font-size: var(--text-sm);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--text-secondary);
+}
+
+.ll-card-body {
+  padding: var(--space-lg);
+}
+
+/* Icon wrapper for action cards */
+.ll-icon-wrap {
+  width: 56px;
+  height: 56px;
+  background: rgba(175,125,97,0.12);
+  border-radius: var(--radius-md);
+  display: grid;
+  place-items: center;
+  transition: var(--transition-spring);
+  color: var(--coffee-tan);
+}
+.ll-card:hover .ll-icon-wrap {
+  transform: scale(1.08);
+}
+
+/* Also style existing Bootstrap .card to integrate */
+.card {
+  border-radius: var(--radius-md) !important;
+  border: 1px solid var(--border-light) !important;
+  background-color: var(--bg-card) !important;
+  box-shadow: var(--shadow-card);
+  transition: var(--transition-base);
+  position: relative;
+}
+.card:hover {
+  box-shadow: var(--shadow-hover);
+}
+
+
+/* ── 6. BUTTON SYSTEM ─────────────────────────────────────────── */
+.ll-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4em;
+  padding: 0.65em 1.6em;
+  font-family: var(--font-primary);
+  font-size: var(--text-sm);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  border: 2px solid transparent;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  text-decoration: none;
+  transition: var(--transition-base);
+  white-space: nowrap;
+  min-height: 44px;
+}
+.ll-btn:focus-visible {
+  outline: 2px solid var(--coffee-tan);
+  outline-offset: 3px;
+}
+
+/* Primary (Coffee Tan) */
+.ll-btn--primary {
+  background: var(--coffee-tan);
+  color: var(--highlight-white);
+  border-color: var(--coffee-tan);
+}
+.ll-btn--primary:hover {
+  background: var(--coffee-tan-dark);
+  border-color: var(--coffee-tan-dark);
+  color: var(--highlight-white);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 18px rgba(175,125,97,0.3);
+}
+
+/* Dark (Charcoal) */
+.ll-btn--dark {
+  background: var(--deep-charcoal);
+  color: var(--highlight-white);
+  border-color: var(--deep-charcoal);
+}
+.ll-btn--dark:hover {
+  background: var(--coffee-tan);
+  border-color: var(--coffee-tan);
+  color: var(--highlight-white);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 18px rgba(28,25,25,0.25);
+}
+
+/* Ghost */
+.ll-btn--ghost {
+  background: transparent;
+  color: var(--text-secondary);
+  border-color: var(--border-muted);
+}
+.ll-btn--ghost:hover {
+  border-color: var(--coffee-tan);
+  color: var(--coffee-tan);
+}
+
+/* Size variants */
+.ll-btn--sm {
+  padding: 0.4em 1em;
+  font-size: var(--text-xs);
+  min-height: 36px;
+}
+.ll-btn--full { width: 100%; }
+
+/* Legacy button overrides — keep backward compat */
+.btn-enroll,
+.btn-builder,
+.btn-contractor,
+.btn-primary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.65em 1.6em !important;
+  font-weight: 600 !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.08em !important;
+  font-size: var(--text-sm) !important;
+  border-radius: var(--radius-sm) !important;
+  text-decoration: none !important;
+  transition: var(--transition-base) !important;
+  border: 2px solid transparent;
+  text-align: center;
+  min-height: 44px;
+}
+
+.btn-primary,
+.btn-contractor {
+  background-color: var(--coffee-tan) !important;
+  color: var(--highlight-white) !important;
+  border-color: var(--coffee-tan) !important;
+}
+
+.btn-builder {
+  background-color: var(--deep-charcoal) !important;
+  color: var(--highlight-white) !important;
+  border-color: var(--deep-charcoal) !important;
+}
+
+.btn-dark {
+  background-color: var(--deep-charcoal) !important;
+  border-color: var(--deep-charcoal) !important;
+  border-radius: var(--radius-sm) !important;
+}
+
+.btn-primary:hover,
+.btn-contractor:hover {
+  background-color: var(--coffee-tan-dark) !important;
+  border-color: var(--coffee-tan-dark) !important;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 18px rgba(175,125,97,0.3) !important;
+}
+
+.btn-builder:hover {
+  background-color: var(--coffee-tan) !important;
+  border-color: var(--coffee-tan) !important;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 18px rgba(28,25,25,0.25) !important;
+}
+
+.btn-dark:hover {
+  background-color: var(--coffee-tan) !important;
+  border-color: var(--coffee-tan) !important;
+}
+
+
+/* ── 7. FORM INPUT SYSTEM ─────────────────────────────────────── */
+.ll-input,
+.tech-input,
+.form-control,
+.form-select {
+  width: 100%;
+  background: var(--bg-off-white) !important;
+  border: 1.5px solid var(--border-light) !important;
+  border-radius: var(--radius-sm) !important;
+  padding: 0.7rem 1rem !important;
+  font-family: var(--font-primary);
+  font-size: var(--text-base);
+  color: var(--text-primary) !important;
+  transition: var(--transition-fast);
+  min-height: 44px;
+}
+.ll-input::placeholder,
+.tech-input::placeholder,
+.form-control::placeholder {
+  color: var(--text-muted);
+}
+.ll-input:focus,
+.tech-input:focus,
+.form-control:focus,
+.form-select:focus {
+  outline: none;
+  border-color: var(--coffee-tan) !important;
+  box-shadow: var(--shadow-focus) !important;
+  background: var(--highlight-white) !important;
+}
+
+.ll-label,
+.form-label {
+  display: block;
+  font-size: var(--text-xs);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--text-secondary);
+  margin-bottom: 0.4rem;
+}
+
+.ll-field { margin-bottom: var(--space-md); }
+
+.ll-hint {
+  color: var(--text-muted);
+  font-size: var(--text-xs);
+  margin-top: 0.25rem;
+  display: block;
+}
+
+textarea.ll-input,
+textarea.form-control {
+  min-height: 100px;
+  resize: vertical;
+}
+
+
+/* ── 7.5 FORM LAYOUT ─────────────────────────────────────────── */
+.ll-form-row {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: var(--space-md);
+}
+
+@media (max-width: 576px) {
+  .ll-form-row {
+    grid-template-columns: 1fr;
+  }
+}
+
+
+/* ── 8. BADGE SYSTEM ──────────────────────────────────────────── */
+.ll-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3em;
+  padding: 0.25em 0.7em;
+  border-radius: 2px;
+  font-size: var(--text-xs);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+  font-family: var(--font-mono);
+}
+.ll-badge--tan {
+  background: rgba(175,125,97,0.12);
+  color: var(--coffee-tan-dark);
+  border: 1px solid rgba(175,125,97,0.3);
+}
+.ll-badge--dark {
+  background: rgba(28,25,25,0.08);
+  color: var(--deep-charcoal);
+  border: 1px solid rgba(28,25,25,0.2);
+}
+.ll-badge--muted {
+  background: var(--border-light);
+  color: var(--text-muted);
+  border: 1px solid var(--border-muted);
+}
+.ll-badge--success {
+  background: rgba(34,113,58,0.1);
+  color: #22713A;
+  border: 1px solid rgba(34,113,58,0.25);
+}
+
+
+/* ── 9. PAGE HEADER ───────────────────────────────────────────── */
+.ll-page-header {
+  padding: var(--space-lg) 0 var(--space-md);
+  border-bottom: 1px solid var(--border-light);
+  margin-bottom: var(--space-lg);
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: var(--space-sm);
+}
+.ll-page-header__title {
+  font-size: var(--text-2xl);
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  color: var(--text-primary);
+  margin: 0;
+  line-height: 1.2;
+}
+.ll-page-header__subtitle {
+  margin-top: 0.25rem;
+  font-size: var(--text-sm);
+  color: var(--text-secondary);
+}
+
+
+/* ── 10. EMPTY STATE ──────────────────────────────────────────── */
+.ll-empty {
+  padding: var(--space-2xl) var(--space-xl);
+  border: 2px dashed var(--border-muted);
+  border-radius: var(--radius-md);
+  text-align: center;
+  background: rgba(255,255,255,0.4);
+  background-image: radial-gradient(circle, var(--border-light) 1px, transparent 1px);
+  background-size: 20px 20px;
+}
+.ll-empty__icon {
+  color: var(--text-muted);
+  opacity: 0.6;
+  margin-bottom: var(--space-md);
+}
+.ll-empty__title {
+  font-size: var(--text-xl);
+  font-weight: 700;
+  color: var(--text-primary);
+  margin: 0;
+}
+.ll-empty__body {
+  font-size: var(--text-sm);
+  color: var(--text-secondary);
+  margin-top: var(--space-xs);
+}
+
+
+/* ── 11. ALERT / FLASH MESSAGES ───────────────────────────────── */
+.ll-alert {
+  padding: var(--space-sm) var(--space-md);
+  border-radius: var(--radius-sm);
+  border-left: 4px solid;
+  font-size: var(--text-sm);
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-sm);
+  margin-bottom: var(--space-md);
+}
+.ll-alert--warning {
+  background: #FDF8F0;
+  border-color: var(--coffee-tan);
+  color: #6B4226;
+}
+.ll-alert--danger {
+  background: #FFF2F2;
+  border-color: #C0392B;
+  color: #7B1E1E;
+}
+.ll-alert--success {
+  background: #F0FDF4;
+  border-color: #22713A;
+  color: #14532D;
+}
+
+
+/* ── 12. DATA DISPLAY ─────────────────────────────────────────── */
+.ll-data-row {
+  display: flex;
+  justify-content: space-between;
+  padding: var(--space-sm) 0;
+  border-bottom: 1px solid var(--border-light);
+  font-size: var(--text-sm);
+  color: var(--text-secondary);
+}
+.ll-data-row:last-child {
+  border-bottom: none;
+}
+.ll-amount {
+  font-family: var(--font-mono);
+  font-weight: 600;
+  color: var(--text-primary);
+}
+.ll-amount--pending {
+  color: #C0392B;
+}
+
+/* Stat Pill */
+.ll-stat-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4em;
+  padding: 0.4em 1em;
+  background: var(--bg-card);
+  border: 1px solid var(--border-light);
+  border-radius: var(--radius-sm);
+  font-family: var(--font-mono);
+  font-size: var(--text-sm);
+  font-weight: 600;
+  color: var(--text-primary);
+  box-shadow: var(--shadow-card);
+}
+.ll-stat-pill__value {
+  font-size: var(--text-lg);
+  font-weight: 700;
+  color: var(--coffee-tan);
+}
+
+
+/* ── 13. PROGRESS BAR ─────────────────────────────────────────── */
+.ll-progress {
+  height: 6px;
+  background: var(--border-light);
+  border-radius: 99px;
+  overflow: hidden;
+  margin-top: var(--space-sm);
+}
+.ll-progress__bar {
+  height: 100%;
+  background: var(--coffee-tan);
+  border-radius: 99px;
+  transition: width 0.4s ease;
+}
+.ll-progress__bar--complete {
+  background: #22713A;
+}
+
+
+/* ── 14. BACK LINK ────────────────────────────────────────────── */
+.ll-back-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4em;
+  font-size: var(--text-sm);
+  color: var(--text-secondary);
+  text-decoration: none;
+  transition: var(--transition-fast);
+  font-weight: 500;
+}
+.ll-back-link:hover {
+  color: var(--coffee-tan);
+}
+
+
+/* ── 15. AVATAR ───────────────────────────────────────────────── */
+.ll-avatar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  font-weight: 700;
+  text-transform: uppercase;
+  background: var(--coffee-tan);
+  color: var(--highlight-white);
+}
+.ll-avatar--sm { width: 40px; height: 40px; font-size: var(--text-sm); }
+.ll-avatar--md { width: 56px; height: 56px; font-size: var(--text-lg); }
+.ll-avatar--lg { width: 80px; height: 80px; font-size: var(--text-2xl); }
+.ll-avatar--xl { width: 96px; height: 96px; font-size: var(--text-3xl); }
+
+
+/* ── 16. SECTION HEADER ───────────────────────────────────────── */
+.ll-section-header {
+  font-size: var(--text-lg);
+  font-weight: 700;
+  border-bottom: 2px solid var(--coffee-tan);
+  padding-bottom: var(--space-xs);
+  margin-bottom: var(--space-lg);
+  color: var(--text-primary);
+}
+
+
+/* ── 17. GRID LAYOUTS ─────────────────────────────────────────── */
+.ll-grid {
+  display: grid;
+  gap: var(--space-lg);
+}
+.ll-grid--2 { grid-template-columns: repeat(auto-fill, minmax(min(100%, 300px), 1fr)); }
+.ll-grid--3 { grid-template-columns: repeat(auto-fill, minmax(min(100%, 280px), 1fr)); }
+.ll-grid--4 { grid-template-columns: repeat(auto-fill, minmax(min(100%, 240px), 1fr)); }
+
+
+/* ── 18. TABLE SYSTEM ─────────────────────────────────────────── */
+.ll-table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+}
+.ll-table th {
+  font-size: var(--text-xs);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--text-secondary);
+  font-weight: 600;
+  border-bottom: 2px solid var(--border-light);
+  padding: var(--space-sm) var(--space-md);
+  text-align: left;
+}
+.ll-table td {
+  padding: var(--space-sm) var(--space-md);
+  border-bottom: 1px solid var(--border-light);
+  vertical-align: middle;
+  font-size: var(--text-sm);
+}
+.ll-table tr:nth-child(even) td {
+  background: var(--bg-off-white);
+}
+.ll-table td.ll-worker-name {
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+/* Attendance toggle pills */
+.ll-toggle-group {
+  display: inline-flex;
+  border-radius: var(--radius-sm);
+  overflow: hidden;
+  border: 1.5px solid var(--border-light);
+}
+.ll-toggle-group input[type="radio"] {
+  display: none;
+}
+.ll-toggle-group label {
+  padding: 0.45em 1.2em;
+  font-size: var(--text-xs);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  cursor: pointer;
+  transition: var(--transition-fast);
+  min-height: 44px;
+  display: flex;
+  align-items: center;
+  background: var(--bg-off-white);
+  color: var(--text-secondary);
+  border: none;
+}
+.ll-toggle-group input[type="radio"][value="Present"]:checked + label {
+  background: var(--coffee-tan);
+  color: var(--highlight-white);
+}
+.ll-toggle-group input[type="radio"][value="Absent"]:checked + label {
+  background: var(--deep-charcoal);
+  color: var(--highlight-white);
+}
+
+/* Mobile responsive table → card */
+@media (max-width: 640px) {
+  .ll-table-responsive thead { display: none; }
+  .ll-table-responsive tr {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-sm);
+    padding: var(--space-md);
+    border-bottom: 1px solid var(--border-light);
+  }
+  .ll-table-responsive td {
+    border: none;
+    padding: 0;
+  }
+}
+
+
+/* ── 19. FOOTER ───────────────────────────────────────────────── */
+.footer {
+  background-color: var(--deep-charcoal);
+  color: rgba(255, 255, 255, 0.7);
+  padding: 0;
+  text-align: center;
+  margin-top: auto;
+  position: relative;
+}
+.footer::before {
+  content: '';
+  display: block;
+  height: 4px;
+  background: repeating-linear-gradient(
+    90deg,
+    var(--coffee-tan) 0,
+    var(--coffee-tan) 12px,
+    transparent 12px,
+    transparent 18px
+  );
+}
+
+.footer-inner {
+  padding: var(--space-xl) var(--space-lg) var(--space-lg);
+}
+
+.footer-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 200px), 1fr));
+  gap: var(--space-xl);
+  max-width: var(--container-max);
+  margin: 0 auto var(--space-lg);
+  text-align: left;
+}
+
+.footer-brand {
+  font-size: var(--text-xl);
+  font-weight: 800;
+  color: var(--coffee-tan);
+  letter-spacing: -0.5px;
+  margin-bottom: 0.4rem;
+}
+.footer-tagline {
+  font-size: var(--text-sm);
+  color: rgba(255,255,255,0.5);
+  line-height: 1.5;
+}
+.footer-heading {
+  font-size: var(--text-xs);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--coffee-tan);
+  margin-bottom: var(--space-sm);
+}
+.footer-links {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+.footer-links li { margin-bottom: 0.4rem; }
+.footer-links a {
+  color: rgba(255,255,255,0.6);
+  text-decoration: none;
+  font-size: var(--text-sm);
+  transition: var(--transition-fast);
+}
+.footer-links a:hover { color: var(--coffee-tan); }
+
+.footer-copyright {
+  font-size: var(--text-xs);
+  color: rgba(255,255,255,0.4);
+  border-top: 1px solid rgba(255,255,255,0.08);
+  padding-top: var(--space-md);
+  text-align: center;
+  max-width: var(--container-max);
+  margin: 0 auto;
+}
+
+
+/* ── 20. ANIMATIONS ───────────────────────────────────────────── */
+@keyframes cardEntrance {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.animate-fade-in {
+  animation: fadeIn 0.6s ease-out both;
+}
+.animate-fade-in-up {
+  animation: fadeInUp 0.6s ease-out both;
+}
+
+/* Staggered card entrance */
+.ll-grid > *:nth-child(1) { animation-delay: 0.05s; }
+.ll-grid > *:nth-child(2) { animation-delay: 0.1s; }
+.ll-grid > *:nth-child(3) { animation-delay: 0.15s; }
+.ll-grid > *:nth-child(4) { animation-delay: 0.2s; }
+.ll-grid > *:nth-child(5) { animation-delay: 0.25s; }
+.ll-grid > *:nth-child(6) { animation-delay: 0.3s; }
+
+
+/* ── 21. AUTH PAGES — Split-Screen ────────────────────────────── */
+.auth-split {
+  display: grid;
+  grid-template-columns: 1fr;
+  min-height: 100dvh;
+  width: 100%;
+}
+@media (min-width: 768px) {
+  .auth-split {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+.auth-brand-panel {
+  background: var(--deep-charcoal);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: clamp(2rem, 5vw, 4rem);
+  color: var(--text-on-dark);
+}
+@media (max-width: 767px) {
+  .auth-brand-panel {
+    display: none;
+  }
+}
+
+.auth-brand-panel__logo {
+  font-size: var(--text-3xl);
+  font-weight: 800;
+  color: var(--coffee-tan);
+  letter-spacing: -1px;
+  margin-bottom: var(--space-lg);
+}
+.auth-brand-panel__features {
+  list-style: none;
+  padding: 0;
+  margin: var(--space-lg) 0 0;
+}
+.auth-brand-panel__features li {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  padding: var(--space-sm) 0;
+  font-size: var(--text-base);
+  color: rgba(242,235,224,0.75);
+}
+.auth-brand-panel__features li svg {
+  color: var(--coffee-tan);
+  flex-shrink: 0;
+}
+
+.auth-form-panel {
+  background: var(--bg-warm-beige);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: clamp(2rem, 5vw, 4rem);
+}
+.auth-form-panel__inner {
+  width: 100%;
+  max-width: 420px;
+}
+
+
+/* ── 22. ROLE SELECTION ───────────────────────────────────────── */
+.role-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 320px), 1fr));
+  gap: var(--space-lg);
+}
+.role-card {
+  padding: var(--space-xl);
+  border-radius: var(--radius-md);
+  transition: var(--transition-base);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  border-top: 5px solid var(--coffee-tan);
+  animation: cardEntrance 0.5s ease-out both;
+}
+.role-card:hover {
+  transform: translateY(-5px);
+  box-shadow: var(--shadow-hover);
+}
+.role-card--dark {
+  background: var(--deep-charcoal);
+  color: var(--highlight-white);
+  border: 1px solid rgba(175,125,97,0.22);
+  box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+}
+.role-card--dark .role-card__title {
+  color: var(--highlight-white);
+}
+.role-card--dark p { 
+  color: rgba(255, 255, 255, 0.85);
+  font-weight: 500;
+}
+.role-card--dark .role-card__icon-wrap {
+  background: rgba(175, 125, 97, 0.15); /* Match contractor's icon box background */
+  border: 1px solid rgba(175, 125, 97, 0.3);
+}
+.role-card--light {
+  background: var(--bg-card);
+  color: var(--text-primary);
+  border: 1px solid var(--border-light);
+}
+
+.role-card__icon-wrap {
+  width: 80px;
+  height: 80px;
+  background: rgba(175,125,97,0.15);
+  border-radius: var(--radius-lg);
+  display: grid;
+  place-items: center;
+  margin-bottom: var(--space-md);
+  transition: var(--transition-spring);
+}
+.role-card:hover .role-card__icon-wrap {
+  transform: scale(1.08);
+}
+
+.role-card__title {
+  font-size: var(--text-2xl);
+  font-weight: 800;
+  margin-bottom: var(--space-sm);
+}
+
+
+/* ── 23. ICON UTILITIES ───────────────────────────────────────── */
+.icon-tan { color: var(--coffee-tan) !important; }
+.icon-charcoal { color: var(--deep-charcoal) !important; }
+.icon-muted { color: var(--text-muted) !important; }
+
+
+/* ── 24. MISC UTILITIES ───────────────────────────────────────── */
+.mono { font-family: var(--font-mono); font-variant-numeric: tabular-nums; }
+.text-coffee { color: var(--coffee-tan); }
+.text-accent { color: var(--coffee-tan); }
+.bg-brand { background-color: var(--coffee-tan); }
+.border-brand { border-color: var(--coffee-tan) !important; }
+
+/* Responsive stacking for page headers */
+@media (max-width: 576px) {
+  .ll-page-header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}
+
+/* Blueprint grid pattern for special sections */
+.blueprint-grid {
+  background-image: radial-gradient(circle, var(--border-light) 1px, transparent 1px);
+  background-size: 20px 20px;
+}
+
+/* Hazard stripe divider */
+.hazard-stripe {
+  height: 3px;
+  background: repeating-linear-gradient(
+    45deg,
+    transparent,
+    transparent 6px,
+    rgba(175,125,97,0.15) 6px,
+    rgba(175,125,97,0.15) 12px
+  );
+  margin: var(--space-lg) 0;
+}
+
+/* Character counter for textarea */
+.char-counter {
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  color: var(--text-muted);
+  text-align: right;
+  margin-top: 0.25rem;
+}
+
+
+/* ── 25. REDUCED MOTION ───────────────────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* ── 26. AUTH LAYOUT ─────────────────────────────────────────── */
+.auth-split {
+  display: flex;
+  min-height: 100vh; /* Full viewport since navbar is hidden */
+  flex-wrap: wrap;
+  width: 100%;
+  overflow-x: hidden;
+}
+.site-main-full {
+  flex: 1;
+  width: 100%;
+}
+
+.auth-brand-panel {
+  flex: 1 1 400px;
+  background-color: var(--deep-charcoal);
+  background-image: linear-gradient(135deg, rgba(175,125,97,0.1) 0%, transparent 100%);
+  padding: var(--space-2xl) var(--space-xl);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center; /* Center horizontally */
+  text-align: center;   /* Center text lines */
+  color: var(--text-on-dark);
+}
+
+.auth-brand-panel__logo {
+  font-size: var(--text-3xl);
+  font-weight: 800;
+  color: var(--coffee-tan);
+  margin-bottom: var(--space-md);
+  letter-spacing: -1px;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+.auth-brand-panel__features {
+  list-style: none;
+  padding: 0;
+  margin: var(--space-xl) 0 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center; /* Center items for a grand balanced look */
+  gap: var(--space-md);
+}
+
+.auth-brand-panel__features li {
+  display: flex;
+  align-items: center;
+  justify-content: center; /* Center the icon + text pair */
+  gap: var(--space-sm);
+  font-size: var(--text-base);
+  color: rgba(242,235,224,0.8);
+}
+
+.auth-form-panel {
+  flex: 1 1 400px;
+  background-color: var(--bg-warm-beige);
+  padding: var(--space-2xl) var(--space-xl);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.auth-form-panel__inner {
+  width: 100%;
+  max-width: 400px;
+}
+
+@media (max-width: 768px) {
+  .auth-brand-panel {
+    display: none;
+  }
+  .auth-split {
+    min-height: calc(100vh - var(--navbar-h) - 3px);
+  }
 }

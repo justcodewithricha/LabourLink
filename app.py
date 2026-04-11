@@ -7,7 +7,7 @@ from datetime import datetime, timedelta
 app = Flask(__name__)
 
 # --- DATABASE CONFIGURATION ---
-app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://postgres:new123@127.0.0.1:5432/labourlink'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://postgres:301365@localhost:5432/labourlink'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.secret_key = 'super_secret_key_for_labourlink' # Required for session memory
 
@@ -70,7 +70,8 @@ def login():
         
         if user and user.password == password: 
             session['user_id'] = user.id 
-            session['username'] = user.username # <-- NEW: Save username for the avatar
+            session['username'] = user.username
+            session['role'] = user.role # <-- NEW: Save role for navigation logic
             if user.role == 'contractor':
                 return redirect(url_for('contractor_dashboard'))
             else:
@@ -116,11 +117,31 @@ def contractor_dashboard():
     else:
         attendance_counts = [0] * 7 # Fill with zeros if no workers
 
+    # 4. Stat counts for the summary strip
+    total_workers = len(workers)
+    total_clients = Client.query.filter_by(contractor_id=user_id).count()
+    today_present = Attendance.query.filter(
+        Attendance.worker_id.in_(worker_ids) if worker_ids else False,
+        Attendance.date == today,
+        Attendance.status == 'Present'
+    ).count() if worker_ids else 0
+
     return render_template(
         'contractor/dashboard.html', 
         labels=labels, 
-        attendance_data=attendance_counts
+        attendance_data=attendance_counts,
+        total_workers=total_workers,
+        total_clients=total_clients,
+        today_present=today_present
     )
+
+@app.route('/builder/my-profile')
+@login_required
+def builder_profile():
+    user_id = session.get('user_id')
+    user = User.query.get_or_404(user_id)
+    projects = Project.query.filter_by(builder_id=user_id).all()
+    return render_template('builder/my_profile.html', user=user, projects=projects)
 
 @app.route('/contractor/attendance', methods=['GET', 'POST'])
 @login_required

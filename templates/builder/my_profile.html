@@ -1,0 +1,63 @@
+{% extends "base.html" %}
+
+{% block title %}My Profile — LabourLink Builder{% endblock %}
+
+{% block content %}
+<div style="max-width: 720px; margin: 0 auto;">
+    
+    <!-- Profile Banner Card -->
+    <div class="ll-card" style="border-top: 4px solid var(--coffee-tan); margin-bottom: var(--space-lg); overflow: hidden;">
+        <div style="padding: var(--space-xl); display: flex; align-items: center; gap: var(--space-lg); flex-wrap: wrap;">
+            <div class="ll-avatar ll-avatar--xl shadow-sm" style="background-color: var(--deep-charcoal);">
+                {{ user.username[0]|upper }}
+            </div>
+            <div style="flex: 1;">
+                <h2 style="font-size: var(--text-2xl); font-weight: 800; margin: 0 0 0.4rem;">{{ user.username }}</h2>
+                <span class="ll-badge ll-badge--tan" style="margin-bottom: var(--space-sm); display: inline-block;">Registered {{ user.role|capitalize }}</span>
+                <div style="display: flex; gap: var(--space-md); margin-top: var(--space-sm); flex-wrap: wrap;">
+                    <div class="ll-stat-pill">
+                        <span class="ll-stat-pill__value">{{ projects|length }}</span> Active Jobs
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Project List Section -->
+    <div class="ll-card" style="overflow: hidden;">
+        <div class="ll-card-header">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 2 7 12 12 22 7 12 2"></polygon><polyline points="2 17 12 22 22 17"></polyline><polyline points="2 12 12 17 22 12"></polyline></svg>
+            My Job Postings
+        </div>
+        <div>
+            {% if projects %}
+                {% for project in projects %}
+                <div style="padding: var(--space-md) var(--space-lg); display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--border-light); transition: var(--transition-fast);">
+                    <div>
+                        <h5 style="font-weight: 700; margin: 0 0 0.2rem; color: var(--text-primary);">{{ project.title }}</h5>
+                        <p style="margin: 0; font-size: var(--text-sm); color: var(--text-secondary);">
+                            Status: <span class="ll-badge {% if project.status == 'Open' %}ll-badge--success{% else %}ll-badge--tan{% endif %}" style="font-size: 0.65rem;">{{ project.status }}</span>
+                        </p>
+                    </div>
+                    <span class="ll-badge ll-badge--muted">
+                        <span style="font-family: var(--font-mono); font-weight: 700;">{{ project.progress }}%</span>
+                    </span>
+                </div>
+                {% endfor %}
+            {% else %}
+                <div class="ll-empty" style="border: none; border-radius: 0;">
+                    <div class="ll-empty__icon">
+                        <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"></path></svg>
+                    </div>
+                    <p class="ll-empty__body">You haven't posted any jobs yet.</p>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+
+    <div style="margin-top: var(--space-lg); text-align: center;">
+        <a href="{{ url_for('builder_post_job') }}" class="ll-btn ll-btn--primary">Post a New Job Offer</a>
+    </div>
+
+</div>
+{% endblock %}

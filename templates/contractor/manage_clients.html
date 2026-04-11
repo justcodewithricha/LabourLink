@@ -1,52 +1,58 @@
 {% extends "base.html" %}
 
+{% block title %}Client Sites — LabourLink{% endblock %}
+
 {% block content %}
-<div class="container py-5">
-    <div class="d-flex justify-content-between align-items-center mb-5">
-        <div>
-            <h1 class="fw-bold">Client Project Sites</h1>
-            <p class="text-muted">Manage workforce distribution across your active locations.</p>
-        </div>
-        <a href="{{ url_for('add_client') }}" class="btn-enroll btn-contractor" style="width: auto; padding: 12px 30px;">
-            + Add New Site
-        </a>
+<!-- Page Header -->
+<div class="ll-page-header">
+    <div>
+        <h1 class="ll-page-header__title">Client Project Sites</h1>
+        <p class="ll-page-header__subtitle">Manage workforce distribution across your active locations.</p>
     </div>
+    <a href="{{ url_for('add_client') }}" class="ll-btn ll-btn--primary">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+        Add New Site
+    </a>
+</div>
 
-    <div class="row g-4">
-        {% if clients %}
-        {% for client in clients %}
-        <div class="col-md-4">
-            <div class="card border-0 shadow-sm h-100" style="border-top: 5px solid var(--coffee-tan) !important;">
-                <div class="card-body d-flex flex-column p-4">
-                    <div class="mb-3">
-                        <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-primary"><rect x="2" y="7" width="20" height="14" rx="2" ry="2"></rect><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path></svg>
-                    </div>
-                    <h4 class="fw-bold mb-2">{{ client.name }}</h4>
-                    <p class="text-muted mb-3">
-                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align: text-bottom;"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
-                        {{ client.location if client.location else 'Location not set' }}
-                    </p>
-
-                    <div class="role-badge mb-4 mt-auto">
-                        <strong>{{ client.workers|length }}</strong> Personnel On-Site
-                    </div>
-
-                    <a href="{{ url_for('manage_workers', client_id=client.id) }}" class="btn-enroll btn-contractor">
-                        View Worker Registry
-                    </a>
-                </div>
+{% if clients %}
+<div class="ll-grid ll-grid--3">
+    {% for client in clients %}
+    <div class="ll-card" style="border-top: 4px solid var(--coffee-tan); padding: var(--space-lg); display: flex; flex-direction: column;">
+        <div style="margin-bottom: var(--space-sm);">
+            <div class="ll-icon-wrap" style="width: 42px; height: 42px; margin-bottom: var(--space-sm);">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon-tan"><rect x="2" y="7" width="20" height="14" rx="2" ry="2"></rect><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path></svg>
             </div>
         </div>
-        {% endfor %}
-        {% else %}
-        <div class="col-12 text-center py-5"
-            style="background: rgba(255,255,255,0.5); border: 2px dashed var(--border-muted); border-radius: 8px;">
-            <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="text-muted mb-3"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"></path></svg>
-            <h3 class="fw-bold mt-3">No active sites found</h3>
-            <p class="text-muted">You haven't added any client projects yet. Start by creating a new site registry.</p>
-            <a href="{{ url_for('add_client') }}" class="text-muted mt-3 d-inline-block" style="text-decoration: none; color: var(--coffee-tan) !important; font-weight: 600;">Click here to add your first site</a>
+        <h4 style="font-weight: 700; margin-bottom: 0.25rem;">{{ client.name }}</h4>
+        <p style="color: var(--text-secondary); font-size: var(--text-sm); margin-bottom: var(--space-md); display: flex; align-items: center; gap: 0.3em;">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
+            {{ client.location if client.location else 'Location not set' }}
+        </p>
+
+        <div style="margin-top: auto;">
+            <div style="display: flex; align-items: baseline; gap: 0.4em; margin-bottom: var(--space-md);">
+                <span style="font-size: var(--text-2xl); font-family: var(--font-mono); font-weight: 700; color: var(--coffee-tan);">{{ client.workers|length }}</span>
+                <span style="font-size: var(--text-xs); color: var(--text-secondary); text-transform: uppercase; letter-spacing: 0.06em;">Personnel On-Site</span>
+            </div>
+            <a href="{{ url_for('manage_workers', client_id=client.id) }}" class="ll-btn ll-btn--primary ll-btn--full">
+                View Worker Registry
+            </a>
         </div>
-        {% endif %}
     </div>
+    {% endfor %}
 </div>
+{% else %}
+<div class="ll-empty">
+    <div class="ll-empty__icon">
+        <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"></path></svg>
+    </div>
+    <h3 class="ll-empty__title">No active sites found</h3>
+    <p class="ll-empty__body">You haven't added any client projects yet. Start by creating a new site registry.</p>
+    <a href="{{ url_for('add_client') }}" class="ll-btn ll-btn--primary" style="margin-top: var(--space-md);">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+        Add Your First Site
+    </a>
+</div>
+{% endif %}
 {% endblock %}

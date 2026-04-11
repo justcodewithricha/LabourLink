@@ -18,13 +18,6 @@ class Client(db.Model):
     # Relationship: One Client can have many Workers
     workers = db.relationship('Worker', backref='client_site', lazy=True)
 
-class Client(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(100), nullable=False)
-    location = db.Column(db.String(200))
-    contractor_id = db.Column(db.Integer, db.ForeignKey('user.id'))
-    # Relationship: One Client can have many Workers
-    workers = db.relationship('Worker', backref='client_site', lazy=True)
 
 class Project(db.Model):
     id = db.Column(db.Integer, primary_key=True)

@@ -1,17 +1,25 @@
 {% extends "base.html" %}
 
-{% block head %}
-<link rel="stylesheet" href="{{ url_for('static', filename='css/contractor.css') }}">
-{% endblock %}
+{% block title %}Attendance — LabourLink{% endblock %}
 
 {% block content %}
-<div class="card shadow">
-    <div class="card-header bg-primary text-white">
-        <h3 class="mb-0">Daily Attendance - {{ date }}</h3>
+<!-- Page Header -->
+<div class="ll-page-header">
+    <div>
+        <h1 class="ll-page-header__title">Attendance Register</h1>
+        <p class="ll-page-header__subtitle">Mark daily attendance for all registered workers.</p>
     </div>
-    <div class="card-body">
+    <span class="ll-badge ll-badge--tan">{{ date }}</span>
+</div>
+
+<div class="ll-card" style="overflow: hidden;">
+    <div class="ll-card-header">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
+        Daily Attendance — {{ date }}
+    </div>
+    <div class="ll-card-body" style="padding: 0;">
         <form method="POST">
-            <table class="table table-hover">
+            <table class="ll-table">
                 <thead>
                     <tr>
                         <th>Worker Name</th>
@@ -22,22 +30,26 @@
                 <tbody>
                     {% for worker in workers %}
                     <tr>
-                        <td>{{ worker.name }}</td>
-                        <td><span class="badge bg-secondary">{{ worker.role }}</span></td>
+                        <td class="ll-worker-name">{{ worker.name }}</td>
+                        <td><span class="ll-badge ll-badge--muted">{{ worker.role }}</span></td>
                         <td>
-                            <div class="btn-group" role="group">
-                                <input type="radio" class="btn-check" name="status_{{ worker.id }}" id="present_{{ worker.id }}" value="Present" checked>
-                                <label class="btn btn-outline-success" for="present_{{ worker.id }}">Present</label>
+                            <div class="ll-toggle-group">
+                                <input type="radio" name="status_{{ worker.id }}" id="present_{{ worker.id }}" value="Present" checked>
+                                <label for="present_{{ worker.id }}">Present</label>
 
-                                <input type="radio" class="btn-check" name="status_{{ worker.id }}" id="absent_{{ worker.id }}" value="Absent">
-                                <label class="btn btn-outline-danger" for="absent_{{ worker.id }}">Absent</label>
+                                <input type="radio" name="status_{{ worker.id }}" id="absent_{{ worker.id }}" value="Absent">
+                                <label for="absent_{{ worker.id }}">Absent</label>
                             </div>
                         </td>
                     </tr>
                     {% endfor %}
                 </tbody>
             </table>
-            <button type="submit" class="btn btn-primary w-100 mt-3">Save Attendance</button>
+            <div style="padding: var(--space-lg);">
+                <button type="submit" class="ll-btn ll-btn--primary ll-btn--full" style="padding: 0.85em 1.6em;">
+                    Save Attendance
+                </button>
+            </div>
         </form>
     </div>
 </div>

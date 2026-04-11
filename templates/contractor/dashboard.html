@@ -1,95 +1,101 @@
 {% extends "base.html" %}
 
+{% block title %}Contractor Dashboard — LabourLink{% endblock %}
+
 {% block content %}
-<div class="container py-4">
-    <div class="row mb-4">
-        <div class="col">
-            <h2 class="fw-bold">Contractor Management Hub</h2>
-            <p class="text-muted">Welcome back! Here is your workforce overview.</p>
-        </div>
-    </div>
-
-    <div class="row g-4 mb-5 text-center">
-        <div class="col-md-3">
-            <div class="card border-0 shadow-sm h-100 py-4 bg-light hover-shadow">
-                <div class="card-body d-flex flex-column align-items-center">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" fill="#0d6efd" class="mb-3" viewBox="0 0 16 16">
-                        <path d="M14.5 3a.5.5 0 0 1 .5.5v9a.5.5 0 0 1-.5.5h-13a.5.5 0 0 1-.5-.5v-9a.5.5 0 0 1 .5-.5zm-13-1A1.5 1.5 0 0 0 0 3.5v9A1.5 1.5 0 0 0 1.5 14h13a1.5 1.5 0 0 0 1.5-1.5v-9A1.5 1.5 0 0 0 14.5 2z"/>
-                        <path d="M7 5.5a.5.5 0 0 1 .5-.5h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1-.5-.5m-1.496-.854a.5.5 0 0 1 0 .708l-1.5 1.5a.5.5 0 0 1-.708 0l-.5-.5a.5.5 0 1 1 .708-.708l.146.147 1.146-1.147a.5.5 0 0 1 .708 0M7 9.5a.5.5 0 0 1 .5-.5h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1-.5-.5m-1.496-.854a.5.5 0 0 1 0 .708l-1.5 1.5a.5.5 0 0 1-.708 0l-.5-.5a.5.5 0 0 1 .708-.708l.146.147 1.146-1.147a.5.5 0 0 1 .708 0"/>
-                    </svg>
-                    <h5 class="fw-bold">Attendance</h5>
-                    <p class="small text-muted mb-3">Track daily worker logs</p>
-                    <a href="/contractor/attendance" class="btn btn-sm btn-primary mt-auto stretched-link">Mark Today</a>
-                </div>
-            </div>
-        </div>
-
-        <div class="col-md-3">
-            <div class="card border-0 shadow-sm h-100 py-4 bg-light hover-shadow">
-                <div class="card-body d-flex flex-column align-items-center">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" fill="#212529" class="mb-3" viewBox="0 0 16 16">
-                        <path d="M6.5 1A1.5 1.5 0 0 0 5 2.5V3H1.5A1.5 1.5 0 0 0 0 4.5v8A1.5 1.5 0 0 0 1.5 14h13a1.5 1.5 0 0 0 1.5-1.5v-8A1.5 1.5 0 0 0 14.5 3H11v-.5A1.5 1.5 0 0 0 9.5 1zm0 1h3a.5.5 0 0 1 .5.5V3H6v-.5a.5.5 0 0 1 .5-.5M14 4.5v8a.5.5 0 0 1-.5.5h-13a.5.5 0 0 1-.5-.5v-8a.5.5 0 0 1 .5-.5h13a.5.5 0 0 1 .5.5"/>
-                    </svg>
-                    <h5 class="fw-bold">Manage Clients</h5>
-                    <p class="small text-muted mb-3">Site locations & pools</p>
-                    <a href="{{ url_for('manage_clients') }}" class="btn btn-sm btn-dark mt-auto stretched-link">View Sites</a>
-                </div>
-            </div>
-        </div>
-
-        <div class="col-md-3">
-            <div class="card border-0 shadow-sm h-100 py-4 bg-light">
-                <div class="card-body d-flex flex-column align-items-center text-muted">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" fill="#6c757d" class="mb-3" viewBox="0 0 16 16">
-                        <path d="M0 4a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2zm2-1a1 1 0 0 0-1 1v1h14V4a1 1 0 0 0-1-1zm14 4H1v5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1z"/>
-                        <path d="M2 10a1 1 0 0 1 1-1h1a1 1 0 0 1 1 1v1a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1z"/>
-                    </svg>
-                    <h5 class="fw-bold">Payment</h5>
-                    <p class="small text-muted mb-3">Payroll & invoices</p>
-                    <span class="badge bg-secondary mt-auto">Coming Soon</span>
-                </div>
-            </div>
-        </div>
-
-        <div class="col-md-3">
-            <div class="card border-0 shadow-sm h-100 py-4 bg-light hover-shadow">
-                <div class="card-body d-flex flex-column align-items-center">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" fill="#0d6efd" class="mb-3" viewBox="0 0 16 16">
-                        <path d="M11 2a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1h-2a1 1 0 0 1-1-1zm1 12h2V2h-2zm-4-7a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v7a1 1 0 0 1-1 1H9a1 1 0 0 1-1-1zm1 7h2V7H9zm-4-5a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v2a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1zm1 2h2v-2H5z"/>
-                    </svg>
-                    <h5 class="fw-bold">Analytics</h5>
-                    <p class="small text-muted mb-3">Performance stats</p>
-                    <a href="#analytics-section" class="btn btn-sm btn-primary mt-auto stretched-link">View Stats</a>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div id="analytics-section" class="row mb-5">
-        <div class="col-md-8 mx-auto">
-            <div class="card shadow-sm border-0">
-                <div class="card-header bg-white fw-bold">Weekly Attendance Trend</div>
-                <div class="card-body">
-                    <canvas id="attendanceChart"></canvas>
-                </div>
-            </div>
-        </div>
+<!-- Page Header -->
+<div class="ll-page-header">
+    <div>
+        <h1 class="ll-page-header__title">Contractor Management Hub</h1>
+        <p class="ll-page-header__subtitle">Welcome back! Here is your workforce overview.</p>
     </div>
 </div>
 
-<style>
-    .hover-shadow:hover {
-        transform: translateY(-5px);
-        transition: 0.3s ease-in-out;
-        box-shadow: 0 10px 20px rgba(0,0,0,0.1) !important;
-    }
-</style>
+<!-- Stat Summary Strip -->
+<div style="display: flex; gap: var(--space-md); margin-bottom: var(--space-lg); flex-wrap: wrap;">
+    <div class="ll-stat-pill">
+        <span class="ll-stat-pill__value">{{ total_workers }}</span> Total Workers
+    </div>
+    <div class="ll-stat-pill">
+        <span class="ll-stat-pill__value">{{ total_clients }}</span> Client Sites
+    </div>
+    <div class="ll-stat-pill">
+        Present Today: <span class="ll-stat-pill__value">{{ today_present }}</span>
+    </div>
+</div>
 
+<!-- Quick Action Cards -->
+<div class="ll-grid ll-grid--4" style="margin-bottom: var(--space-xl);">
+    <!-- Attendance -->
+    <a href="/contractor/attendance" class="ll-card" style="text-decoration: none; color: inherit; padding: var(--space-lg); text-align: center; display: flex; flex-direction: column; align-items: center;">
+        <div class="ll-icon-wrap" style="margin-bottom: var(--space-md);">
+            <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" fill="currentColor" viewBox="0 0 16 16">
+                <path d="M14.5 3a.5.5 0 0 1 .5.5v9a.5.5 0 0 1-.5.5h-13a.5.5 0 0 1-.5-.5v-9a.5.5 0 0 1 .5-.5zm-13-1A1.5 1.5 0 0 0 0 3.5v9A1.5 1.5 0 0 0 1.5 14h13a1.5 1.5 0 0 0 1.5-1.5v-9A1.5 1.5 0 0 0 14.5 2z"/>
+                <path d="M7 5.5a.5.5 0 0 1 .5-.5h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1-.5-.5m-1.496-.854a.5.5 0 0 1 0 .708l-1.5 1.5a.5.5 0 0 1-.708 0l-.5-.5a.5.5 0 1 1 .708-.708l.146.147 1.146-1.147a.5.5 0 0 1 .708 0M7 9.5a.5.5 0 0 1 .5-.5h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1-.5-.5m-1.496-.854a.5.5 0 0 1 0 .708l-1.5 1.5a.5.5 0 0 1-.708 0l-.5-.5a.5.5 0 0 1 .708-.708l.146.147 1.146-1.147a.5.5 0 0 1 .708 0"/>
+            </svg>
+        </div>
+        <h5 style="font-weight: 700; font-size: var(--text-base); margin-bottom: 0.25rem;">Attendance</h5>
+        <p style="font-size: var(--text-sm); color: var(--text-secondary); margin-bottom: var(--space-md);">Track daily worker logs</p>
+        <span class="ll-btn ll-btn--primary ll-btn--sm" style="margin-top: auto;">Mark Today</span>
+    </a>
+
+    <!-- Manage Clients -->
+    <a href="{{ url_for('manage_clients') }}" class="ll-card" style="text-decoration: none; color: inherit; padding: var(--space-lg); text-align: center; display: flex; flex-direction: column; align-items: center;">
+        <div class="ll-icon-wrap" style="margin-bottom: var(--space-md);">
+            <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" fill="currentColor" viewBox="0 0 16 16">
+                <path d="M6.5 1A1.5 1.5 0 0 0 5 2.5V3H1.5A1.5 1.5 0 0 0 0 4.5v8A1.5 1.5 0 0 0 1.5 14h13a1.5 1.5 0 0 0 1.5-1.5v-8A1.5 1.5 0 0 0 14.5 3H11v-.5A1.5 1.5 0 0 0 9.5 1zm0 1h3a.5.5 0 0 1 .5.5V3H6v-.5a.5.5 0 0 1 .5-.5M14 4.5v8a.5.5 0 0 1-.5.5h-13a.5.5 0 0 1-.5-.5v-8a.5.5 0 0 1 .5-.5h13a.5.5 0 0 1 .5.5"/>
+            </svg>
+        </div>
+        <h5 style="font-weight: 700; font-size: var(--text-base); margin-bottom: 0.25rem;">Manage Clients</h5>
+        <p style="font-size: var(--text-sm); color: var(--text-secondary); margin-bottom: var(--space-md);">Site locations & pools</p>
+        <span class="ll-btn ll-btn--dark ll-btn--sm" style="margin-top: auto;">View Sites</span>
+    </a>
+
+    <!-- Payment (Coming Soon) -->
+    <div class="ll-card" style="padding: var(--space-lg); text-align: center; display: flex; flex-direction: column; align-items: center; opacity: 0.6;">
+        <div class="ll-icon-wrap" style="margin-bottom: var(--space-md); background: rgba(28,25,25,0.06);">
+            <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" fill="currentColor" viewBox="0 0 16 16" style="color: var(--text-muted);">
+                <path d="M0 4a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2zm2-1a1 1 0 0 0-1 1v1h14V4a1 1 0 0 0-1-1zm14 4H1v5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1z"/>
+                <path d="M2 10a1 1 0 0 1 1-1h1a1 1 0 0 1 1 1v1a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1z"/>
+            </svg>
+        </div>
+        <h5 style="font-weight: 700; font-size: var(--text-base); margin-bottom: 0.25rem;">Payment</h5>
+        <p style="font-size: var(--text-sm); color: var(--text-muted); margin-bottom: var(--space-md);">Payroll & invoices</p>
+        <span class="ll-badge ll-badge--muted" style="margin-top: auto;">Coming Soon</span>
+    </div>
+
+    <!-- Analytics -->
+    <a href="#analytics-section" class="ll-card" style="text-decoration: none; color: inherit; padding: var(--space-lg); text-align: center; display: flex; flex-direction: column; align-items: center;">
+        <div class="ll-icon-wrap" style="margin-bottom: var(--space-md);">
+            <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" fill="currentColor" viewBox="0 0 16 16">
+                <path d="M11 2a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1h-2a1 1 0 0 1-1-1zm1 12h2V2h-2zm-4-7a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v7a1 1 0 0 1-1 1H9a1 1 0 0 1-1-1zm1 7h2V7H9zm-4-5a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v2a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1zm1 2h2v-2H5z"/>
+            </svg>
+        </div>
+        <h5 style="font-weight: 700; font-size: var(--text-base); margin-bottom: 0.25rem;">Analytics</h5>
+        <p style="font-size: var(--text-sm); color: var(--text-secondary); margin-bottom: var(--space-md);">Performance stats</p>
+        <span class="ll-btn ll-btn--primary ll-btn--sm" style="margin-top: auto;">View Stats</span>
+    </a>
+</div>
+
+<!-- Analytics Chart Section -->
+<div id="analytics-section">
+    <div class="ll-card" style="overflow: hidden;">
+        <div class="ll-card-header">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"></polyline></svg>
+            Weekly Attendance Trend
+        </div>
+        <div class="ll-card-body">
+            <canvas id="attendanceChart" style="max-height: 260px;"></canvas>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script>
     const ctx = document.getElementById('attendanceChart').getContext('2d');
     
-    // Safely inject the Python data directly into our JavaScript!
     const chartLabels = {{ labels | tojson | safe }};
     const chartData = {{ attendance_data | tojson | safe }};
 
@@ -100,20 +106,37 @@
             datasets: [{
                 label: 'Workers Present',
                 data: chartData,
-                // Changed the color to match your LabourLink Coffee Tan theme!
                 backgroundColor: 'rgba(175, 125, 97, 0.8)', 
                 borderRadius: 4
             }]
         },
         options: {
             responsive: true,
-            maintainAspectRatio: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: {
+                    labels: {
+                        font: { family: "'Inter', sans-serif", weight: '600' },
+                        color: '#6B6560'
+                    }
+                }
+            },
             scales: {
                 y: {
                     beginAtZero: true,
                     ticks: {
-                        stepSize: 1 // Forces the graph to use whole numbers (you can't have half a worker!)
-                    }
+                        stepSize: 1,
+                        font: { family: "'JetBrains Mono', monospace", size: 11 },
+                        color: '#9E9891'
+                    },
+                    grid: { color: 'rgba(232, 224, 213, 0.5)' }
+                },
+                x: {
+                    ticks: {
+                        font: { family: "'Inter', sans-serif", size: 12 },
+                        color: '#6B6560'
+                    },
+                    grid: { display: false }
                 }
             }
         }

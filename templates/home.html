@@ -1,48 +1,34 @@
 {% extends "base.html" %}
 
+{% block title %}LabourLink — Connect Builders & Contractors{% endblock %}
+{% block meta_description %}LabourLink is the modern platform to connect builders and contractors. Streamline project
+management, workforce attendance, and communication.{% endblock %}
+
 {% block content %}
-<div class="container py-5 d-flex flex-column justify-content-center align-items-center" style="min-height: 70vh;">
-    <div class="text-center animate__animated animate__fadeInUp">
-        <h1 class="display-3 fw-bold mb-4">
-            Build Better with <span class="text-accent">LabourLink</span>
+<div
+    style="display: flex; flex-direction: column; justify-content: center; align-items: center; min-height: 65vh; text-align: center;">
+    <div class="animate-fade-in-up">
+        <h1
+            style="font-size: var(--text-hero); font-weight: 800; letter-spacing: -0.03em; margin-bottom: var(--space-md); color: var(--text-primary); display: flex; flex-direction: column; align-items: center; gap: var(--space-md);">
+            <img src="{{ url_for('static', filename='images/logo.png') }}" alt="LabourLink Logo" style="height: 120px; width: auto; filter: brightness(0) invert(0);">
+            Build Better with <span class="text-coffee">LabourLink</span>
         </h1>
-        <p class="lead text-muted mb-5 mx-auto" style="max-width: 700px; font-size: 1.25rem;">
-            The modern platform to connect builders and contractors. Streamline your project management, workforce attendance, and communication all in one place.
+        <p
+            style="font-size: var(--text-lg); color: var(--text-secondary); margin-bottom: var(--space-xl); max-width: 700px; margin-left: auto; margin-right: auto; line-height: 1.7;">
+            The modern platform to connect builders and contractors. Streamline your project management, workforce
+            attendance, and communication all in one place.
         </p>
-        
-        <div class="d-flex gap-3 justify-content-center flex-wrap">
-            <a href="{{ url_for('select_role') }}" class="btn btn-primary btn-lg px-5 py-3 fw-bold shadow-sm" style="background-color: var(--coffee-tan); border-color: var(--coffee-tan);">
+
+        <div style="display: flex; gap: var(--space-md); justify-content: center; flex-wrap: wrap;">
+            <a href="{{ url_for('select_role') }}" class="ll-btn ll-btn--primary"
+                style="padding: 0.85em 2.5em; font-size: var(--text-base);">
                 Get Started
             </a>
-            <a href="{{ url_for('login') }}" class="btn btn-outline-dark btn-lg px-5 py-3 fw-bold shadow-sm">
+            <a href="{{ url_for('login') }}" class="ll-btn ll-btn--ghost"
+                style="padding: 0.85em 2.5em; font-size: var(--text-base); border-color: var(--deep-charcoal); color: var(--deep-charcoal);">
                 Login
             </a>
         </div>
     </div>
 </div>
-
-<style>
-    .text-accent { color: var(--coffee-tan); }
-    .btn-primary:hover {
-        background-color: #9A684D !important;
-        border-color: #9A684D !important;
-        transform: translateY(-2px);
-    }
-    .btn-outline-dark:hover {
-        background-color: var(--deep-charcoal);
-        color: var(--highlight-white);
-        transform: translateY(-2px);
-    }
-    .btn {
-        transition: all 0.3s ease;
-        border-radius: 6px;
-    }
-    @keyframes fadeInUp {
-        from { opacity: 0; transform: translateY(20px); }
-        to { opacity: 1; transform: translateY(0); }
-    }
-    .animate__fadeInUp {
-        animation: fadeInUp 0.8s ease-out;
-    }
-</style>
 {% endblock %}

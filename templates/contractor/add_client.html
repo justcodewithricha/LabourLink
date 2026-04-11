@@ -1,49 +1,38 @@
 {% extends "base.html" %}
 
+{% block title %}Add New Site — LabourLink{% endblock %}
+
 {% block content %}
-<div class="container py-5 d-flex justify-content-center">
-    <div class="card shadow-sm border-0 p-5" style="max-width: 600px; width: 100%;">
-        <div class="text-center mb-4">
-            <svg width="56" height="56" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-primary mb-3"><rect x="2" y="7" width="20" height="14" rx="2" ry="2"></rect><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path></svg>
-            <h2 class="fw-bold mt-3">Register New Site</h2>
-            <p class="text-muted">Enter the details of your new client project site.</p>
+<div style="max-width: 600px; margin: 0 auto;">
+    <div class="ll-card" style="border-top: 4px solid var(--coffee-tan); padding: var(--space-xl);">
+        <div class="text-center" style="margin-bottom: var(--space-lg);">
+            <div class="ll-icon-wrap" style="width: 64px; height: 64px; margin: 0 auto var(--space-md);">
+                <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon-tan"><rect x="2" y="7" width="20" height="14" rx="2" ry="2"></rect><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path></svg>
+            </div>
+            <h2 style="font-size: var(--text-2xl); font-weight: 800; margin-bottom: 0.25rem;">Register New Site</h2>
+            <p style="color: var(--text-secondary); font-size: var(--text-sm);">Enter the details of your new client project site.</p>
         </div>
 
         <form action="{{ url_for('add_client') }}" method="POST">
-            <div class="mb-4">
-                <label class="form-label fw-bold small text-uppercase">Client / Company Name</label>
-                <input type="text" name="name" class="form-control tech-input" placeholder="e.g., Adani Realty"
-                    required>
+            <div class="ll-field">
+                <label class="ll-label">Client / Company Name</label>
+                <input type="text" name="name" class="ll-input" placeholder="e.g., Adani Realty" required>
             </div>
 
-            <div class="mb-4">
-                <label class="form-label fw-bold small text-uppercase">Project Location</label>
-                <input type="text" name="location" class="form-control tech-input" placeholder="e.g., Worli, Mumbai"
-                    required>
+            <div class="ll-field">
+                <label class="ll-label">Project Location</label>
+                <input type="text" name="location" class="ll-input" placeholder="e.g., Worli, Mumbai" required>
             </div>
 
-            <div class="d-grid gap-2 mt-5">
-                <button type="submit" class="btn-enroll btn-contractor py-3">Create Site Registry</button>
-                <a href="{{ url_for('manage_clients') }}" class="text-center mt-2 text-muted"
-                    style="font-size: 0.9rem; text-decoration: none;">Cancel and Go Back</a>
-            </div>
+            <div class="hazard-stripe"></div>
+
+            <button type="submit" class="ll-btn ll-btn--primary ll-btn--full" style="padding: 0.85em 1.6em; margin-bottom: var(--space-sm);">
+                Create Site Registry
+            </button>
+            <a href="{{ url_for('manage_clients') }}" class="ll-back-link" style="display: flex; justify-content: center; padding: var(--space-sm);">
+                Cancel and Go Back
+            </a>
         </form>
     </div>
 </div>
-
-<style>
-    .tech-input {
-        background-color: var(--bg-warm-beige) !important;
-        border: 1px solid var(--border-muted) !important;
-        border-radius: 2px !important;
-        padding: 12px !important;
-        color: var(--deep-charcoal) !important;
-    }
-
-    .tech-input:focus {
-        border-color: var(--coffee-tan) !important;
-        outline: none !important;
-        box-shadow: 0 0 0 3px rgba(175, 125, 97, 0.1) !important;
-    }
-</style>
 {% endblock %}

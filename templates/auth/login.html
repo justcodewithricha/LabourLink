@@ -1,79 +1,77 @@
 {% extends "base.html" %}
 
+{% set no_container = True %}
+{% set hide_navbar = True %}
+
+{% block title %}Login — LabourLink{% endblock %}
+
 {% block content %}
-<div class="container py-5 d-flex justify-content-center animate__animated animate__fadeIn">
-    <div class="labour-card shadow-sm p-4 p-md-5" style="max-width: 450px; width: 100%; background-color: white; border-radius: 8px;">
-        
-        <div class="text-center mb-4">
-            <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" fill="currentColor" class="mb-3" viewBox="0 0 16 16" style="color: var(--deep-charcoal);">
-              <path d="M8 1a2 2 0 0 1 2 2v4H6V3a2 2 0 0 1 2-2zm3 6V3a3 3 0 0 0-6 0v4a2 2 0 0 0-2 2v5a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2zM5 8h6a1 1 0 0 1 1 1v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V9a1 1 0 0 1 1-1z"/>
-            </svg>
-            <h2 class="fw-bold" style="color: var(--deep-charcoal);">Login</h2>
-            <p class="text-muted">Enter your credentials to access your dashboard.</p>
+<div class="auth-split">
+    <!-- Left Brand Panel -->
+    <div class="auth-brand-panel">
+        <div class="auth-brand-panel__logo" style="margin-bottom: var(--space-xl); display: flex; justify-content: center;">
+            <img src="{{ url_for('static', filename='images/logo.png') }}" alt="LabourLink Logo" style="height: 120px; width: auto; filter: brightness(0) invert(1);">
         </div>
+        <p style="font-size: var(--text-lg); color: rgba(242,235,224,0.85); line-height: 1.6; margin-bottom: 0;">
+            Your construction workforce — organized, tracked, and optimized.
+        </p>
+        <ul class="auth-brand-panel__features">
+            <li>
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>
+                Manage Your Workforce
+            </li>
+            <li>
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>
+                Real-time Attendance Tracking
+            </li>
+            <li>
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>
+                Site Dashboard & Analytics
+            </li>
+        </ul>
+    </div>
 
-        {% with messages = get_flashed_messages() %}
-            {% if messages %}
-                {% for message in messages %}
-                    <div class="alert alert-warning py-2 mb-4 shadow-sm border-0" style="border-left: 5px solid var(--coffee-tan) !important; border-radius: 2px; font-size: 0.9rem; background-color: #fdfaf6;">
-                        {{ message }}
-                    </div>
-                {% endfor %}
-            {% endif %}
-        {% endwith %}
-
-        <form action="{{ url_for('login') }}" method="POST">
+    <!-- Right Form Panel -->
+    <div class="auth-form-panel">
+        <div class="auth-form-panel__inner animate-fade-in-up">
             <div class="mb-4">
-                <label class="form-label fw-bold small text-uppercase" style="color: var(--deep-charcoal); letter-spacing: 0.5px;">Username</label>
-                <input type="text" name="username" class="form-control tech-input" placeholder="Enter your username" required>
+                <!-- Mobile-only brand mark -->
+                <div class="d-md-none text-center mb-4">
+                    <span style="font-size: var(--text-2xl); font-weight: 800; color: var(--coffee-tan);">LabourLink</span>
+                </div>
+                <h2 style="font-size: var(--text-2xl); font-weight: 800; color: var(--text-primary); margin-bottom: 0.25rem;">Welcome back</h2>
+                <p style="font-size: var(--text-sm); color: var(--text-secondary);">Enter your credentials to access your dashboard.</p>
             </div>
 
-            <div class="mb-5">
-                <label class="form-label fw-bold small text-uppercase" style="color: var(--deep-charcoal); letter-spacing: 0.5px;">Password</label>
-                <input type="password" name="password" class="form-control tech-input" placeholder="••••••••" required>
-            </div>
+            {% with messages = get_flashed_messages() %}
+                {% if messages %}
+                    {% for message in messages %}
+                        <div class="ll-alert ll-alert--warning">{{ message }}</div>
+                    {% endfor %}
+                {% endif %}
+            {% endwith %}
 
-            <button type="submit" class="btn-enroll w-100 py-3 shadow-sm mb-3 fw-bold transition-hover" style="background-color: var(--deep-charcoal); color: white; border: none; letter-spacing: 1px;">
-                LOGIN TO LABOURLINK
-            </button>
-            
-            <div class="text-center mt-4">
-                <span class="text-muted small">New here? </span>
-                <a href="{{ url_for('select_role') }}" class="fw-bold hover-link" style="color: var(--coffee-tan); text-decoration: none; transition: color 0.2s;">Pick a role to Sign Up</a>
-            </div>
-        </form>
+            <form action="{{ url_for('login') }}" method="POST">
+                <div class="ll-field">
+                    <label class="ll-label">Username</label>
+                    <input type="text" name="username" class="ll-input" placeholder="Enter your username" required>
+                </div>
+
+                <div class="ll-field" style="margin-bottom: var(--space-lg);">
+                    <label class="ll-label">Password</label>
+                    <input type="password" name="password" class="ll-input" placeholder="••••••••" required>
+                </div>
+
+                <button type="submit" class="ll-btn ll-btn--dark ll-btn--full" style="padding: 0.85em 1.6em;">
+                    LOGIN TO LABOURLINK
+                </button>
+                
+                <div class="text-center mt-4">
+                    <span style="font-size: var(--text-sm); color: var(--text-secondary);">New here? </span>
+                    <a href="{{ url_for('select_role') }}" style="font-weight: 600; color: var(--coffee-tan); text-decoration: none; font-size: var(--text-sm);">Pick a role to Sign Up</a>
+                </div>
+            </form>
+        </div>
     </div>
 </div>
-
-<style>
-    /* Technical input styling */
-    .tech-input {
-        background-color: var(--sand-bg, #FAF6F0) !important;
-        border: 1px solid var(--border-muted, #D1D1D1) !important;
-        border-radius: 4px !important;
-        padding: 12px 15px !important;
-        transition: all 0.2s ease;
-    }
-    
-    .tech-input:focus {
-        border-color: var(--coffee-tan, #A67B5B) !important;
-        box-shadow: 0 0 0 3px rgba(166, 123, 91, 0.15) !important;
-        outline: none;
-    }
-
-    /* Snappy hover effects */
-    .transition-hover {
-        transition: transform 0.2s ease, box-shadow 0.2s ease;
-    }
-    
-    .transition-hover:hover {
-        transform: translateY(-2px);
-        box-shadow: 0 6px 12px rgba(0,0,0,0.1) !important;
-    }
-
-    .hover-link:hover {
-        color: var(--deep-charcoal) !important;
-        text-decoration: underline !important;
-    }
-</style>
 {% endblock %}

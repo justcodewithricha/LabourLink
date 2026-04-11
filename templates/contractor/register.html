@@ -1,107 +1,85 @@
 {% extends "base.html" %}
 
+{% block title %}Register Worker — LabourLink{% endblock %}
+
 {% block content %}
-<div class="row justify-content-center py-5">
-    <div class="col-md-7">
-        <div class="card shadow-sm border-0 p-4 p-md-5">
-            <div class="text-center mb-4">
-                <svg width="56" height="56" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-primary mb-3"><path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="8.5" cy="7" r="4"></circle><line x1="20" y1="8" x2="20" y2="14"></line><line x1="23" y1="11" x2="17" y2="11"></line></svg>
-                <h2 class="fw-bold mt-2">Register New Worker</h2>
-                <p class="text-muted">Fill in the details to add a worker to your site registry.</p>
+<div style="max-width: 640px; margin: 0 auto;">
+    <div class="ll-card" style="border-top: 4px solid var(--coffee-tan); padding: var(--space-xl);">
+        <div class="text-center" style="margin-bottom: var(--space-lg);">
+            <div class="ll-icon-wrap" style="width: 64px; height: 64px; margin: 0 auto var(--space-md);">
+                <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon-tan"><path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="8.5" cy="7" r="4"></circle><line x1="20" y1="8" x2="20" y2="14"></line><line x1="23" y1="11" x2="17" y2="11"></line></svg>
             </div>
-
-            {% with messages = get_flashed_messages() %}
-            {% if messages %}
-            {% for message in messages %}
-            <div class="alert alert-warning py-2 mb-4 border-0 shadow-sm"
-                style="border-left: 5px solid var(--coffee-tan) !important; border-radius: 2px; font-size: 0.9rem;">
-                {{ message }}
-            </div>
-            {% endfor %}
-            {% endif %}
-            {% endwith %}
-
-            <form action="{{ url_for('register_worker') }}" method="POST">
-
-                <div class="mb-4">
-                    <label class="form-label fw-bold small text-uppercase">Full Name</label>
-                    <input type="text" name="name" class="form-control tech-input" placeholder="e.g. Ramesh Kumar"
-                        required>
-                </div>
-
-                <div class="mb-4">
-                    <label class="form-label fw-bold small text-uppercase">Assign to Project Site</label>
-                    <select name="client_id" class="form-select tech-input" required>
-                        <option value="" disabled selected>Select a Client Location</option>
-                        {% for client in clients %}
-                        <option value="{{ client.id }}">{{ client.name }} ({{ client.location }})</option>
-                        {% endfor %}
-                    </select>
-                    <small class="text-muted">Which site is this worker currently assigned to?</small>
-                </div>
-
-                <div class="row">
-                    <div class="col-md-7 mb-4">
-                        <label class="form-label fw-bold small text-uppercase">Aadhar Number</label>
-                        <input type="text" name="aadhar" class="form-control tech-input" maxlength="12"
-                            placeholder="12-digit UIDAI number" inputmode="numeric"
-                            oninput="this.value = this.value.replace(/[^0-9]/g, '');" required>
-                    </div>
-                    <div class="col-md-5 mb-4">
-                        <label class="form-label fw-bold small text-uppercase">Gender</label>
-                        <select name="gender" class="form-select tech-input">
-                            <option value="Male">Male</option>
-                            <option value="Female">Female</option>
-                            <option value="Other">Other</option>
-                        </select>
-                    </div>
-                </div>
-
-                <div class="mb-4">
-                    <label class="form-label fw-bold small text-uppercase">Phone Number</label>
-                    <input type="text" name="phone" class="form-control tech-input" placeholder="10-digit mobile number"
-                        maxlength="10" inputmode="numeric" oninput="this.value = this.value.replace(/[^0-9]/g, '');"
-                        required>
-                    <small class="text-muted">Primary contact for site coordination.</small>
-                </div>
-
-                <div class="mb-5">
-                    <label class="form-label fw-bold small text-uppercase">Work Specialization</label>
-                    <select name="role" class="form-select tech-input">
-                        <option value="Mason">Mason</option>
-                        <option value="Carpenter">Carpenter</option>
-                        <option value="Electrician">Electrician</option>
-                        <option value="Plumber">Plumber</option>
-                        <option value="Labourer">General Labourer</option>
-                    </select>
-                </div>
-
-                <div class="d-grid gap-2">
-                    <button type="submit" class="btn-enroll btn-contractor py-3 shadow-sm">
-                        Save Worker Profile & Assign Site
-                    </button>
-                    <a href="{{ url_for('contractor_dashboard') }}" class="text-center mt-2 text-muted"
-                        style="font-size: 0.85rem; text-decoration: none;">Cancel and Go Back</a>
-                </div>
-            </form>
+            <h2 style="font-size: var(--text-2xl); font-weight: 800; margin-bottom: 0.25rem;">Register New Worker</h2>
+            <p style="color: var(--text-secondary); font-size: var(--text-sm);">Fill in the details to add a worker to your site registry.</p>
         </div>
+
+        {% with messages = get_flashed_messages() %}
+        {% if messages %}
+        {% for message in messages %}
+        <div class="ll-alert ll-alert--warning">{{ message }}</div>
+        {% endfor %}
+        {% endif %}
+        {% endwith %}
+
+        <form action="{{ url_for('register_worker') }}" method="POST">
+            <div class="ll-field">
+                <label class="ll-label">Full Name</label>
+                <input type="text" name="name" class="ll-input" placeholder="e.g. Ramesh Kumar" required>
+            </div>
+
+            <div class="ll-field">
+                <label class="ll-label">Assign to Project Site</label>
+                <select name="client_id" class="ll-input" required>
+                    <option value="" disabled selected>Select a Client Location</option>
+                    {% for client in clients %}
+                    <option value="{{ client.id }}">{{ client.name }} ({{ client.location }})</option>
+                    {% endfor %}
+                </select>
+                <span class="ll-hint">Which site is this worker currently assigned to?</span>
+            </div>
+
+            <div class="ll-form-row">
+                <div class="ll-field">
+                    <label class="ll-label">Aadhar Number</label>
+                    <input type="text" name="aadhar" class="ll-input" maxlength="12" placeholder="12-digit UIDAI number" inputmode="numeric" oninput="this.value = this.value.replace(/[^0-9]/g, '');" required>
+                </div>
+                <div class="ll-field" style="min-width: 140px;">
+                    <label class="ll-label">Gender</label>
+                    <select name="gender" class="ll-input">
+                        <option value="Male">Male</option>
+                        <option value="Female">Female</option>
+                        <option value="Other">Other</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="ll-field">
+                <label class="ll-label">Phone Number</label>
+                <input type="text" name="phone" class="ll-input" placeholder="10-digit mobile number" maxlength="10" inputmode="numeric" oninput="this.value = this.value.replace(/[^0-9]/g, '');" required>
+                <span class="ll-hint">Primary contact for site coordination.</span>
+            </div>
+
+            <div class="ll-field" style="margin-bottom: var(--space-xl);">
+                <label class="ll-label">Work Specialization</label>
+                <select name="role" class="ll-input">
+                    <option value="Mason">Mason</option>
+                    <option value="Carpenter">Carpenter</option>
+                    <option value="Electrician">Electrician</option>
+                    <option value="Plumber">Plumber</option>
+                    <option value="Labourer">General Labourer</option>
+                </select>
+            </div>
+
+            <div class="hazard-stripe"></div>
+
+            <button type="submit" class="ll-btn ll-btn--primary ll-btn--full" style="padding: 0.85em 1.6em; margin-bottom: var(--space-sm);">
+                Save Worker Profile & Assign Site
+            </button>
+            <a href="{{ url_for('contractor_dashboard') }}" class="ll-back-link" style="display: flex; justify-content: center; padding: var(--space-sm);">
+                Cancel and Go Back
+            </a>
+        </form>
     </div>
 </div>
 
-<style>
-    .tech-input {
-        background-color: var(--bg-warm-beige) !important;
-        border: 1px solid var(--border-muted) !important;
-        border-radius: 2px !important;
-        padding: 12px 15px !important;
-        font-size: 0.95rem;
-        color: var(--deep-charcoal) !important;
-    }
-
-    .tech-input:focus {
-        border-color: var(--coffee-tan) !important;
-        box-shadow: 0 0 0 3px rgba(175, 125, 97, 0.1) !important;
-        outline: none;
-    }
-</style>
 {% endblock %}

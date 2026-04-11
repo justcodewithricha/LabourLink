@@ -1,26 +1,90 @@
 {% extends "base.html" %}
 
+{% set no_container = True %}
+{% set hide_navbar = True %}
+
+{% block title %}Join as {{ role|capitalize }} — LabourLink{% endblock %}
+
 {% block content %}
-<div class="row justify-content-center py-5">
-    <div class="col-md-5">
-        <div class="card shadow border-0 rounded-4">
-            <div class="card-body p-5">
-                <h2 class="fw-bold text-center">Join as a {{ role.capitalize() }}</h2>
-                <p class="text-center text-muted mb-4">Digitize your construction workflow today.</p>
-                
-                <form method="POST">
-                    <div class="mb-3">
-                        <label class="form-label">Username</label>
-                        <input type="text" name="username" class="form-control" required>
-                    </div>
-                    <div class="mb-4">
-                        <label class="form-label">Password</label>
-                        <input type="password" name="password" class="form-control" required>
-                    </div>
-                    <button type="submit" class="btn btn-primary w-100 btn-lg">Create Profile</button>
-                </form>
-                <p class="text-center mt-3">Already have an account? <a href="/login">Login here</a></p>
+<div class="auth-split">
+    <!-- Left Brand Panel -->
+    <div class="auth-brand-panel">
+        <div class="auth-brand-panel__logo" style="margin-bottom: var(--space-xl); display: flex; justify-content: center;">
+            <img src="{{ url_for('static', filename='images/logo.png') }}" alt="LabourLink Logo" style="height: 120px; width: auto; filter: brightness(0) invert(1);">
+        </div>
+        {% if role == 'builder' %}
+        <p style="font-size: var(--text-lg); color: rgba(242,235,224,0.85); line-height: 1.6;">
+            Post projects, hire contractors, and manage your construction sites — all in one platform.
+        </p>
+        <ul class="auth-brand-panel__features">
+            <li>
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg>
+                Post Job Requirements
+            </li>
+            <li>
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg>
+                Track Project Progress
+            </li>
+            <li>
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg>
+                Connect with Contractors
+            </li>
+        </ul>
+        {% else %}
+        <p style="font-size: var(--text-lg); color: rgba(242,235,224,0.85); line-height: 1.6;">
+            Streamline your workforce management, track attendance, and grow your contracting business.
+        </p>
+        <ul class="auth-brand-panel__features">
+            <li>
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg>
+                Register & Manage Workers
+            </li>
+            <li>
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg>
+                Daily Attendance Tracking
+            </li>
+            <li>
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg>
+                Multi-Site Client Management
+            </li>
+        </ul>
+        {% endif %}
+    </div>
+
+    <!-- Right Form Panel -->
+    <div class="auth-form-panel">
+        <div class="auth-form-panel__inner animate-fade-in-up">
+            <div class="mb-4">
+                <div class="d-md-none text-center mb-4">
+                    <span style="font-size: var(--text-2xl); font-weight: 800; color: var(--coffee-tan);">LabourLink</span>
+                </div>
+                <div class="ll-badge ll-badge--tan" style="margin-bottom: var(--space-sm);">{{ role|upper }}</div>
+                <h2 style="font-size: var(--text-2xl); font-weight: 800; color: var(--text-primary); margin-bottom: 0.25rem;">Create your account</h2>
+                <p style="font-size: var(--text-sm); color: var(--text-secondary);">Digitize your construction workflow today.</p>
             </div>
+
+            {% with messages = get_flashed_messages() %}
+                {% if messages %}
+                    {% for message in messages %}
+                        <div class="ll-alert ll-alert--warning">{{ message }}</div>
+                    {% endfor %}
+                {% endif %}
+            {% endwith %}
+
+            <form method="POST">
+                <div class="ll-field">
+                    <label class="ll-label">Username</label>
+                    <input type="text" name="username" class="ll-input" placeholder="Choose a username" required>
+                </div>
+                <div class="ll-field" style="margin-bottom: var(--space-lg);">
+                    <label class="ll-label">Password</label>
+                    <input type="password" name="password" class="ll-input" placeholder="Create a strong password" required>
+                </div>
+                <button type="submit" class="ll-btn ll-btn--primary ll-btn--full" style="padding: 0.85em 1.6em;">Create Profile</button>
+            </form>
+            <p class="text-center" style="margin-top: var(--space-lg); font-size: var(--text-sm); color: var(--text-secondary);">
+                Already have an account? <a href="{{ url_for('login') }}" style="color: var(--coffee-tan); font-weight: 600; text-decoration: none;">Login here</a>
+            </p>
         </div>
     </div>
 </div>

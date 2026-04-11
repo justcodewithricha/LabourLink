@@ -1,57 +1,58 @@
 {% extends "base.html" %}
 
+{% block title %}Select Your Role — LabourLink{% endblock %}
+
 {% block content %}
-<div class="container py-5 mt-4 animate__animated animate__fadeIn">
-    
-    <div class="text-center mb-5">
-        <h1 class="fw-bold display-4" style="color: var(--deep-charcoal);">Select Your Role</h1>
-        <p class="text-muted lead mt-3">Connect with the construction network by choosing how you operate.</p>
+<div class="text-center animate-fade-in-up" style="padding-top: var(--space-xl);">
+    <h1 style="font-size: var(--text-hero); font-weight: 800; color: var(--text-primary); margin-bottom: var(--space-xs);">
+        Select Your <span class="text-coffee">Role</span>
+    </h1>
+    <p style="font-size: var(--text-lg); color: var(--text-secondary); max-width: 600px; margin: 0 auto var(--space-xl);">
+        Connect with the construction network by choosing how you operate.
+    </p>
+</div>
+
+<div class="role-grid" style="max-width: 900px; margin: 0 auto;">
+    <!-- Builder Card (Dark) -->
+    <div class="role-card role-card--light" style="animation-delay: 0.1s;">
+        <div class="role-card__icon-wrap">
+            <!-- Prestigious Modern High-rise symbol for a 'Developer' identity -->
+            <svg width="42" height="42" viewBox="0 0 24 24" fill="none" stroke="var(--coffee-tan)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M2 22h20"/>
+                <path d="M6 22V10l4-2v14M10 22V4l4-2v20M14 22V12l4-2v12"/>
+                <path d="M10 6h1M10 9h1M10 12h1M10 15h1M10 18h1"/>
+                <path d="M6 13h1M6 16h1M6 19h1M14 15h1M14 18h1"/>
+            </svg>
+        </div>
+        <h3 class="role-card__title">I am a Builder</h3>
+        <p style="flex-grow: 1; margin-bottom: var(--space-lg); color: var(--text-secondary);">Post your projects, find reliable contractors, and manage your site requirements digitally.</p>
+        <a href="{{ url_for('signup', role='builder') }}" class="ll-btn ll-btn--primary ll-btn--full">
+            Enroll as Builder
+        </a>
     </div>
-    
-    <div class="row g-4 justify-content-center">
-        
-        <div class="col-md-5">
-            <div class="labour-card shadow-sm h-100 p-5 text-center transition-hover" style="background-color: white; border-radius: 8px; border-top: 4px solid var(--coffee-tan);">
-                <svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" fill="currentColor" class="mb-4" viewBox="0 0 16 16" style="color: var(--coffee-tan);">
-                  <path fill-rule="evenodd" d="M14.763.075A.5.5 0 0 1 15 .5v15a.5.5 0 0 1-.5.5h-3a.5.5 0 0 1-.5-.5V14h-1v1.5a.5.5 0 0 1-.5.5h-9a.5.5 0 0 1-.5-.5V10a.5.5 0 0 1 .342-.474L6 7.64V4.5a.5.5 0 0 1 .276-.447l8-4a.5.5 0 0 1 .487.022zM6 8.694 1 10.36V15h5V8.694zM7 15h2v-1.5a.5.5 0 0 1 .5-.5h2a.5.5 0 0 1 .5.5V15h2V1.309l-7 3.5V15z"/>
-                  <path d="M2 11h1v1H2v-1zm2 0h1v1H4v-1zm-2 2h1v1H2v-1zm2 0h1v1H4v-1zm4-4h1v1H8V9zm2 0h1v1h-1V9zm-2 2h1v1H8v-1zm2 0h1v1h-1v-1zm2-2h1v1h-1V9zm0 2h1v1h-1v-1zM8 7h1v1H8V7zm2 0h1v1h-1V7zm2 0h1v1h-1V7zM8 5h1v1H8V5zm2 0h1v1h-1V5zm2 0h1v1h-1V5zm0-2h1v1h-1V3z"/>
-                </svg>
-                
-                <h2 class="fw-bold mb-3" style="color: var(--deep-charcoal);">I am a Builder</h2>
-                <p class="text-muted mb-5" style="font-size: 1.05rem;">Post your projects, find reliable contractors, and manage your site requirements digitally.</p>
-                
-                <a href="{{ url_for('signup', role='builder') }}" class="btn-enroll w-100 py-3 fw-bold" style="background-color: var(--coffee-tan); color: white; border: none; letter-spacing: 1px; text-decoration: none;">
-                    ENROLL AS BUILDER
-                </a>
-            </div>
+
+    <!-- Contractor Card (Light) -->
+    <div class="role-card role-card--light" style="animation-delay: 0.2s;">
+        <div class="role-card__icon-wrap">
+            <svg width="42" height="42" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="color: var(--coffee-tan);">
+                <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+                <circle cx="9" cy="7" r="4"></circle>
+                <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+                <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+            </svg>
         </div>
-
-        <div class="col-md-5">
-            <div class="labour-card shadow-sm h-100 p-5 text-center transition-hover" style="background-color: white; border-radius: 8px; border-top: 4px solid var(--deep-charcoal);">
-                <svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" fill="currentColor" class="mb-4" viewBox="0 0 16 16" style="color: var(--deep-charcoal);">
-                  <path d="M15 14s1 0 1-1-1-4-5-4-5 3-5 4 1 1 1 1h8Zm-7.978-1A.261.261 0 0 1 7 12.996c.001-.264.167-1.03.76-1.72C8.312 10.629 9.282 10 11 10c1.717 0 2.687.63 3.24 1.276.593.69.758 1.457.76 1.72l-.008.002a.274.274 0 0 1-.014.002H7.022ZM11 7a2 2 0 1 0 0-4 2 2 0 0 0 0 4Zm3-2a3 3 0 1 1-6 0 3 3 0 0 1 6 0ZM6.936 9.28a5.88 5.88 0 0 0-1.23-.247A7.35 7.35 0 0 0 5 9c-4 0-5 3-5 4 0 .667.333 1 1 1h4.216A2.238 2.238 0 0 1 5 13c0-1.01.377-2.042 1.09-2.904.243-.294.526-.569.846-.816ZM4.92 10A5.493 5.493 0 0 0 4 13H1c0-.26.164-1.03.76-1.724.545-.636 1.492-1.256 3.16-1.275ZM1.5 5.5a3 3 0 1 1 6 0 3 3 0 0 1-6 0Zm3-2a2 2 0 1 0 0 4 2 2 0 0 0 0-4Z"/>
-                </svg>
-
-                <h2 class="fw-bold mb-3" style="color: var(--deep-charcoal);">I am a Contractor</h2>
-                <p class="text-muted mb-5" style="font-size: 1.05rem;">Manage your workforce, track daily attendance, and connect with builders for new opportunities.</p>
-                
-                <a href="{{ url_for('signup', role='contractor') }}" class="btn-enroll w-100 py-3 fw-bold" style="background-color: var(--deep-charcoal); color: white; border: none; letter-spacing: 1px; text-decoration: none;">
-                    ENROLL AS CONTRACTOR
-                </a>
-            </div>
-        </div>
-
+        <h3 class="role-card__title">I am a Contractor</h3>
+        <p style="flex-grow: 1; margin-bottom: var(--space-lg); color: var(--text-secondary);">Manage your workforce, track daily attendance, and connect with builders for new opportunities.</p>
+        <!-- Unified Button: Standardized to ll-btn--primary (tan) as requested -->
+        <a href="{{ url_for('signup', role='contractor') }}" class="ll-btn ll-btn--primary ll-btn--full">
+            Enroll as Contractor
+        </a>
     </div>
 </div>
 
-<style>
-    /* Subtle hover effect to make the cards feel interactive */
-    .transition-hover {
-        transition: transform 0.3s ease, box-shadow 0.3s ease;
-    }
-    .transition-hover:hover {
-        transform: translateY(-8px);
-        box-shadow: 0 15px 30px rgba(0,0,0,0.08) !important;
-    }
-</style>
+<div class="text-center" style="margin-top: var(--space-xl); padding-bottom: var(--space-xl);">
+    <p style="color: var(--text-secondary); font-size: var(--text-sm);">Already part of the network? 
+        <a href="{{ url_for('login') }}" style="color: var(--coffee-tan); font-weight: 600; text-decoration: none; border-bottom: 2px solid transparent; transition: var(--transition-fast);">Login here</a>
+    </p>
+</div>
 {% endblock %}
