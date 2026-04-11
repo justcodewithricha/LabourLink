@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="row justify-content-center py-5">
+    <div class="col-md-5">
+        <div class="card shadow border-0 rounded-4">
+            <div class="card-body p-5">
+                <h2 class="fw-bold text-center">Join as a {{ role.capitalize() }}</h2>
+                <p class="text-center text-muted mb-4">Digitize your construction workflow today.</p>
+                
+                <form method="POST">
+                    <div class="mb-3">
+                        <label class="form-label">Username</label>
+                        <input type="text" name="username" class="form-control" required>
+                    </div>
+                    <div class="mb-4">
+                        <label class="form-label">Password</label>
+                        <input type="password" name="password" class="form-control" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary w-100 btn-lg">Create Profile</button>
+                </form>
+                <p class="text-center mt-3">Already have an account? <a href="/login">Login here</a></p>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

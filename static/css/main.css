@@ -1,9 +1,9 @@
 /* --- LabourLink Premium Technical Palette (Coffee Refinement) --- */
 :root {
-  --bg-warm-beige: #F2EBE0;      /* Page Background */
-  --deep-charcoal: #1C1919;      /* Heaviest Element (Navbar, Footer, Text) */
-  --coffee-tan: #AF7D61;         /* Primary Action / Button Color */
-  --highlight-white: #FFFFFF;    /* Text on dark backgrounds */
+  --bg-warm-beige: #F2EBE0;
+  --deep-charcoal: #1C1919;
+  --coffee-tan: #AF7D61;
+  --highlight-white: #FFFFFF;
   --border-muted: #D1D1D1;
   --card-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
 }
@@ -14,183 +14,158 @@ body {
   font-family: 'Roboto', 'Segoe UI', system-ui, sans-serif;
   margin: 0;
   line-height: 1.6;
+  /* ADD THESE 3 LINES: */
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh; /* Forces the body to be at least the full height of the screen */
 }
 
-/* --- Clean, Professional Navbar --- */
+/* --- Professional Navbar --- */
+/* --- Professional Navbar (The Black Background) --- */
 .custom-navbar {
-  background-color: var(--deep-charcoal) !important;
+  background-color: var(--deep-charcoal) !important; /* Forces the black background */
   padding: 0.8rem 0;
-  border-bottom: 2px solid var(--coffee-tan); /* Subtle tan accent line */
+  border-bottom: 2px solid var(--coffee-tan); /* Nice coffee underline for the bar */
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
 }
 
-.tech-brand {
+/* --- Navbar Logo Styling (The Coffee Text) --- */
+.nav-logo-text {
+  color: var(--coffee-tan) !important; /* Forces the coffee color on the text */
+  font-weight: 800;
+  font-size: 1.6rem;
+  letter-spacing: 1px;
+  transition: color 0.3s ease;
+}
+
+/* Subtle white glow when you hover over the logo */
+.navbar-brand:hover .nav-logo-text {
   color: var(--highlight-white) !important;
-  font-weight: 700;
-  font-size: 1.4rem;
-  letter-spacing: -0.5px;
 }
 
-.role-badge {
-  background: rgba(175, 125, 97, 0.2); /* Transparent coffee tan */
-  color: var(--coffee-tan);
-  border: 1px solid rgba(175, 125, 97, 0.4);
-  padding: 6px 14px;
-  border-radius: 2px;
-  font-size: 0.85rem;
-}
-
-.btn-logout {
-  background-color: var(--coffee-tan);
+.navbar-brand:hover .nav-logo-text {
   color: var(--highlight-white) !important;
-  border-radius: 2px;
-  font-weight: 600;
-  font-size: 0.8rem;
-  padding: 8px 18px !important;
-  text-transform: uppercase;
-  text-decoration: none;
-  transition: all 0.3s ease;
 }
 
-.btn-logout:hover {
+/* --- Dashboard Card Refinement --- */
+/* We are using Bootstrap's .card class, so we style it here */
+.card {
+  border-radius: 4px !important; /* Square technical look */
+  border: 1px solid var(--border-muted) !important;
   background-color: var(--highlight-white) !important;
-  color: var(--deep-charcoal) !important;
-}
-
-/* --- Reimagined Main Call-to-Action Cards (Dashboard) --- */
-.card-container {
-  max-width: 1100px;
-  margin: 60px auto;
-  display: flex;
-  gap: 30px;
-  justify-content: center;
-  flex-wrap: wrap; /* Allows cards to wrap on smaller screens */
-}
-
-.labour-card {
-  flex: 1;
-  max-width: 500px;
-  padding: 50px 40px;
-  background-color: var(--highlight-white);
-  border-radius: 4px; /* Sharper corners for a pro technical look */
-  border: 1px solid var(--border-muted);
-  box-shadow: var(--card-shadow);
-  text-align: center;
   transition: transform 0.3s ease, box-shadow 0.3s ease;
+  position: relative; /* Required for stretched-link */
 }
 
-.labour-card:hover {
+/* Updated Hover Effect for the 4-card layout */
+.hover-shadow:hover {
   transform: translateY(-8px);
   box-shadow: 0 15px 35px rgba(28, 25, 25, 0.1) !important;
 }
 
-.labour-card .emoji {
-  font-size: 3rem;
-  margin-bottom: 25px;
-  display: block;
+/* Style for the SVG Icons we added */
+.card-body svg {
+  transition: transform 0.3s ease;
 }
 
-.labour-card h2 {
-  color: var(--deep-charcoal);
-  font-weight: 700;
-  margin-bottom: 15px;
+.card:hover svg {
+  transform: scale(1.1); /* Subtle pop on the icon */
 }
 
-.labour-card p {
-  font-size: 0.95rem;
-  color: var(--deep-charcoal);
-  opacity: 0.8;
-  margin-bottom: 35px;
+/* --- Unified Action Buttons (Fixing the "Cut to Cut" feel) --- */
+.btn-enroll,
+.btn-builder,
+.btn-contractor,
+.btn-primary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  /* Giving the text generous breathing room on top/bottom and sides */
+  padding: 14px 32px !important; 
+  font-weight: 700 !important;
+  /* Forcing everything to uppercase so "Get Started" matches "Enroll" */
+  text-transform: uppercase !important; 
+  letter-spacing: 1.5px !important;
+  font-size: 0.85rem !important;
+  border-radius: 4px !important;
+  text-decoration: none !important;
+  transition: all 0.3s ease !important;
+  border: none;
+  text-align: center;
 }
 
-/* --- High-end Technical Buttons --- */
-.btn-enroll {
-  width: 100%;
-  padding: 14px;
-  border-radius: 4px;
-  font-weight: 600;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-  text-decoration: none;
-  font-size: 0.9rem;
-  display: inline-block;
-  transition: all 0.3s ease;
+/* Base Colors for Primary & Contractor actions (Coffee) */
+.btn-primary,
+.btn-contractor {
+  background-color: var(--coffee-tan) !important;
+  color: var(--highlight-white) !important;
 }
 
-/* Primary Button (Builder) */
+/* Base Colors for Builder actions (Charcoal) */
 .btn-builder {
-  background-color: var(--coffee-tan);
-  color: var(--highlight-white);
-  border: 2px solid var(--coffee-tan);
+  background-color: var(--deep-charcoal) !important;
+  color: var(--highlight-white) !important;
+}
+
+/* Dark Button (used for Manage Clients) */
+.btn-dark {
+  background-color: var(--deep-charcoal) !important;
+  border-color: var(--deep-charcoal) !important;
+  border-radius: 2px !important;
+}
+
+/* Snappy Hover Effects for all of them */
+.btn-primary:hover,
+.btn-contractor:hover {
+  background-color: var(--deep-charcoal) !important;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(0,0,0,0.15) !important;
 }
 
 .btn-builder:hover {
-  background-color: transparent;
-  color: var(--coffee-tan);
+  background-color: var(--coffee-tan) !important;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(0,0,0,0.15) !important;
 }
 
-/* Secondary Button (Contractor) */
-.btn-contractor {
-  background-color: var(--deep-charcoal);
-  color: var(--highlight-white);
-  border: 2px solid var(--deep-charcoal);
-}
-
-.btn-contractor:hover {
-  background-color: transparent;
-  color: var(--deep-charcoal);
-}
-
-/* --- Professional Login Text (Updated) --- */
-.welcome-container .login-link {
-  color: var(--coffee-tan);
-  font-weight: 700;
-  text-decoration: none;
-  border-bottom: 2px solid transparent;
-}
-
-.welcome-container .login-link:hover {
-  border-bottom: 2px solid var(--coffee-tan);
-}
-
-/* --- Footer (Updated) --- */
+/* --- Footer --- */
 .footer {
   background-color: var(--deep-charcoal);
   color: rgba(255, 255, 255, 0.7);
   padding: 3rem 1rem;
   text-align: center;
-  margin-top: 80px;
-  border-top: 5px solid var(--coffee-tan); /* Strong tan top border */
+  border-top: 5px solid var(--coffee-tan);
+  /* CHANGE margin-top TO THIS: */
+  margin-top: auto; /* This pushes the footer all the way to the bottom */
 }
 
-/* --- Technical Logo Typography --- */
-
-.nav-logo-text {
-    font-family: 'Roboto', 'Segoe UI', sans-serif;
-    font-weight: 700; /* Bold for visibility */
-    font-size: 1.6rem;
-    letter-spacing: -0.5px; /* Tight technical spacing */
-    color: #F2EBE0; /* The Cream/Beige from your palette */
-    text-transform: none;
-    line-height: 1;
+/* --- Profile Avatar Navbar Styling --- */
+.profile-avatar-btn::after {
+  display: none; /* Hides the default Bootstrap dropdown arrow for a cleaner look */
 }
 
-.text-accent {
-    color: #AF7D61; /* The warm Coffee Tan for the 'Link' part */
+.profile-avatar {
+  width: 42px;
+  height: 42px;
+  background-color: var(--coffee-tan);
+  color: var(--highlight-white);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 1.2rem;
+  transition: all 0.3s ease;
+  border: 2px solid transparent;
 }
 
-/* Ensure the navbar brand doesn't have default blue links */
-.navbar-brand {
-    text-decoration: none !important;
+.profile-avatar:hover {
+  transform: scale(1.05);
+  background-color: var(--highlight-white);
+  color: var(--deep-charcoal);
+  border: 2px solid var(--deep-charcoal);
 }
 
-/* Subtle Glow on Logo Hover */
-.navbar-brand:hover .nav-logo-text {
-    color: #FFFFFF;
-    transition: 0.3s ease;
-}
-
-/* Center adjustment for the header container */
-.custom-navbar .container {
-    max-width: 1200px;
+.dropdown-item:hover {
+  background-color: var(--bg-warm-beige);
 }

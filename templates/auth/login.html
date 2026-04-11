@@ -1,23 +1,79 @@
 {% extends "base.html" %}
 
 {% block content %}
-<div class="row justify-content-center py-5">
-    <div class="col-md-4">
-        <div class="card shadow border-0 p-4">
-            <h2 class="text-center fw-bold mb-4">Login</h2>
-            <form method="POST">
-                <div class="mb-3">
-                    <label class="form-label">Username</label>
-                    <input type="text" name="username" class="form-control" required>
-                </div>
-                <div class="mb-4">
-                    <label class="form-label">Password</label>
-                    <input type="password" name="password" class="form-control" required>
-                </div>
-                <button type="submit" class="btn btn-primary w-100">Login to LabourLink</button>
-            </form>
-            <p class="text-center mt-3">New here? <a href="/">Pick a role to Sign Up</a></p>
+<div class="container py-5 d-flex justify-content-center animate__animated animate__fadeIn">
+    <div class="labour-card shadow-sm p-4 p-md-5" style="max-width: 450px; width: 100%; background-color: white; border-radius: 8px;">
+        
+        <div class="text-center mb-4">
+            <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" fill="currentColor" class="mb-3" viewBox="0 0 16 16" style="color: var(--deep-charcoal);">
+              <path d="M8 1a2 2 0 0 1 2 2v4H6V3a2 2 0 0 1 2-2zm3 6V3a3 3 0 0 0-6 0v4a2 2 0 0 0-2 2v5a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2zM5 8h6a1 1 0 0 1 1 1v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V9a1 1 0 0 1 1-1z"/>
+            </svg>
+            <h2 class="fw-bold" style="color: var(--deep-charcoal);">Login</h2>
+            <p class="text-muted">Enter your credentials to access your dashboard.</p>
         </div>
+
+        {% with messages = get_flashed_messages() %}
+            {% if messages %}
+                {% for message in messages %}
+                    <div class="alert alert-warning py-2 mb-4 shadow-sm border-0" style="border-left: 5px solid var(--coffee-tan) !important; border-radius: 2px; font-size: 0.9rem; background-color: #fdfaf6;">
+                        {{ message }}
+                    </div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+
+        <form action="{{ url_for('login') }}" method="POST">
+            <div class="mb-4">
+                <label class="form-label fw-bold small text-uppercase" style="color: var(--deep-charcoal); letter-spacing: 0.5px;">Username</label>
+                <input type="text" name="username" class="form-control tech-input" placeholder="Enter your username" required>
+            </div>
+
+            <div class="mb-5">
+                <label class="form-label fw-bold small text-uppercase" style="color: var(--deep-charcoal); letter-spacing: 0.5px;">Password</label>
+                <input type="password" name="password" class="form-control tech-input" placeholder="••••••••" required>
+            </div>
+
+            <button type="submit" class="btn-enroll w-100 py-3 shadow-sm mb-3 fw-bold transition-hover" style="background-color: var(--deep-charcoal); color: white; border: none; letter-spacing: 1px;">
+                LOGIN TO LABOURLINK
+            </button>
+            
+            <div class="text-center mt-4">
+                <span class="text-muted small">New here? </span>
+                <a href="{{ url_for('select_role') }}" class="fw-bold hover-link" style="color: var(--coffee-tan); text-decoration: none; transition: color 0.2s;">Pick a role to Sign Up</a>
+            </div>
+        </form>
     </div>
 </div>
+
+<style>
+    /* Technical input styling */
+    .tech-input {
+        background-color: var(--sand-bg, #FAF6F0) !important;
+        border: 1px solid var(--border-muted, #D1D1D1) !important;
+        border-radius: 4px !important;
+        padding: 12px 15px !important;
+        transition: all 0.2s ease;
+    }
+    
+    .tech-input:focus {
+        border-color: var(--coffee-tan, #A67B5B) !important;
+        box-shadow: 0 0 0 3px rgba(166, 123, 91, 0.15) !important;
+        outline: none;
+    }
+
+    /* Snappy hover effects */
+    .transition-hover {
+        transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+    
+    .transition-hover:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 12px rgba(0,0,0,0.1) !important;
+    }
+
+    .hover-link:hover {
+        color: var(--deep-charcoal) !important;
+        text-decoration: underline !important;
+    }
+</style>
 {% endblock %}

@@ -4,9 +4,19 @@ from datetime import datetime
 db = SQLAlchemy()
 
 class User(db.Model):
+    __tablename__ = 'user' # Good practice to name your table
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(80), unique=True, nullable=False)
-    role = db.Column(db.String(20), nullable=False) # 'builder' or 'contractor'
+    password = db.Column(db.String(120), nullable=False)  # ADD THIS LINE
+    role = db.Column(db.String(20), nullable=False)
+
+class Client(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(100), nullable=False)
+    location = db.Column(db.String(200))
+    contractor_id = db.Column(db.Integer, db.ForeignKey('user.id'))
+    # Relationship: One Client can have many Workers
+    workers = db.relationship('Worker', backref='client_site', lazy=True)
 
 class Client(db.Model):
     id = db.Column(db.Integer, primary_key=True)

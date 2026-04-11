@@ -11,7 +11,7 @@
         </p>
         
         <div class="d-flex gap-3 justify-content-center flex-wrap">
-            <a href="{{ url_for('signup_selection') }}" class="btn btn-primary btn-lg px-5 py-3 fw-bold shadow-sm" style="background-color: var(--coffee-tan); border-color: var(--coffee-tan);">
+            <a href="{{ url_for('select_role') }}" class="btn btn-primary btn-lg px-5 py-3 fw-bold shadow-sm" style="background-color: var(--coffee-tan); border-color: var(--coffee-tan);">
                 Get Started
             </a>
             <a href="{{ url_for('login') }}" class="btn btn-outline-dark btn-lg px-5 py-3 fw-bold shadow-sm">
@@ -22,33 +22,25 @@
 </div>
 
 <style>
-    /* Specific styles for landing page */
-    .text-accent {
-        color: var(--coffee-tan);
-    }
-    
+    .text-accent { color: var(--coffee-tan); }
     .btn-primary:hover {
         background-color: #9A684D !important;
         border-color: #9A684D !important;
         transform: translateY(-2px);
     }
-    
     .btn-outline-dark:hover {
         background-color: var(--deep-charcoal);
         color: var(--highlight-white);
         transform: translateY(-2px);
     }
-    
     .btn {
         transition: all 0.3s ease;
         border-radius: 6px;
     }
-    
     @keyframes fadeInUp {
         from { opacity: 0; transform: translateY(20px); }
         to { opacity: 1; transform: translateY(0); }
     }
-    
     .animate__fadeInUp {
         animation: fadeInUp 0.8s ease-out;
     }

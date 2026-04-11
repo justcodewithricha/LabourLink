@@ -13,21 +13,36 @@
     {% block head %}{% endblock %}
 </head>
 <body class="site-body">
-    <nav class="navbar navbar-expand-lg custom-navbar mb-4">
-    <div class="container d-flex justify-content-between align-items-center">
+    <nav class="navbar navbar-expand-lg custom-navbar">
+    <div class="container">
         
-        <a class="navbar-brand d-flex align-items-center" href="{{ url_for('index') }}">
-           <span class="nav-logo-text">Labour<span class="text-accent">Link</span></span>
+        <a class="navbar-brand" href="/">
+            <span class="nav-logo-text">LabourLink</span>
         </a>
-        
-        <div class="d-flex align-items-center">
-            {% if session.get('role') %}
-            <div class="role-badge me-3">
-                <small>Status:</small> <strong>{{ session.get('role').capitalize() }}</strong>
-            </div>
-            <a href="{{ url_for('logout') }}" class="btn-logout">Logout</a>
-            {% endif %}
+
+        <div class="d-flex ms-auto align-items-center">
+    
+    {% if session.get('user_id') %}
+        <div class="dropdown">
+            <a href="#" class="d-block text-decoration-none dropdown-toggle profile-avatar-btn" id="profileDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                <div class="profile-avatar shadow-sm">
+                    {{ session.get('username')[0]|upper if session.get('username') else 'U' }}
+                </div>
+            </a>
+            <ul class="dropdown-menu dropdown-menu-end shadow border-0 mt-2" aria-labelledby="profileDropdown" style="border-radius: 8px;">
+                <li><h6 class="dropdown-header text-uppercase fw-bold" style="letter-spacing: 1px;">Hi, {{ session.get('username') }}</h6></li>
+                <li><hr class="dropdown-divider"></li>
+                <li><a class="dropdown-item py-2" href="{{ url_for('contractor_profile') }}">My Profile</a></li> 
+                <li><a class="dropdown-item py-2 text-danger fw-bold" href="{{ url_for('logout') }}">Sign Out</a></li>
+            </ul>
         </div>
+        
+    {% else %}
+        <a href="{{ url_for('login') }}" class="btn btn-logout shadow-sm transition-hover" style="background-color: var(--coffee-tan); color: white; font-weight: bold; border-radius: 4px; padding: 8px 20px; text-decoration: none;">Login</a>
+    {% endif %}
+    
+</div>
+
     </div>
 </nav>
 
