@@ -3,7 +3,6 @@
 {% block title %}Contractor Dashboard — LabourLink{% endblock %}
 
 {% block content %}
-<!-- Page Header -->
 <div class="ll-page-header">
     <div>
         <h1 class="ll-page-header__title">Contractor Management Hub</h1>
@@ -11,7 +10,30 @@
     </div>
 </div>
 
-<!-- Stat Summary Strip -->
+{% if pending_project %}
+<div class="ll-card mb-4" style="border-color: var(--coffee-tan); box-shadow: 0 0 15px rgba(175,125,97,0.3);">
+    <div class="ll-card-body d-flex justify-content-between align-items-center flex-wrap gap-3">
+        <div>
+            <h5 class="fw-bold mb-1">New Site Request</h5>
+            <p class="text-secondary mb-0">A builder has requested you to join: <strong>{{ pending_project.site_name }} ({{ pending_project.title }})</strong></p>
+        </div>
+        <div class="d-flex gap-2 align-items-center">
+            
+            {% if pending_project.builder_id %}
+            <a href="{{ url_for('chat_panel', partner_id=pending_project.builder_id) }}" class="ll-btn ll-btn--dark" style="margin-right: 10px;">Message Builder</a>
+            {% endif %}
+            
+            <form action="{{ url_for('respond_request', project_id=pending_project.id, action='accept') }}" method="POST" style="margin: 0;">
+                <button type="submit" class="ll-btn ll-btn--primary">Accept</button>
+            </form>
+            <form action="{{ url_for('respond_request', project_id=pending_project.id, action='reject') }}" method="POST" style="margin: 0;">
+                <button type="submit" class="ll-btn ll-btn--ghost">Decline</button>
+            </form>
+        </div>
+    </div>
+</div>
+{% endif %}
+
 <div style="display: flex; gap: var(--space-md); margin-bottom: var(--space-lg); flex-wrap: wrap;">
     <div class="ll-stat-pill">
         <span class="ll-stat-pill__value">{{ total_workers }}</span> Total Workers
@@ -24,9 +46,7 @@
     </div>
 </div>
 
-<!-- Quick Action Cards -->
 <div class="ll-grid ll-grid--4" style="margin-bottom: var(--space-xl);">
-    <!-- Attendance -->
     <a href="/contractor/attendance" class="ll-card" style="text-decoration: none; color: inherit; padding: var(--space-lg); text-align: center; display: flex; flex-direction: column; align-items: center;">
         <div class="ll-icon-wrap" style="margin-bottom: var(--space-md);">
             <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" fill="currentColor" viewBox="0 0 16 16">
@@ -39,7 +59,6 @@
         <span class="ll-btn ll-btn--primary ll-btn--sm" style="margin-top: auto;">Mark Today</span>
     </a>
 
-    <!-- Manage Clients -->
     <a href="{{ url_for('manage_clients') }}" class="ll-card" style="text-decoration: none; color: inherit; padding: var(--space-lg); text-align: center; display: flex; flex-direction: column; align-items: center;">
         <div class="ll-icon-wrap" style="margin-bottom: var(--space-md);">
             <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" fill="currentColor" viewBox="0 0 16 16">
@@ -51,7 +70,6 @@
         <span class="ll-btn ll-btn--dark ll-btn--sm" style="margin-top: auto;">View Sites</span>
     </a>
 
-    <!-- Payment (Coming Soon) -->
     <div class="ll-card" style="padding: var(--space-lg); text-align: center; display: flex; flex-direction: column; align-items: center; opacity: 0.6;">
         <div class="ll-icon-wrap" style="margin-bottom: var(--space-md); background: rgba(28,25,25,0.06);">
             <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" fill="currentColor" viewBox="0 0 16 16" style="color: var(--text-muted);">
@@ -64,7 +82,6 @@
         <span class="ll-badge ll-badge--muted" style="margin-top: auto;">Coming Soon</span>
     </div>
 
-    <!-- Analytics -->
     <a href="#analytics-section" class="ll-card" style="text-decoration: none; color: inherit; padding: var(--space-lg); text-align: center; display: flex; flex-direction: column; align-items: center;">
         <div class="ll-icon-wrap" style="margin-bottom: var(--space-md);">
             <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" fill="currentColor" viewBox="0 0 16 16">
@@ -77,7 +94,6 @@
     </a>
 </div>
 
-<!-- Analytics Chart Section -->
 <div id="analytics-section">
     <div class="ll-card" style="overflow: hidden;">
         <div class="ll-card-header">
@@ -87,6 +103,28 @@
         <div class="ll-card-body">
             <canvas id="attendanceChart" style="max-height: 260px;"></canvas>
         </div>
+    </div>
+</div>
+
+<div class="ll-card mb-4 mt-4">
+    <div class="ll-card-header">Current Site Assignment</div>
+    <div class="ll-card-body d-flex justify-content-between align-items-center">
+        <div>
+            {% if assigned_project %}
+                <h4 class="fw-bold text-coffee">{{ assigned_project.title }}</h4>
+                <p class="text-secondary mb-0">{{ assigned_project.description }}</p>
+            {% else %}
+                <p class="text-muted mb-0">You are not currently assigned to any active builder sites.</p>
+            {% endif %}
+        </div>
+        
+        {% if assigned_project %}
+        <div>
+            {% if assigned_project.builder_id %}
+            <a href="{{ url_for('chat_panel', partner_id=assigned_project.builder_id) }}" class="ll-btn ll-btn--primary">Message Builder</a>
+            {% endif %}
+        </div>
+        {% endif %}
     </div>
 </div>
 {% endblock %}

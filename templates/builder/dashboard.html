@@ -3,7 +3,6 @@
 {% block title %}Builder Dashboard — LabourLink{% endblock %}
 
 {% block content %}
-<!-- Page Header -->
 <div class="ll-page-header">
     <div>
         <h1 class="ll-page-header__title">Builder Operations Hub</h1>
@@ -11,9 +10,7 @@
     </div>
 </div>
 
-<!-- Quick Action Cards -->
 <div class="ll-grid ll-grid--3" style="margin-bottom: var(--space-xl);">
-    <!-- Post Job (Primary action - dark bg) -->
     <a href="{{ url_for('builder_post_job') }}" class="ll-card"
         style="text-decoration: none; color: inherit; padding: var(--space-lg); text-align: center; display: flex; flex-direction: column; align-items: center;">
         <div class="ll-icon-wrap" style="margin-bottom: var(--space-md);">
@@ -30,7 +27,6 @@
         <span class="ll-btn ll-btn--primary ll-btn--sm" style="margin-top: auto;">Create Posting</span>
     </a>
 
-    <!-- Messages -->
     <a href="{{ url_for('builder_chat') }}" class="ll-card"
         style="text-decoration: none; color: inherit; padding: var(--space-lg); text-align: center; display: flex; flex-direction: column; align-items: center;">
         <div class="ll-icon-wrap" style="margin-bottom: var(--space-md);">
@@ -45,7 +41,6 @@
         <span class="ll-btn ll-btn--dark ll-btn--sm" style="margin-top: auto;">Open Inbox</span>
     </a>
 
-    <!-- Reporting (Coming Soon) -->
     <div class="ll-card"
         style="padding: var(--space-lg); text-align: center; display: flex; flex-direction: column; align-items: center; opacity: 0.6;">
         <div class="ll-icon-wrap" style="margin-bottom: var(--space-md); background: rgba(28,25,25,0.06);">
@@ -65,7 +60,6 @@
     </div>
 </div>
 
-<!-- Active Projects Section -->
 <h4 class="ll-section-header">Active Projects</h4>
 
 <div class="ll-grid ll-grid--3">
@@ -97,7 +91,36 @@
                     style="width: {{ project.progress }}%;"></div>
             </div>
         </div>
-    </div>
+
+        <div class="mt-4 pt-3 border-top">
+            <span class="ll-label">Assigned Contractor</span>
+            
+            {% if assigned_map.get(project.id) %}
+                <div class="d-flex align-items-center justify-content-between mt-2">
+                    <div class="d-flex align-items-center gap-2">
+                        <div class="ll-avatar ll-avatar--sm">{{ assigned_map[project.id].username[0]|upper }}</div>
+                        <div>
+                            <div class="fw-bold text-sm">{{ assigned_map[project.id].username }}</div>
+                            <div class="text-xs text-success fw-bold">Active on Site</div>
+                        </div>
+                    </div>
+                    <a href="{{ url_for('chat_panel', partner_id=assigned_map[project.id].id) }}" class="ll-btn ll-btn--sm" style="padding: 0.25rem 0.6rem; font-size: 0.8rem;">Message</a>
+                </div>
+                
+            {% elif pending_map.get(project.id) %}
+                <div class="d-flex align-items-center gap-2 mt-1">
+                    <div class="ll-avatar ll-avatar--sm bg-secondary">{{ pending_map[project.id].username[0]|upper }}</div>
+                    <div>
+                        <div class="fw-bold text-sm text-secondary">{{ pending_map[project.id].username }}</div>
+                        <div class="text-xs text-warning fw-bold">Request Pending...</div>
+                    </div>
+                </div>
+                
+            {% else %}
+                <p class="text-muted text-sm mt-1">No contractor assigned yet.</p>
+            {% endif %}
+        </div>
+        </div>
     {% endfor %}
     {% else %}
     <div class="ll-empty" style="grid-column: 1 / -1;">
@@ -113,5 +136,35 @@
         <p class="ll-empty__body">Click "Post New Job" to list your site requirements.</p>
     </div>
     {% endif %}
+</div>
+
+<div class="ll-section-header">Available Contractors</div>
+<div class="ll-grid ll-grid--3 mb-5">
+    {% for contractor in available_contractors %}
+    <div class="ll-card">
+        <div class="ll-card-body">
+            <h5 class="fw-bold">{{ contractor.username }}</h5>
+            <span class="ll-badge ll-badge--success mb-3">Available</span>
+            
+            <form action="{{ url_for('assign_contractor') }}" method="POST">
+                <input type="hidden" name="contractor_id" value="{{ contractor.id }}">
+                <div class="ll-field">
+                    <label class="ll-label">Assign to Site:</label>
+                    <select name="project_id" class="form-select" required>
+                        <option value="" disabled selected>Select a project...</option>
+                        {% for project in projects %}
+                            <option value="{{ project.id }}">{{ project.title }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <button type="submit" class="ll-btn ll-btn--primary ll-btn--full">Assign Contractor</button>
+            </form>
+        </div>
+    </div>
+    {% else %}
+    <div class="ll-empty">
+        <p class="ll-empty__title">No contractors available right now.</p>
+    </div>
+    {% endfor %}
 </div>
 {% endblock %}

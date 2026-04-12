@@ -27,6 +27,20 @@
         </div>
     </div>
 
+    <div class="ll-card mb-4">
+    <div class="ll-card-header">Availability Status</div>
+    <div class="ll-card-body">
+        <p>Current Status: 
+            <strong>{{ 'Available' if user.is_available else 'Unavailable' }}</strong>
+        </p>
+        <form action="{{ url_for('toggle_availability') }}" method="POST">
+            <button type="submit" class="ll-btn {{ 'll-btn--dark' if user.is_available else 'll-btn--primary' }}">
+                Change to {{ 'Unavailable' if user.is_available else 'Available' }}
+            </button>
+        </form>
+    </div>
+</div>
+
     <!-- Client Sites Section -->
     <div class="ll-card" style="overflow: hidden;">
         <div class="ll-card-header">

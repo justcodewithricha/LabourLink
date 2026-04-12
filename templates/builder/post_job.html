@@ -20,6 +20,10 @@
 
         <form method="POST" action="{{ url_for('builder_post_job') }}">
             <div class="ll-field">
+    <label class="ll-label">Site Name</label>
+    <input type="text" name="site_name" class="ll-input" placeholder="e.g., Downtown Plaza Phase 1" required>
+</div>
+            <div class="ll-field">
                 <label class="ll-label" for="title">Job Title</label>
                 <input type="text" class="ll-input" id="title" name="title" placeholder="e.g., Bricklaying for 10-story Residential Building" required>
             </div>
@@ -45,4 +49,6 @@
         </form>
     </div>
 </div>
+
+
 {% endblock %}

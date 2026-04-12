@@ -7,8 +7,11 @@ class User(db.Model):
     __tablename__ = 'user' # Good practice to name your table
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(80), unique=True, nullable=False)
-    password = db.Column(db.String(120), nullable=False)  # ADD THIS LINE
+    password = db.Column(db.String(120), nullable=False)  
     role = db.Column(db.String(20), nullable=False)
+    is_available = db.Column(db.Boolean, default=True)
+    assigned_project_id = db.Column(db.Integer, db.ForeignKey('project.id'), nullable=True)
+    pending_project_id = db.Column(db.Integer, db.ForeignKey('project.id'), nullable=True)
 
 class Client(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -18,7 +21,6 @@ class Client(db.Model):
     # Relationship: One Client can have many Workers
     workers = db.relationship('Worker', backref='client_site', lazy=True)
 
-
 class Project(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     builder_id = db.Column(db.Integer, db.ForeignKey('user.id'))
@@ -26,6 +28,7 @@ class Project(db.Model):
     description = db.Column(db.Text)
     progress = db.Column(db.Integer, default=0) # 0-100 percentage
     status = db.Column(db.String(20), default='Open') # 'Open', 'In Progress', 'Completed'
+    site_name = db.Column(db.String(150), nullable=True)
 
 class Worker(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -43,3 +46,18 @@ class Attendance(db.Model):
     worker_id = db.Column(db.Integer, db.ForeignKey('worker.id'))
     date = db.Column(db.Date, default=datetime.utcnow)
     status = db.Column(db.String(10)) # 'Present' or 'Absent'
+
+class Message(db.Model):
+    __tablename__ = 'messages'
+    
+    id = db.Column(db.Integer, primary_key=True)
+    # These foreign keys now correctly point to your 'user' table
+    sender_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+    receiver_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+    
+    content = db.Column(db.Text, nullable=False)
+    timestamp = db.Column(db.DateTime, default=datetime.utcnow)
+
+    # These relationships make it easy to call msg.sender.username in your HTML templates
+    sender = db.relationship('User', foreign_keys=[sender_id], backref='sent_messages')
+    receiver = db.relationship('User', foreign_keys=[receiver_id], backref='received_messages')
