@@ -1,0 +1,113 @@
+{% extends "base.html" %}
+
+{% block title %}Chat — LabourLink{% endblock %}
+
+{% block content %}
+<div style="max-width: 800px; margin: 0 auto; height: 75vh; display: flex; flex-direction: column; background: white; border-radius: 8px; border: 1px solid var(--border-light); overflow: hidden; box-shadow: 0 4px 12px rgba(0,0,0,0.05);">
+    
+    <div style="padding: var(--space-md) var(--space-lg); background: var(--coffee-tan); color: white; display: flex; align-items: center; justify-content: space-between;">
+        <h3 style="margin: 0; font-size: var(--text-lg); font-weight: 700;">Messages</h3>
+        <a href="javascript:history.back()" style="color: white; text-decoration: none; font-size: var(--text-sm);">← Go Back</a>
+    </div>
+
+    <div id="chat-box" style="flex: 1; padding: var(--space-lg); overflow-y: auto; background: #faf9f7; display: flex; flex-direction: column; gap: 10px;">
+        </div>
+
+    <div style="padding: var(--space-md); background: white; border-top: 1px solid var(--border-light); display: flex; gap: 10px; align-items: center;">
+        <input type="text" id="message-input" class="ll-input" placeholder="Type your message here..." style="margin-bottom: 0; flex: 1; border-radius: 20px; padding-left: 15px;" onkeypress="if(event.key === 'Enter') document.getElementById('send-btn').click();">
+        <button id="send-btn" class="ll-btn ll-btn--dark" style="border-radius: 20px; padding: 0.6em 1.5rem;">Send</button>
+    </div>
+    
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    const partnerId = {{ partner_id }};
+    const chatBox = document.getElementById('chat-box');
+    const messageInput = document.getElementById('message-input');
+    const sendBtn = document.getElementById('send-btn');
+    
+    // Pass the current user's ID from Flask session so we know which side to put the message on
+    const currentUserId = {{ session['user_id'] }}; 
+    let lastId = 0;
+
+    async function fetchMessages() {
+        try {
+            const response = await fetch(`/api/chat/${partnerId}?last_id=${lastId}`);
+            if (!response.ok) return;
+            const messages = await response.json();
+            
+            let isNewMessage = false;
+
+            messages.forEach(msg => {
+                const div = document.createElement('div');
+                // Check if the current logged-in user is the sender
+                const isMe = (msg.sender_id === currentUserId);
+                
+                div.style.alignSelf = isMe ? 'flex-end' : 'flex-start';
+                div.style.maxWidth = '75%';
+                
+                div.innerHTML = `
+                    <div style="padding: 10px 14px; border-radius: ${isMe ? '16px 16px 4px 16px' : '16px 16px 16px 4px'}; 
+                                background: ${isMe ? 'var(--coffee-tan)' : 'white'}; 
+                                color: ${isMe ? 'white' : 'var(--text-primary)'};
+                                border: ${isMe ? 'none' : '1px solid var(--border-light)'};
+                                box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+                                font-size: var(--text-sm); line-height: 1.4;">
+                        ${msg.content}
+                        <div style="font-size: 0.65rem; text-align: ${isMe ? 'right' : 'left'}; margin-top: 4px; opacity: 0.7;">
+                            ${msg.timestamp}
+                        </div>
+                    </div>
+                `;
+                chatBox.appendChild(div);
+                lastId = msg.id; 
+                isNewMessage = true;
+            });
+            
+            // Auto-scroll only if new messages were added
+            if (isNewMessage) {
+                chatBox.scrollTop = chatBox.scrollHeight;
+            }
+        } catch (error) {
+            console.error("Error fetching messages:", error);
+        }
+    }
+
+    sendBtn.onclick = async () => {
+        const content = messageInput.value.trim();
+        if (!content) return;
+
+        // Disable input briefly while sending
+        messageInput.disabled = true;
+        sendBtn.disabled = true;
+
+        try {
+            const response = await fetch('/api/chat/send', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ partner_id: partnerId, content: content })
+            });
+
+            if (response.ok) {
+                messageInput.value = '';
+                await fetchMessages(); // Fetch immediately so the sender sees it instantly
+            }
+        } catch (error) {
+            console.error("Error sending message:", error);
+        } finally {
+            // Re-enable
+            messageInput.disabled = false;
+            sendBtn.disabled = false;
+            messageInput.focus();
+        }
+    };
+
+    // Start polling every 3 seconds
+    setInterval(fetchMessages, 3000);
+    
+    // Initial load when page opens
+    fetchMessages();
+</script>
+{% endblock %}

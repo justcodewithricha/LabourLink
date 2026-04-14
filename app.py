@@ -7,7 +7,7 @@ from datetime import datetime, timedelta
 app = Flask(__name__)
 
 # --- DATABASE CONFIGURATION ---
-app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://postgres:148263@localhost:5432/labourlink'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://postgres:new123@localhost:5432/labourlink'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.secret_key = 'super_secret_key_for_labourlink' # Required for session memory
 
@@ -380,7 +380,21 @@ def builder_post_job():
 @app.route('/builder/chat')
 @login_required
 def builder_chat():
-    return render_template('builder/chat.html')
+    user_id = session.get('user_id')
+    
+    # 1. Find all projects owned by this builder
+    my_projects = Project.query.filter_by(builder_id=user_id).all()
+    project_ids = [p.id for p in my_projects]
+    
+    # 2. Find contractors assigned to those specific projects
+    active_contractors = []
+    if project_ids:
+        active_contractors = User.query.filter(
+            User.role == 'contractor',
+            User.assigned_project_id.in_(project_ids)
+        ).all()
+        
+    return render_template('builder/chat.html', contractors=active_contractors)
 
 @app.route('/builder/assign-contractor', methods=['POST'])
 @login_required

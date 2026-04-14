@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+
+{% block title %}My Inbox — LabourLink{% endblock %}
+
+{% block content %}
+<div style="max-width: 800px; margin: 0 auto;">
+    
+    <div class="ll-page-header">
+        <div>
+            <h1 class="ll-page-header__title">Inbox</h1>
+            <p class="ll-page-header__subtitle">Select an active contractor to open the chat panel.</p>
+        </div>
+    </div>
+
+    <div class="ll-card" style="overflow: hidden;">
+        {% if contractors %}
+            {% for contractor in contractors %}
+            <div style="padding: var(--space-md) var(--space-lg); border-bottom: 1px solid var(--border-light); display: flex; justify-content: space-between; align-items: center; transition: background-color 0.2s;">
+                
+                <div style="display: flex; align-items: center; gap: var(--space-md);">
+                    <div class="ll-avatar ll-avatar--sm" style="background-color: var(--coffee-tan);">
+                        {{ contractor.username[0]|upper }}
+                    </div>
+                    <div>
+                        <h5 style="margin: 0; font-weight: 700; color: var(--text-primary);">{{ contractor.username }}</h5>
+                        <span style="font-size: 0.75rem; color: var(--text-secondary); text-transform: uppercase; letter-spacing: 0.05em;">Active on Site</span>
+                    </div>
+                </div>
+                
+                <a href="{{ url_for('chat_panel', partner_id=contractor.id) }}" class="ll-btn ll-btn--dark ll-btn--sm">
+                    Open Chat
+                </a>
+            </div>
+            {% endfor %}
+        {% else %}
+            <div class="ll-empty" style="border: none;">
+                <div class="ll-empty__icon">
+                    <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="color: var(--text-muted);"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>
+                </div>
+                <h3 class="ll-empty__title">No active conversations</h3>
+                <p class="ll-empty__body">You haven't assigned any contractors to your projects yet. Once you assign a contractor, they will appear here.</p>
+                <a href="{{ url_for('builder_dashboard') }}" class="ll-btn ll-btn--primary mt-3">Back to Dashboard</a>
+            </div>
+        {% endif %}
+    </div>
+
+</div>
+{% endblock %}
