@@ -98,56 +98,59 @@ def contractor_dashboard():
     # 1. Get the last 7 days (including today)
     today = datetime.utcnow().date()
     dates = [today - timedelta(days=i) for i in range(6, -1, -1)]
-    
-    # Format labels for the chart
     labels = [d.strftime('%a') for d in dates] 
     
-    # 2. Get all workers belonging to this contractor
-    workers = Worker.query.filter_by(contractor_id=user_id).all()
-    worker_ids = [w.id for w in workers]
+    # 2. Get all clients and workers
+    clients = Client.query.filter_by(contractor_id=user_id).all()
+    all_workers = Worker.query.filter_by(contractor_id=user_id).all()
     
-    # 3. Count 'Present' attendance for each of those 7 days
-    attendance_counts = []
-    if worker_ids:
-        for d in dates:
-            count = Attendance.query.filter(
-                Attendance.worker_id.in_(worker_ids),
+    # 3. Create a helper function to count attendance
+    def get_counts(w_ids):
+        if not w_ids: return [0] * 7
+        return [
+            Attendance.query.filter(
+                Attendance.worker_id.in_(w_ids),
                 Attendance.date == d,
                 Attendance.status == 'Present'
-            ).count()
-            attendance_counts.append(count)
-    else:
-        attendance_counts = [0] * 7 
+            ).count() for d in dates
+        ]
 
-    # 4. Stat counts for the summary strip
-    total_workers = len(workers)
-    total_clients = Client.query.filter_by(contractor_id=user_id).count()
+    # 4. Build the chart data map (Total + Individual Sites)
+    chart_data_map = {}
+    
+    # Total Data
+    all_worker_ids = [w.id for w in all_workers]
+    chart_data_map['all'] = get_counts(all_worker_ids)
+    
+    # Per-Site Data
+    for client in clients:
+        client_worker_ids = [w.id for w in all_workers if w.client_id == client.id]
+        chart_data_map[str(client.id)] = get_counts(client_worker_ids)
+
+    # 5. Stat counts for the summary strip
+    total_workers = len(all_workers)
+    total_clients = len(clients)
     today_present = Attendance.query.filter(
-        Attendance.worker_id.in_(worker_ids) if worker_ids else False,
+        Attendance.worker_id.in_(all_worker_ids) if all_worker_ids else False,
         Attendance.date == today,
         Attendance.status == 'Present'
-    ).count() if worker_ids else 0
+    ).count() if all_worker_ids else 0
 
-    # 5. Fetch assigned project details
+    # 6. Fetch project details
     user = User.query.get(user_id)
-    assigned_project = None
-    if user.assigned_project_id:
-        assigned_project = Project.query.get(user.assigned_project_id)
-
-    # [+] NEW LOGIC ADDED HERE: Fetch pending project details
-    pending_project = None
-    if user.pending_project_id:
-        pending_project = Project.query.get(user.pending_project_id)
+    assigned_project = Project.query.get(user.assigned_project_id) if user.assigned_project_id else None
+    pending_project = Project.query.get(user.pending_project_id) if user.pending_project_id else None
 
     return render_template(
         'contractor/dashboard.html', 
         labels=labels, 
-        attendance_data=attendance_counts,
+        chart_data_map=chart_data_map, # Passed new mapped data
+        clients=clients,               # Passed clients for the dropdown
         total_workers=total_workers,
         total_clients=total_clients,
         today_present=today_present,
         assigned_project=assigned_project,
-        pending_project=pending_project # [+] PASSED TO TEMPLATE HERE
+        pending_project=pending_project 
     )
 
 @app.route('/builder/my-profile')
